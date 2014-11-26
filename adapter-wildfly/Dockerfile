@@ -1,7 +1,7 @@
 FROM jboss/wildfly:latest
 MAINTAINER jpkroehling@redhat.com
 
-ENV KEYCLOAK_VERSION 1.0.4.Final
+ENV KEYCLOAK_VERSION 1.1.0.Beta1
 
 WORKDIR /opt/jboss
 
