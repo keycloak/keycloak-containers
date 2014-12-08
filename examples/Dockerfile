@@ -1,4 +1,4 @@
-FROM jboss/keycloak:1.1.0.Beta1
+FROM jboss/keycloak:1.1.0.Beta2
 MAINTAINER jpkroehling@redhat.com
 
 RUN echo 'JAVA_OPTS="$JAVA_OPTS -Dkeycloak.import=/opt/jboss/keycloak/testrealm.json"' >> /opt/jboss/wildfly/bin/standalone.conf
