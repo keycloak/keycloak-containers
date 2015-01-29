@@ -1,6 +1,6 @@
-# Keycloak Auth Server Docker image
+# Keycloak Docker image
 
-This image prepares a basic Keycloak Auth Server. The right place to start playing around with Keycloak.
+Example Dockerfile with Keycloak server.
 
 ## Usage
 
@@ -8,10 +8,8 @@ To boot in standalone mode
 
     docker run -it -p 8080:8080 -p 9090:9090 jboss/keycloak
 
-Once it boots, you can login using admin/admin for the first login. 
+Once it boots, you can login to the admin console using admin/admin for the first login. 
 
 ## Other details
 
-This image inherits from the [keycloak-adapter-wildfly](https://registry.hub.docker.com/u/jboss/keycloak-adapter-wildfly/) image, adding the required bits to deploy a Keycloak Authentication Server. 
-
-Note that you might want to extend the image to make it use a production-ready database and to setup a Wildfly admin password, as well as to setup SSL and other production-related changes.
+This image extends the [`jboss/base-jdk:7`](https://github.com/JBoss-Dockerfiles/base-jdk/tree/jdk7) image which adds the OpenJDK distribution on top of the [`jboss/base`](https://github.com/JBoss-Dockerfiles/base) image. Please refer to the README.md for selected images for more info.
