@@ -1,13 +1,8 @@
 FROM jboss/wildfly:latest
-MAINTAINER jpkroehling@redhat.com
 
-ENV KEYCLOAK_VERSION 1.1.0.Beta2
+ENV KEYCLOAK_VERSION 1.1.0.Final
 
-WORKDIR /opt/jboss
-
-RUN curl -L https://downloads.sourceforge.net/project/keycloak/$KEYCLOAK_VERSION/keycloak-war-dist-all-$KEYCLOAK_VERSION.zip | bsdtar -xf - && mv keycloak-war-dist-all-$KEYCLOAK_VERSION keycloak
-
-WORKDIR wildfly
+WORKDIR /opt/jboss/wildfly
 
 RUN curl -L http://downloads.sourceforge.net/project/keycloak/$KEYCLOAK_VERSION/adapters/keycloak-wildfly-adapter-dist-$KEYCLOAK_VERSION.zip | bsdtar -xf -
 
