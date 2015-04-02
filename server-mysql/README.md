@@ -14,7 +14,7 @@ First start a MySQL instance using the MySQL docker image:
 
 Start a Keycloak instance and connect to the MySQL instance:
 
-    docker run --name keycloak --link mysql:mysql jboss/keycloak-mysql
+    docker run -it -p 8080:8080 --name keycloak --link mysql:mysql jboss/keycloak-mysql
 
 ### Environment variables
 
