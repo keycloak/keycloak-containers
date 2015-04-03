@@ -2,7 +2,8 @@
 
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:ds="urn:jboss:domain:datasources:2.0">
+                xmlns:ds="urn:jboss:domain:datasources:2.0"
+                xmlns:log="urn:jboss:domain:logging:2.0">
 
     <xsl:output method="xml" indent="yes"/>
 
@@ -31,6 +32,17 @@
                 <ds:driver name="postgresql" module="org.postgresql.jdbc">
                     <ds:xa-datasource-class>org.postgresql.xa.PGXADataSource</ds:xa-datasource-class>
                 </ds:driver>
+        </xsl:copy>
+    </xsl:template>
+
+    <xsl:template match="//log:subsystem">
+        <xsl:copy>
+            <xsl:apply-templates select="node()|@*"/>
+                <log:logger category="org.keycloak">
+                    <log:level>
+                      <xsl:attribute name="name">${env.KEYCLOAK_LOGLEVEL:INFO}</xsl:attribute>
+                    </log:level>
+                </log:logger>
         </xsl:copy>
     </xsl:template>
 
