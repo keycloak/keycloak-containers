@@ -18,7 +18,7 @@ Start a Keycloak instance and connect to the PostgreSQL instance:
 
 ### Environment variables
 
-When starting the Keycloak instance you can pass a number of environment variables to configure how it connects to MySQL. For example:
+When starting the Keycloak instance you can pass a number of environment variables to configure how it connects to PostgreSQL. For example:
 
     docker run --name keycloak --link postgres:postgres -e POSTGRES_DATABASE=kcdatabase -e POSTGRES_USER=kcuser -e POSTGRES_PASSWORD=kcpassword jboss/keycloak-postgres
 
