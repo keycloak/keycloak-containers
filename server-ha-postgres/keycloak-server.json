@@ -1,0 +1,79 @@
+{
+    "providers": [
+        "classpath:${jboss.server.config.dir}/providers/*"
+    ],
+
+    "admin": {
+        "realm": "master"
+    },
+
+    "eventsStore": {
+        "provider": "jpa",
+        "jpa": {
+            "exclude-events": [ "REFRESH_TOKEN" ]
+        }
+    },
+
+    "realm": {
+        "provider": "jpa"
+    },
+
+    "user": {
+        "provider": "jpa"
+    },
+
+    "userSessions": {
+        "provider" : "infinispan"
+    },
+
+    "realmCache": {
+        "provider": "infinispan"
+    },
+
+    "userCache": {
+        "provider": "infinispan"
+    },
+
+    "timer": {
+        "provider": "basic"
+    },
+
+    "theme": {
+        "default": "keycloak",
+        "staticMaxAge": 2592000,
+        "cacheTemplates": true,
+        "cacheThemes": true,
+        "folder": {
+          "dir": "${jboss.server.config.dir}/themes"
+        }
+    },
+
+    "login": {
+        "provider": "freemarker"
+    },
+
+    "account": {
+        "provider": "freemarker"
+    },
+
+    "email": {
+        "provider": "freemarker"
+    },
+
+    "scheduled": {
+        "interval": 900
+    },
+
+    "connectionsJpa": {
+        "default": {
+            "dataSource": "java:jboss/datasources/KeycloakDS",
+            "databaseSchema": "update"
+        }
+    },
+
+    "connectionsInfinispan": {
+        "default" : {
+            "cacheContainer" : "java:jboss/infinispan/Keycloak"
+        }
+    }
+}
