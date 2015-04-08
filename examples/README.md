@@ -6,7 +6,7 @@ This image prepares a basic Keycloak Auth Server and deploys the examples.
 
 To boot in standalone mode
 
-    docker run -it -p 8080:8080 -p 9090:9090 jboss/keycloak-examples
+    docker run jboss/keycloak-examples
 
 Domain mode is not supported on this version, as this image ships with a custom standalone.xml file. 
 

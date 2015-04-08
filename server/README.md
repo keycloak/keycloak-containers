@@ -6,7 +6,7 @@ Example Dockerfile with Keycloak server.
 
 To boot in standalone mode
 
-    docker run -it -p 8080:8080 -p 9090:9090 jboss/keycloak
+    docker run jboss/keycloak
 
 Once it boots, you can login to the admin console using admin/admin for the first login. 
 

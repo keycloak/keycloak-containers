@@ -10,7 +10,7 @@ This image contains Wildfly with the required bits to deploy an application that
 
 To boot in standalone mode
 
-    docker run -it -p 8080:8080 -p 9090:9090 jboss/keycloak-adapter-wildfly
+    docker run jboss/keycloak-adapter-wildfly
 
 ## Other details
 
