@@ -1,10 +1,10 @@
-FROM jboss/wildfly:latest
+FROM jboss/wildfly:8.2.0.Final
 
-ENV KEYCLOAK_VERSION 1.1.0.Final
+ENV KEYCLOAK_VERSION 1.2.0.Beta1
 
 WORKDIR /opt/jboss/wildfly
 
-RUN curl -L http://downloads.sourceforge.net/project/keycloak/$KEYCLOAK_VERSION/adapters/keycloak-wildfly-adapter-dist-$KEYCLOAK_VERSION.zip | bsdtar -xf -
+RUN curl http://central.maven.org/maven2/org/keycloak/keycloak-wildfly-adapter-dist/$KEYCLOAK_VERSION/keycloak-wildfly-adapter-dist-$KEYCLOAK_VERSION.tar.gz | tar zx
 
 WORKDIR /opt/jboss
 
