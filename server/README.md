@@ -8,7 +8,13 @@ To boot in standalone mode
 
     docker run jboss/keycloak
 
-Once it boots, you can login to the admin console using admin/admin for the first login. 
+Once it boots, you can login to the admin console using admin/admin for the first login.
+
+### Specify log level
+
+When starting the Keycloak instance you can pass a number an environment variables to set log level for Keycloak, for example:
+
+    docker run -e KEYCLOAK_LOGLEVEL=DEBUG jboss/keycloak
 
 ## Other details
 
