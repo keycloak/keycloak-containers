@@ -1,8 +1,5 @@
-FROM jboss/keycloak:1.2.0.Beta1
-
-USER root
-WORKDIR /opt/jboss
+FROM jboss/keycloak:1.2.0.Final
 
 ADD changeDatabase.jq /opt/jboss/keycloak/
 
-RUN yum install -y jq && cat keycloak/standalone/configuration/keycloak-server.json | jq -f keycloak/changeDatabase.jq > keycloak/standalone/configuration/keycloak-server.json
+RUN INPUT=`cat /opt/jboss/keycloak/standalone/configuration/keycloak-server.json` && echo $INPUT | jq -f /opt/jboss/keycloak/changeDatabase.jq > /opt/jboss/keycloak/standalone/configuration/keycloak-server.json

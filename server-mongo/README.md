@@ -14,13 +14,13 @@ First start a MongoDB instance using the MongoDB docker image:
 
 Start a Keycloak instance and connect to the MongoDB instance:
 
-    docker run --name keycloak -e MONGODB_HOST=mongo jboss/keycloak-mongo
+    docker run --name keycloak --link mongo:mongo jboss/keycloak-mongo
 
 ### Environment variables
 
 When starting the Keycloak instance you can pass a number of environment variables to configure how it connects to MongoDB. For example:
 
-    docker run --name keycloak --link mongo:mongo -e MONGODB_DBNAME=keycloak -d jboss/keycloak-mongo
+    docker run --name keycloak --link mongo:mongo -e MONGODB_DBNAME=keycloak jboss/keycloak-mongo
 
 #### MONGODB_DBNAME
 
