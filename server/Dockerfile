@@ -1,6 +1,6 @@
 FROM jboss/base-jdk:7
 
-ENV KEYCLOAK_VERSION 1.2.0.CR1
+ENV KEYCLOAK_VERSION 1.2.0.Final
 
 RUN cd $HOME && curl http://central.maven.org/maven2/org/keycloak/keycloak-server-dist/$KEYCLOAK_VERSION/keycloak-server-dist-$KEYCLOAK_VERSION.tar.gz | tar zx && mv $HOME/keycloak-$KEYCLOAK_VERSION $HOME/keycloak
 
