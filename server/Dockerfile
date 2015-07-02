@@ -4,7 +4,7 @@ ENV KEYCLOAK_VERSION 1.2.0.Final
 
 USER root
 
-RUN yum install -y jq && yum clean all
+RUN yum install -y epel-release && yum install -y jq && yum clean all
 
 USER jboss
 
