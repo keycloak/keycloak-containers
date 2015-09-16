@@ -1,4 +1,4 @@
-FROM jboss/keycloak-postgres:1.4.0.Final
+FROM jboss/keycloak-postgres:1.5.0.Final
 
 ADD update-standalone-ha.xsl /opt/jboss/keycloak/
 RUN java -jar /usr/share/java/saxon.jar -s:/opt/jboss/keycloak/standalone/configuration/standalone-ha.xml -xsl:/opt/jboss/keycloak/update-standalone-ha.xsl -o:/opt/jboss/keycloak/standalone/configuration/standalone-ha.xml; rm /opt/jboss/keycloak/update-standalone-ha.xsl
