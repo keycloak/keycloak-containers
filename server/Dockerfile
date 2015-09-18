@@ -1,6 +1,9 @@
 FROM jboss/base-jdk:7
 
 ENV KEYCLOAK_VERSION 1.5.0.Final
+# Enables signals getting passed from startup script to JVM
+# ensuring clean shutdown when container is stopped.
+ENV LAUNCH_JBOSS_IN_BACKGROUND 1
 
 USER root
 
