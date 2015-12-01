@@ -26,6 +26,10 @@
         "provider" : "infinispan"
     },
 
+    "userSessionPersister": {
+        "provider" : "jpa"
+    },
+
     "realmCache": {
         "provider": "infinispan"
     },
