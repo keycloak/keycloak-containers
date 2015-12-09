@@ -4,7 +4,7 @@ ENV KEYCLOAK_VERSION 1.7.0.Final
 
 WORKDIR /opt/jboss/wildfly
 
-RUN curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/adapters/keycloak-wf9-adapter-dist-$KEYCLOAK_VERSION.tar.gz | tar zx
+RUN curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/adapters/keycloak-oidc/keycloak-wildfly-adapter-dist-$KEYCLOAK_VERSION.tar.gz | tar zx
 
 WORKDIR /opt/jboss
 
