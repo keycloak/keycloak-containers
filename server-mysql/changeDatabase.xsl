@@ -2,7 +2,7 @@
 
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:ds="urn:jboss:domain:datasources:3.0">
+                xmlns:ds="urn:jboss:domain:datasources:4.0">
 
     <xsl:output method="xml" indent="yes"/>
 

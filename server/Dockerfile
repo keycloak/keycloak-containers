@@ -1,4 +1,4 @@
-FROM jboss/base-jdk:7
+FROM jboss/base-jdk:8
 
 ENV KEYCLOAK_VERSION 1.7.0.Final
 # Enables signals getting passed from startup script to JVM
