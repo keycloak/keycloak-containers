@@ -12,15 +12,7 @@ Once it boots, you can login to the admin console using admin/admin for the firs
 
 ## Creating admin account
 
-By default there is no admin user created so you won't be able to login to the admin console. To create an admin account you need to either use port forward so you can access the Keycloak server from localhost or use environment variables to pass in an initial username and password.
-
-To access the server from localhost start the server with:
-
-    docker run -p 8080:8080 jboss/keycloak
-
-Then open [http://localhost:8080/auth](http://localhost:8080/auth) and fill in the form.
-
-Alternatively pass in the username and password as environment variables by starting the server with:
+By default there is no admin user created so you won't be able to login to the admin console. To create an admin account you need to use environment variables to pass in an initial username and password. This is done by running:
 
     docker run -e KEYCLOAK_USER=<USERNAME> -e KEYCLOAK_PASSWORD=<PASSWORD> jboss/keycloak
 
