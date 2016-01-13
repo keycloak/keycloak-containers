@@ -16,6 +16,15 @@ By default there is no admin user created so you won't be able to login to the a
 
     docker run -e KEYCLOAK_USER=<USERNAME> -e KEYCLOAK_PASSWORD=<PASSWORD> jboss/keycloak
 
+You can also create an account on an already running container by running:
+
+    docker exec <CONTAINER> keycloak/bin/add-user.sh -u <USERNAME> -p <PASSWORD>
+
+Then restarting the container:
+
+    docker restart <CONTAINER>
+
+
 ### Specify log level
 
 When starting the Keycloak instance you can pass a number an environment variables to set log level for Keycloak, for example:
