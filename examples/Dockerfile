@@ -1,6 +1,6 @@
 FROM jboss/base-jdk:7
 
-ENV KEYCLOAK_VERSION 1.8.0.CR1
+ENV KEYCLOAK_VERSION 1.8.0.CR2
 ENV JBOSS_HOME /opt/jboss/keycloak-demo/keycloak
 
 USER root
