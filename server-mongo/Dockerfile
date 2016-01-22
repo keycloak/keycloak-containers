@@ -1,4 +1,4 @@
-FROM jboss/keycloak:latest
+FROM jboss/keycloak:1.8.0.CR3
 
 ADD changeDatabase.jq /opt/jboss/keycloak/
 
