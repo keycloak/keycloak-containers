@@ -1,4 +1,4 @@
-FROM jboss/wildfly:9.0.1.Final
+FROM jboss/wildfly:10.0.0.Final
 
 ENV KEYCLOAK_VERSION 1.9.0.CR1
 
