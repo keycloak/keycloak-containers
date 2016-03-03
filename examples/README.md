@@ -7,12 +7,18 @@ This image prepares a basic Keycloak Auth Server and deploys the examples.
 To boot in standalone mode
 
     docker run jboss/keycloak-examples
+    
+The user and password to be used to access the Keycloak Admin console can be passed as env variable when you request the creation of the docker process
+       
+    docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin jboss/keycloak-examples
+       
+The docker process can also be started in detached mode and associated to a name
+     
+    docker run -dti --name keycloak-examples jboss/keycloak-examples 
 
-Domain mode is not supported on this version, as this image ships with a custom standalone.xml file. 
+Once it boots, you can login using admin/admin for the first login on the [Auth server](http://localhost:8080/auth/admin/) or as bburke@redhat.com/password on the [Customer Portal sample application](http://localhost:8080/customer-portal/customers/view.jsp).
 
-Once it boots, you can login using admin/admin for the first login on the [Auth server](http://localhost:8080/auth/admin/) or as bburke@redhat.com/password on the [Customer Portal sample application](http://localhost:8080/customer-portal/customers/view.jsp) 
-
-You can also log on to the [Widlfly console](http://localhost:9990/console/) using admin/admin as login/password. 
+Remark : Domain mode is not supported on this version, as this image ships with a custom standalone.xml file.
 
 ## Other details
 
