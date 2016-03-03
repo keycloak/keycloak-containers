@@ -26,9 +26,6 @@ ADD docker-entrypoint.sh /opt/jboss/
 
 EXPOSE 8080
 
-USER root
-RUN chmod +x /opt/jboss/docker-entrypoint.sh
 ENTRYPOINT [ "/opt/jboss/docker-entrypoint.sh" ]
 
-#CMD ["/opt/jboss/keycloak-demo/keycloak/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0", "-Dkeycloak.import=/opt/jboss/keycloak-demo/keycloak/testrealm.json"]
 CMD ["-b", "0.0.0.0", "-bmanagement", "0.0.0.0", "-Dkeycloak.import=/opt/jboss/keycloak-demo/keycloak/testrealm.json"]
