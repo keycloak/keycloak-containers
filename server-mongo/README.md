@@ -1,28 +1,47 @@
 # Keycloak MongoDB
 
-Extends the Keycloak docker image to use MongoDB
+This Keycloak image extends the base Keycloak docker image to use MongoDB. To build and properly name this image, run:
+
+```
+docker build -t jboss/keycloak-mongo .
+```
 
 ## Usage
 
-### Start a MongoDB instance
+### Use `docker-compose` to start all services
 
-First start a MongoDB instance using the MongoDB docker image:
+To start both the Keycloak and the MongoDB instances, use `docker-compose`:
 
-    docker run --name mongo -e MONGODB_DBNAME=keycloak -d mongo
+```
+docker-compose up
+```
 
-### Start a Keycloak instance
+[Refer to the documentation on `docker-compose` for more information regarding this tool.](https://docs.docker.com/compose/reference/overview/)
 
-Start a Keycloak instance and connect to the MongoDB instance:
+### Connect to an existing MongoDB instance
 
-    docker run --name keycloak --link mongo:mongo jboss/keycloak-mongo
+To connect to an existing MongoDB instance, use `docker run` and specify the MongoDB connection criteria via environment variables:
+
+```
+docker run --name keycloak -e MONGO_DATABASE=kcdatabase -e MONGO_USER=kcuser jboss/keycloak-mongo
+```
 
 ### Environment variables
 
-When starting the Keycloak instance you can pass a number of environment variables to configure how it connects to MongoDB. For example:
+When starting the container via `docker run` you can pass a number of environment variables to configure the MongoDB connection criteria. For example:
 
-    docker run --name keycloak --link mongo:mongo -e MONGODB_DBNAME=keycloak jboss/keycloak-mongo
+#### MONGO_HOST
 
-#### MONGODB_DBNAME
+Specify the address of the server hosting the MongoDB database (required).
 
-Specify name of MongoDB database (optional, default is `keycloak`).
+#### MONGO_PORT
 
+Specify the port for MongoDB database (optional, default is `27017`).
+
+#### MONGO_DATABASE
+
+Specify the name of MongoDB database (optional, default is `keycloak`).
+
+#### MONGO_USER
+
+Specify the user for MongoDB database (optional, default is `keycloak`).

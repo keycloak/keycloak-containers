@@ -1,35 +1,51 @@
 # Keycloak PostgreSQL
 
-Extends the Keycloak docker image to use PostgreSQL
+This Keycloak image extends the base Keycloak docker image to use PostgreSQL. To build and properly name this image, run:
+
+```
+docker build -t jboss/keycloak-postgres .
+```
 
 ## Usage
 
-### Start a PostgreSQL instance
+### Use `docker-compose` to start all services
 
-First start a PostgreSQL instance using the PostgreSQL docker image:
+To start both the Keycloak and the PostgreSQL instances, use `docker-compose`:
 
-    docker run --name postgres -e POSTGRES_DATABASE=keycloak -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password -e POSTGRES_ROOT_PASSWORD=root_password -d postgres
+```
+docker-compose up
+```
 
-### Start a Keycloak instance
+[Refer to the documentation on `docker-compose` for more information regarding this tool.](https://docs.docker.com/compose/reference/overview/)
 
-Start a Keycloak instance and connect to the PostgreSQL instance:
+### Connect to an existing PostgreSQL instance
 
-    docker run --name keycloak --link postgres:postgres jboss/keycloak-postgres
+To connect to an existing PostgreSQL instance, use `docker run` and specify the PostgreSQL connection criteria via environment variables:
+
+```
+docker run --name keycloak -e POSTGRES_DATABASE=kcdatabase -e POSTGRES_USER=kcuser -e POSTGRES_PASSWORD=kcpassword jboss/keycloak-postgres
+```
 
 ### Environment variables
 
-When starting the Keycloak instance you can pass a number of environment variables to configure how it connects to PostgreSQL. For example:
+When starting the container via `docker run` you can pass a number of environment variables to configure the PostgreSQL connection criteria. For example:
 
-    docker run --name keycloak --link postgres:postgres -e POSTGRES_DATABASE=kcdatabase -e POSTGRES_USER=kcuser -e POSTGRES_PASSWORD=kcpassword jboss/keycloak-postgres
+#### POSTGRES_HOST
+
+Specify the address of the server hosting the PostgreSQL database (required).
+
+#### POSTGRES_PORT
+
+Specify the port for PostgreSQL database (optional, default is `5432`).
 
 #### POSTGRES_DATABASE
 
-Specify name of PostgreSQL database (optional, default is `keycloak`).
+Specify the name of PostgreSQL database (optional, default is `keycloak`).
 
 #### POSTGRES_USER
 
-Specify user for PostgreSQL database (optional, default is `keycloak`).
+Specify the user for PostgreSQL database (optional, default is `keycloak`).
 
 #### POSTGRES_PASSWORD
 
-Specify password for PostgreSQL database (optional, default is `keycloak`).
+Specify the password for PostgreSQL database (optional, default is `keycloak`).
