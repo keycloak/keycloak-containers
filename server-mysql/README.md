@@ -1,35 +1,51 @@
 # Keycloak MySQL
 
-Extends the Keycloak docker image to use MySQL
+This Keycloak image extends the base Keycloak docker image to use MySQL. To build and properly name this image, run:
+
+```
+docker build -t jboss/keycloak-mysql .
+```
 
 ## Usage
 
-### Start a MySQL instance
+### Use `docker-compose` to start all services
 
-First start a MySQL instance using the MySQL docker image:
+To start both the Keycloak and the MySQL instances, use `docker-compose`:
 
-    docker run --name mysql -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=root_password -d mysql
+```
+docker-compose up
+```
 
-### Start a Keycloak instance
+[Refer to the documentation on `docker-compose` for more information regarding this tool.](https://docs.docker.com/compose/reference/overview/)
 
-Start a Keycloak instance and connect to the MySQL instance:
+### Connect to an existing MySQL instance
 
-    docker run --name keycloak --link mysql:mysql jboss/keycloak-mysql
+To connect to an existing MySQL instance, use `docker run` and specify the MySQL connection criteria via environment variables:
+
+```
+docker run --name keycloak -e MYSQL_DATABASE=kcdatabase -e MYSQL_USER=kcuser -e MYSQL_PASSWORD=kcpassword jboss/keycloak-mysql
+```
 
 ### Environment variables
 
-When starting the Keycloak instance you can pass a number of environment variables to configure how it connects to MySQL. For example:
+When starting the container via `docker run` you can pass a number of environment variables to configure the MySQL connection criteria. For example:
 
-    docker run --name keycloak --link mysql:mysql -e MYSQL_DATABASE=kcdb -e MYSQL_USER=kcuser -e MYSQL_PASSWORD=kcpassword jboss/keycloak-mysql
+#### MYSQL_HOST
+
+Specify the address of the server hosting the MySQL database (required).
+
+#### MYSQL_PORT
+
+Specify the port for MySQL database (optional, default is `3306`).
 
 #### MYSQL_DATABASE
 
-Specify name of MySQL database (optional, default is `keycloak`).
+Specify the name of MySQL database (optional, default is `keycloak`).
 
 #### MYSQL_USER
 
-Specify user for MySQL database (optional, default is `keycloak`).
+Specify the user for MySQL database (optional, default is `keycloak`).
 
 #### MYSQL_PASSWORD
 
-Specify password for MySQL database (optional, default is `keycloak`).
+Specify the password for MySQL database (optional, default is `keycloak`).

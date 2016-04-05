@@ -1,0 +1,23 @@
+version: '2'
+services:
+
+  server:
+    build: .
+    image: jboss/keycloak-mongo
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      MONGO_HOST: database
+      MONGO_PORT: 27017
+      MONGO_DATABASE: keycloak
+      MONGO_USER: keycloak
+    depends_on:
+      - database
+
+  database:
+    image: mongo
+    environment:
+      MONGO_DATABASE: keycloak
+      MONGO_USER: keycloak

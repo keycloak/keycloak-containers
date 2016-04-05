@@ -1,26 +1,60 @@
 # Keycloak HA PostgreSQL
 
-Example Docker file for clustered Keycloak using a PostgreSQL
+This docker compose configuration is an example of a clustered Keycloak environment, using PostgreSQL as the database and HAProxy as the load balancer.
+
+The HAProxy instance listens on port 8080, and round-robins requests to two Keycloak instances.
 
 ## Usage
 
-### Start a PostgreSQL instance
+### Use `docker-compose` to start all services
 
-First start a PostgreSQL instance using the PostgreSQL docker image:
+To start two Keycloak containers, the PostgreSQL container, and the HAProxy container, use `docker-compose`:
 
-    docker run --name postgres -e POSTGRES_DATABASE=keycloak -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password -e POSTGRES_ROOT_PASSWORD=password -d postgres
+```
+docker-compose up
+```
 
-### Start a Keycloak HA instance
+[Refer to the documentation on `docker-compose` for more information regarding this tool.](https://docs.docker.com/compose/reference/overview/)
 
-Start two or more Keycloak instances that form a cluster and connect to the PostgreSQL instance running in previously started 'postgres' container:
+### Adding more Keycloak instances to the cluster
 
-    docker run --name keycloak --link postgres:postgres -e POSTGRES_DATABASE=keycloak -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password jboss/keycloak-ha-postgres
-    docker logs -f keycloak
+To add more Keycloak instances (for example, `server_c`) to this cluster, do the following:
 
-    docker run --name keycloak2 --link postgres:postgres -e POSTGRES_DATABASE=keycloak -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password jboss/keycloak-ha-postgres
-    docker logs -f keycloak2
+#### Add the new instance to `docker-compose.yml`
 
+Add a `server_c` service to the `docker-compose.yml` file...
+
+```
+server_c:
+extends:
+  file: server/server.yml
+  service: server
+command: ["-b", "0.0.0.0", "-bprivate", "server_c", "--server-config", "standalone-ha.xml"]
+depends_on:
+  - database
+```
+
+... then add the `server_c` service as a dependency of the `proxy` service...
+
+```
+proxy:
+  ...
+depends_on:
+  - server_a
+  - server_b
+  - server_c
+```
+
+... and, finally, add the `server_c` instance to the HAProxy config:
+
+```
+backend server
+    balance roundrobin
+    server a server_a:8080 maxconn 32
+    server b server_b:8080 maxconn 32
+    server c server_c:8080 maxconn 32
+```
 
 ## Other details
 
-This image extends the [`jboss/keycloak-postgres`](https://github.com/jboss-dockerfiles/keycloak) image. Please refer to the README.md for selected images for more info.
+This composition relies upon the [`jboss/keycloak-postgres`](https://registry.hub.docker.com/u/jboss/keycloak-postgres/) image. Please refer to the [README.md](../server-postgres/README.md) of that image for more details.
