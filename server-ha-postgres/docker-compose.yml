@@ -1,0 +1,39 @@
+version: '2'
+services:
+
+  proxy:
+    extends:
+      file: proxy/proxy.yml
+      service: proxy
+    ports:
+      - "8080:80"
+    depends_on:
+      - server_a
+      - server_b
+
+  server_a:
+    extends:
+      file: server/server.yml
+      service: server
+    command: ["-b", "0.0.0.0", "-bprivate", "server_a", "--server-config", "standalone-ha.xml"]
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+    depends_on:
+      - database
+
+  server_b:
+    extends:
+      file: server/server.yml
+      service: server
+    command: ["-b", "0.0.0.0", "-bprivate", "server_b", "--server-config", "standalone-ha.xml"]
+    depends_on:
+      - database
+
+  database:
+    image: postgres
+    environment:
+      POSTGRES_DATABASE: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_ROOT_PASSWORD: root_password

@@ -1,0 +1,26 @@
+version: '2'
+services:
+
+  server:
+    build: .
+    image: jboss/keycloak-postgres
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      POSTGRES_HOST: database
+      POSTGRES_PORT: 5432
+      POSTGRES_DATABASE: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+    depends_on:
+      - database
+
+  database:
+    image: postgres
+    environment:
+      POSTGRES_DATABASE: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_ROOT_PASSWORD: root_password

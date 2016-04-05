@@ -1,0 +1,26 @@
+version: '2'
+services:
+
+  server:
+    build: .
+    image: jboss/keycloak-mysql
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      MYSQL_HOST: database
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: keycloak
+    depends_on:
+      - database
+
+  database:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: keycloak
+      MYSQL_ROOT_PASSWORD: root_password
