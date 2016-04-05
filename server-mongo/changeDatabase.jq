@@ -3,9 +3,9 @@
   .realm.provider = "mongo" | 
   .user.provider = "mongo" |
   .userSessionPersister.provider = "mongo" |  
-  .connectionsMongo.default.host = "${env.MONGO_PORT_27017_TCP_ADDR}" |
-  .connectionsMongo.default.port = "27017" |
-  .connectionsMongo.default.db = "${env.MONGODB_DBNAME:keycloak}" |
+  .connectionsMongo.default.host = "${env.MONGO_HOST}" |
+  .connectionsMongo.default.port = "${env.MONGO_PORT:27017}" |
+  .connectionsMongo.default.db = "${env.MONGO_DATABASE:keycloak}" |
   .connectionsMongo.default.connectionsPerHost = 100 |
   .connectionsMongo.default.databaseSchema = "update" |
   del (.eventsStore.jpa) | 
