@@ -18,7 +18,7 @@ By default there is no admin user created so you won't be able to login to the a
 
 You can also create an account on an already running container by running:
 
-    docker exec <CONTAINER> keycloak/bin/add-user.sh -u <USERNAME> -p <PASSWORD>
+    docker exec <CONTAINER> keycloak/bin/add-user-keycloak.sh -u <USERNAME> -p <PASSWORD>
 
 Then restarting the container:
 
