@@ -2,7 +2,8 @@
   .eventsStore.mongo["exclude-events"] |= ["REFRESH_TOKEN"] | 
   .realm.provider = "mongo" | 
   .user.provider = "mongo" |
-  .userSessionPersister.provider = "mongo" |  
+  .userSessionPersister.provider = "mongo" |
+  .authorizationPersister.provider = "mongo" |
   .connectionsMongo.default.host = "${env.MONGO_PORT_27017_TCP_ADDR}" |
   .connectionsMongo.default.port = "27017" |
   .connectionsMongo.default.db = "${env.MONGODB_DBNAME:keycloak}" |
