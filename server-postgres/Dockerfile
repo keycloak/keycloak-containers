@@ -3,6 +3,7 @@ FROM jboss/keycloak:latest
 ENV POSTGRESQL_JDBC_VERSION 9.4.1209
 
 ADD changeDatabase.xsl /opt/jboss/keycloak/
+
 RUN java -jar /usr/share/java/saxon.jar \
               -s:/opt/jboss/keycloak/standalone/configuration/standalone.xml \
               -xsl:/opt/jboss/keycloak/changeDatabase.xsl \
