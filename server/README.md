@@ -8,8 +8,6 @@ To boot in standalone mode
 
     docker run jboss/keycloak
 
-Once it boots, you can login to the admin console using admin/admin for the first login.
-
 ## Creating admin account
 
 By default there is no admin user created so you won't be able to login to the admin console. To create an admin account you need to use environment variables to pass in an initial username and password. This is done by running:
