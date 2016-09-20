@@ -1,5 +1,5 @@
 FROM jboss/keycloak:latest
 
-ADD changeDatabase.jq /opt/jboss/keycloak/
+ADD mongoConfig.xsl /opt/jboss/keycloak/
 
-RUN INPUT=`cat /opt/jboss/keycloak/standalone/configuration/keycloak-server.json` && echo $INPUT | jq -f /opt/jboss/keycloak/changeDatabase.jq > /opt/jboss/keycloak/standalone/configuration/keycloak-server.json
+RUN java -jar /usr/share/java/saxon.jar -s:/opt/jboss/keycloak/standalone/configuration/standalone.xml -xsl:/opt/jboss/keycloak/mongoConfig.xsl -o:/opt/jboss/keycloak/standalone/configuration/standalone.xml
