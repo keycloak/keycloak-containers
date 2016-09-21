@@ -1,5 +1,5 @@
 FROM jboss/keycloak:latest
 
-ADD changeDatabase.jq /opt/jboss/keycloak/
+ADD mongo-configure.cli /opt/jboss/keycloak/
 
-RUN INPUT=`cat /opt/jboss/keycloak/standalone/configuration/keycloak-server.json` && echo $INPUT | jq -f /opt/jboss/keycloak/changeDatabase.jq > /opt/jboss/keycloak/standalone/configuration/keycloak-server.json
+RUN /opt/jboss/keycloak/bin/jboss-cli.sh --file=/opt/jboss/keycloak/mongo-configure.cli
