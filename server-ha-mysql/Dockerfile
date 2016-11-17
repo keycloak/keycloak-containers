@@ -9,5 +9,5 @@ RUN cp /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml /tmp/stand
   && java -jar /usr/share/java/saxon.jar -s:/opt/jboss/keycloak/standalone/configuration/standalone-ha.xml \
     -xsl:/opt/jboss/keycloak/jgroups-tcp-jdbc.xsl -o:/opt/jboss/keycloak/standalone/configuration/standalone-ha.xml \
   && rm /opt/jboss/keycloak/jgroups-tcp-jdbc.xsl \
-  && diff -u /tmp/standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml \
+  #&& diff -u /tmp/standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml \
   && rm /tmp/standalone-ha.xml
