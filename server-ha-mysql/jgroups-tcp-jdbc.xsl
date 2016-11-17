@@ -26,6 +26,13 @@
         <xsl:comment> jgroups-mping was removed at switch to JDBC_PING </xsl:comment>
     </xsl:template>
 
+    <xsl:template match="/domain:server/domain:interfaces/domain:interface[@name='private']">
+        <xsl:copy>
+            <xsl:apply-templates select="@*"/>
+            <nic xmlns="urn:jboss:domain:4.0" name="eth0"/>
+        </xsl:copy>
+    </xsl:template>
+
     <xsl:template match="@*|node()">
         <xsl:copy>
             <xsl:apply-templates select="@*|node()"/>
