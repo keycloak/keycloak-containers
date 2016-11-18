@@ -1,3 +1,24 @@
+# In kubernetes, keycloak-ha-mysql has two advantages over keycloak-ha-postgres:
+#  - MySQL is easy to cluster, thanks to Galera. See for example https://github.com/Yolean/kubernetes-mysql-cluster
+#  - JDBC_PING works out of the box with MySQL, contrary to Postgres.
+
+# The default JGroups configuration uses MPING which will work in Minikube,
+# but not in typical multi-node clusters such as GKE
+
+# KUBE_PING (http://jgroups.org/manual4/index.html#_kube_ping, https://github.com/jgroups-extras/jgroups-kubernetes/)
+# is an alternative, but the jars are not bundled by default and the configuration is complex.
+# JDBC is appropriate because Keycloak has a datasource already.
+
+# To try this example setup, use for example https://github.com/kubernetes/minikube, and start with:
+# kubectl apply -f ./
+
+# Caveat: Keycloak may start but without jgroups (so you don't actually have a cluster even if there's three nodes)
+# Logs will say "Error reading table: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'keycloak.JGROUPSPING' doesn't exist"
+# That's because JGroups tried to create the table before the database was initialized, and it won't retry.
+# The solution is to kill one of the keycloak pods, with commands like:
+# kubectl scale --replicas=2 deployment/keycloak
+# kubectl scale --replicas=3 deployment/keycloak
+
 ---
 apiVersion: v1
 kind: Namespace
