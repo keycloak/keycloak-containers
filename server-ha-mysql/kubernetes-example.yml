@@ -22,6 +22,7 @@
 # Generic caveat with Keycloak HA: Authentication will respond even as JGroups fails.
 # Inspect the logs to see that you get "rebalance for cache" and "new cluster view" at node changes.
 
+# The port declarations for the keycloak container need review. They were picked from standalone-ha.xml.
 ---
 apiVersion: v1
 kind: Namespace
