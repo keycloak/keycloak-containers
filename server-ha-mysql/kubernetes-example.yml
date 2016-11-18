@@ -19,6 +19,9 @@
 # kubectl scale --replicas=2 deployment/keycloak
 # kubectl scale --replicas=3 deployment/keycloak
 
+# Generic caveat with Keycloak HA: Authentication will respond even as JGroups fails.
+# Inspect the logs to see that you get "rebalance for cache" and "new cluster view" at node changes.
+
 ---
 apiVersion: v1
 kind: Namespace
