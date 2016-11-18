@@ -11,8 +11,15 @@
     <xsl:template match="//jgroups:subsystem/jgroups:channels/jgroups:channel">
         <xsl:copy>
             <xsl:apply-templates select="node()|@*"/>
-            <xsl:attribute name="stack">tcp</xsl:attribute>
+            <xsl:attribute name="stack">${env.JGROUPS_STACK:udp}</xsl:attribute>
         </xsl:copy>
+    </xsl:template>
+
+    <xsl:template match="//jgroups:subsystem/jgroups:stacks/jgroups:stack[@name='udp']/jgroups:protocol[@type='PING']">
+        <xsl:comment> PING was removed in favor of JDBC_PING </xsl:comment>
+        <protocol xmlns="urn:jboss:domain:jgroups:4.0" type="JDBC_PING">
+            <property name="datasource_jndi_name">java:jboss/datasources/KeycloakDS</property>
+        </protocol>
     </xsl:template>
 
     <xsl:template match="//jgroups:subsystem/jgroups:stacks/jgroups:stack[@name='tcp']/jgroups:protocol[@type='MPING']">

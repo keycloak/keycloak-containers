@@ -22,6 +22,7 @@
 # Generic caveat with Keycloak HA: Authentication will respond even as JGroups fails.
 # Inspect the logs to see that you get "rebalance for cache" and "new cluster view" at node changes.
 
+# The port declarations for the keycloak container need review. They were picked from standalone-ha.xml.
 ---
 apiVersion: v1
 kind: Namespace
@@ -114,6 +115,24 @@ spec:
               containerPort: 7600
             - name: jgroups-tcp-fd
               containerPort: 57600
+            - name: jgroups-udp
+              containerPort: 55200
+              protocol: UDP
+            - name: jgroups-udp-mc
+              containerPort: 45688
+              protocol: UDP
+            - name: jgroups-udp-fd
+              containerPort: 54200
+              protocol: UDP
+            - name: modcluster
+              containerPort: 23364
+            - name: modcluster-udp
+              containerPort: 23364
+              protocol: UDP
+            - name: txn-recovery-ev
+              containerPort: 4712
+            - name: txn-status-mgr
+              containerPort: 4713
           env:
             - name: MYSQL_DATABASE
               value: keycloak
