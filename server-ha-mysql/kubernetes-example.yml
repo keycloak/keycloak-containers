@@ -1,0 +1,130 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: keycloak
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: keycloak
+spec:
+  ports:
+    - port: 3306
+      name: mysql
+  selector:
+    app: mariadb
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mariadb
+  namespace: keycloak
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:10.1.19
+          ports:
+            - containerPort: 3306
+              name: mysql
+            - containerPort: 4444
+              name: sst
+            - containerPort: 4567
+              name: replication
+            - containerPort: 4567
+              protocol: UDP
+              name: replicationudp
+            - containerPort: 4568
+              name: ist
+          env:
+            - name: MYSQL_RANDOM_ROOT_PASSWORD
+              value: "yes"
+            - name: MYSQL_DATABASE
+              value: keycloak
+            - name: MYSQL_USER
+              value: keycloak
+            - name: MYSQL_PASSWORD
+              value: keycloak
+            - name: MYSQL_INITDB_SKIP_TZINFO
+              value: "yes"
+          args:
+            - --wsrep-new-cluster
+            # https://issues.jboss.org/browse/KEYCLOAK-3873
+            #- --character-set-server=utf8mb4
+            #- --collation-server=utf8mb4_unicode_ci
+          volumeMounts:
+            - name: datadir
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: datadir
+          emptyDir: {}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: keycloak
+  namespace: keycloak
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycoak
+          image: solsson/keycloak-ha-mysql
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: management
+              containerPort: 9090
+            - name: jgroups-tcp
+              containerPort: 7600
+            - name: jgroups-tcp-fd
+              containerPort: 57600
+          env:
+            - name: MYSQL_DATABASE
+              value: keycloak
+            - name: MYSQL_USER
+              value: keycloak
+            - name: MYSQL_PASSWORD
+              value: keycloak
+            - name: MYSQL_PORT_3306_TCP_ADDR
+              value: mysql.keycloak
+            - name: MYSQL_PORT_3306_TCP_PORT
+              value: "3306"
+            # first start only, testing only
+            - name: KEYCLOAK_USER
+              value: admin
+            - name: KEYCLOAK_PASSWORD
+              value: test
+          args:
+            - -b=0.0.0.0
+            - -bmanagement=0.0.0.0
+            - --server-config=standalone-ha.xml
+            - -Djava.net.preferIPv4Stack=true
+          readinessProbe:
+            httpGet:
+              path: /auth/
+              port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+  namespace: keycloak
+spec:
+  ports:
+    - port: 8080
+      name: http
+  selector:
+    app: mariadb
+  type: NodePort
