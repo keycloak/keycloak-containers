@@ -164,7 +164,6 @@ spec:
             - -b=0.0.0.0
             - -bmanagement=0.0.0.0
             - --server-config=standalone-ha.xml
-            - -Djava.net.preferIPv4Stack=true
           readinessProbe:
             httpGet:
               path: /auth/
