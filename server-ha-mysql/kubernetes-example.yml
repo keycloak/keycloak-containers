@@ -103,7 +103,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: keycloak
+  name: kc
   namespace: keycloak
 spec:
   replicas: 3
