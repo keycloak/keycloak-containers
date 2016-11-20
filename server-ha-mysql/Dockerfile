@@ -6,6 +6,7 @@ RUN rm keycloak/standalone/configuration/standalone.xml
 
 ADD xsl-transform.sh /usr/local/bin/xsl-transform
 
-ADD jgroups-jdbc.xsl /tmp/
+ADD *.xsl /tmp/
 
-RUN xsl-transform /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml /tmp/jgroups-jdbc.xsl
+RUN xsl-transform /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml /tmp/jgroups-jdbc.xsl \
+  && xsl-transform /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml /tmp/node-identifier.xsl
