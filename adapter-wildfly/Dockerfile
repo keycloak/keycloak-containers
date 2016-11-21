@@ -1,6 +1,6 @@
 FROM jboss/wildfly:10.0.0.Final
 
-ENV KEYCLOAK_VERSION 2.3.0.Final
+ENV KEYCLOAK_VERSION 2.4.0.CR1
 
 WORKDIR /opt/jboss/wildfly
 
