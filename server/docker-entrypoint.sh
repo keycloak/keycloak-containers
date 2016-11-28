@@ -5,4 +5,3 @@ if [ $KEYCLOAK_USER ] && [ $KEYCLOAK_PASSWORD ]; then
 fi
 
 exec /opt/jboss/keycloak/bin/standalone.sh $@
-exit $?
