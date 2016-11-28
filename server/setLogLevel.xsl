@@ -17,6 +17,10 @@
         </xsl:copy>
     </xsl:template>
 
+    <xsl:template match="//log:handler[@name='FILE']" />
+
+    <xsl:template match="//log:periodic-rotating-file-handler[@name='FILE']" />
+
     <xsl:template match="@*|node()">
         <xsl:copy>
             <xsl:apply-templates select="@*|node()"/>
