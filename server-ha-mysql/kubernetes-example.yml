@@ -26,12 +26,7 @@
 
 # Log warnings:
 
-# WARN  [org.jgroups.protocols.UDP] (MSC service thread 1-1) JGRP000015: the send buffer of socket ManagedDatagramSocketBinding was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
-# WARN  [org.jgroups.protocols.UDP] (MSC service thread 1-1) JGRP000015: the receive buffer of socket ManagedDatagramSocketBinding was set to 20MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
-# WARN  [org.jgroups.protocols.UDP] (MSC service thread 1-1) JGRP000015: the send buffer of socket ManagedMulticastSocketBinding was set to 1MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max send buffer in the OS correctly (e.g. net.core.wmem_max on Linux)
-# WARN  [org.jgroups.protocols.UDP] (MSC service thread 1-1) JGRP000015: the receive buffer of socket ManagedMulticastSocketBinding was set to 25MB, but the OS only allocated 212.99KB. This might lead to performance problems. Please set your max receive buffer in the OS correctly (e.g. net.core.rmem_max on Linux)
-
-# WARN  [org.jgroups.protocols.UDP] (TransferQueueBundler,ee,keycloak-230160455-5bjik) JGRP000032: keycloak-230160455-5bjik: no physical address for 4e9c91ec-904d-4e8b-f479-c0d971061ecc, dropping message
+# WARN  [org.jgroups.protocols.TCP] (TransferQueueBundler,ee,kc-680399654-aekgt) JGRP000032: kc-680399654-aekgt: no physical address for 94cfcd82-89fd-0761-b510-92589f820516, dropping message
 ---
 apiVersion: v1
 kind: Namespace
@@ -158,6 +153,8 @@ spec:
               value: admin
             - name: KEYCLOAK_PASSWORD
               value: test
+            - name: JGROUPS_STACK
+              value: tcp
           args:
             - -b=0.0.0.0
             - -bmanagement=0.0.0.0
