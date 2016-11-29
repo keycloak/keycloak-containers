@@ -153,6 +153,8 @@ spec:
               value: admin
             - name: KEYCLOAK_PASSWORD
               value: test
+            - name: JGROUPS_STACK
+              value: tcp
           args:
             - -b=0.0.0.0
             - -bmanagement=0.0.0.0
