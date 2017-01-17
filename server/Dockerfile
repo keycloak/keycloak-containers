@@ -4,6 +4,7 @@ ENV KEYCLOAK_VERSION 2.5.0.Final
 # Enables signals getting passed from startup script to JVM
 # ensuring clean shutdown when container is stopped.
 ENV LAUNCH_JBOSS_IN_BACKGROUND 1
+ENV KEYCLOAK_DIR /opt/jboss/keycloak
 
 USER root
 
@@ -17,6 +18,10 @@ ADD docker-entrypoint.sh /opt/jboss/
 
 ADD setLogLevel.xsl /opt/jboss/keycloak/
 RUN java -jar /usr/share/java/saxon.jar -s:/opt/jboss/keycloak/standalone/configuration/standalone.xml -xsl:/opt/jboss/keycloak/setLogLevel.xsl -o:/opt/jboss/keycloak/standalone/configuration/standalone.xml
+
+USER root
+RUN chown -R 1000:0 ${KEYCLOAK_DIR} && chmod -R ug+rw ${KEYCLOAK_DIR}
+USER jboss
 
 ENV JBOSS_HOME /opt/jboss/keycloak
 
