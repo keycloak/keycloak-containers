@@ -174,5 +174,5 @@ spec:
     - port: 8080
       name: http
   selector:
-    app: mariadb
+    app: keycloak
   type: NodePort
