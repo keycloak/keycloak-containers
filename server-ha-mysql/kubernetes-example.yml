@@ -59,7 +59,7 @@ spec:
     spec:
       containers:
         - name: mariadb
-          image: mariadb:10.1.19
+          image: mariadb:10.1.21
           ports:
             - containerPort: 3306
               name: mysql
