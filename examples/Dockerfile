@@ -1,6 +1,6 @@
 FROM jboss/base-jdk:8
 
-ENV KEYCLOAK_VERSION 2.5.5.Final
+ENV KEYCLOAK_VERSION 3.0.0.CR1
 ENV JBOSS_HOME /opt/jboss/keycloak-demo/keycloak
 ENV MAVEN_VERSION 3.3.9
 # Enables signals getting passed from startup script to JVM
