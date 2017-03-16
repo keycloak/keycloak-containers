@@ -12,3 +12,4 @@ embed-server --server-config=standalone.xml
 /subsystem=keycloak-server/spi=connectionsJpa/:remove
 /subsystem=keycloak-server/spi=connectionsMongo/:add
 /subsystem=keycloak-server/spi=connectionsMongo/provider=default/:add(properties={host => "${env.MONGO_PORT_27017_TCP_ADDR}", port => "27017", db => "${env.MONGODB_DBNAME:keycloak}", connectionsPerHost => "100", migrationStrategy => "update", databaseSchema => "update"},enabled=true)
+stop-embedded-server
