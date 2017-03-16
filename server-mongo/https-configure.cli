@@ -1,3 +1,5 @@
+embed-server --server-config=standalone.xml
+
 batch
 
 /socket-binding-group=standard-sockets/socket-binding=proxy-https:add(port=443)
