@@ -1,4 +1,4 @@
-FROM jboss/keycloak:latest
+FROM jboss/keycloak:3.0.0.CR1
 
 ADD mongo-configure.cli /opt/jboss/keycloak/
 
