@@ -1,12 +1,6 @@
 image: kkarczmarczyk/node-yarn:7.5-slim
 
-# Pick zero or more services to be used on all builds.
-# Only needed when using a docker container to run your tests in.
-# Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-service
-services:
-  # - mysql:latest
-  # - redis:latest
-  # - postgres:latest
+# https://docs.gitlab.com/ce/ci/variables/#predefined-variables-environment-variables
 
 # fetch is faster as it re-uses the project workspace (falling back to clone if it doesn't exist). git clean is used to undo any changes made by the last job, and git fetch is used to retrieve commits made since the last job ran.
 variables:
@@ -30,18 +24,18 @@ stages:
 #
 
 #
-# /frontend
+# /dashboard
 #
-frontend-build:
+dashboard-build:
   stage: build
   script:
-    - cd $CI_PROJECT_DIR/frontend
+    - cd $CI_PROJECT_DIR/dashboard
     - yarn install
 
-frontend-test:
+dashboard-test:
   stage: test
   script:
-    - cd $CI_PROJECT_DIR/frontend
+    - cd $CI_PROJECT_DIR/dashboard
     - npm run test
 
 #
@@ -78,20 +72,5 @@ tag-test:
 cache:
   paths:
   - tag/node_modules/
-  - frontend/node_modules/
-#
-# # This folder is cached between builds
-# # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
-# cache:
-#   paths:
-#   - node_modules/
-#
-# test_async:
-#   script:
-#    - npm install
-#    - node ./specs/start.js ./specs/async.spec.js
-#
-# test_db:
-#   script:
-#    - npm install
-#    - node ./specs/start.js ./specs/db-postgres.spec.js
+  - dashboard/node_modules/
+  - relay/node_modules/

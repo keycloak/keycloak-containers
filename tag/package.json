@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "license": "KillBug",
+  "description": "tag",
   "engines": {
     "node": "6"
   },
@@ -23,16 +25,7 @@
     "postinstall": "npm run build",
     "build-watch": "WEBPACK_COMPRESS=false CLIENT_ENDPOINT='http://killbug.local' webpack --watch"
   },
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/fgribreau/tag.git"
-  },
-  "bugs": {
-    "url": "https://github.com/fgribreau/tag/issues"
-  },
-  "homepage": "https://github.com/fgribreau/tag",
-  "keywords": [],
+  "main": "src/client.js",
   "devDependencies": {
     "autoprefixer": "^6.5.4",
     "babel-core": "^6.20.0",
@@ -59,7 +52,5 @@
     "lodash.throttle": "^4.1.1",
     "raven-js": "^3.9.1",
     "socket.io-client": "^1.7.2"
-  },
-  "license": "MIT",
-  "description": ""
+  }
 }

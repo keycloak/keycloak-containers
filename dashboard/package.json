@@ -1,8 +1,10 @@
 {
-  "name": "killbugtoday-frontend",
+  "name": "killbug-dashboard",
   "version": "0.0.1",
   "private": true,
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "license": "KillBug",
+  "description": "dashboard",
   "engines": {
     "node": "6"
   },

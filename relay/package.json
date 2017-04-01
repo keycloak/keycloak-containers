@@ -1,8 +1,10 @@
 {
-  "name": "killbugtoday-monorepo",
+  "name": "killbug-relay",
   "version": "0.0.1",
   "private": true,
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "license": "KillBug",
+  "description": "relay",
   "engines": {
     "node": "6"
   },
@@ -17,7 +19,6 @@
   },
   "bin": {},
   "scripts": {
-    "postinstall": "(cd frontend && npm i) && (cd tag && npm i)",
     "start": "node server.js",
     "start-dev": "PORT=80 sudo -E nodemon server.js",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
@@ -27,15 +28,6 @@
     "test-watch": "mocha -t 10000 -r ./bootstrap.js -w $(find src -name '*.test.js')"
   },
   "main": "server.js",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/fgribreau/poc-fg.git"
-  },
-  "bugs": {
-    "url": "https://github.com/fgribreau/poc-fg/issues"
-  },
-  "homepage": "https://github.com/fgribreau/poc-fg",
-  "keywords": [],
   "devDependencies": {
     "babel-plugin-transform-flow-strip-types": "^6.21.0",
     "babel-preset-es2015": "^6.18.0",
@@ -63,7 +55,5 @@
     "socket.io": "^1.7.2",
     "ua-parser-js": "^0.7.12",
     "uuid": "^3.0.1"
-  },
-  "license": "MIT",
-  "description": ""
+  }
 }
