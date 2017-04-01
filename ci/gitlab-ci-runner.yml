@@ -15,7 +15,7 @@ data:
       token = "7awvubRZ-LGero_8ize2"
       executor = "kubernetes"
       [runners.kubernetes]
-        namespace = "gitlab"
+        namespace = "killbug"
         privileged = true
 ---
 apiVersion: extensions/v1beta1

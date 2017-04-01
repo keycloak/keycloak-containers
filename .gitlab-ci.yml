@@ -35,13 +35,13 @@ stages:
 frontend-build:
   stage: build
   script:
-    - cd frontend
+    - cd $CI_PROJECT_DIR/frontend
     - yarn install
 
 frontend-test:
   stage: test
   script:
-    - cd frontend
+    - cd $CI_PROJECT_DIR/frontend
     - npm run test
 
 #
@@ -50,14 +50,14 @@ frontend-test:
 relay-build:
   stage: build
   script:
-    - cd relay
+    - cd $CI_PROJECT_DIR/relay
     - yarn install
 
 relay-test:
   stage: test
   script:
-    - cd relay
-    - npm run 
+    - cd $CI_PROJECT_DIR/relay
+    - npm run
 
 #
 # /tag
@@ -65,14 +65,14 @@ relay-test:
 tag-build:
   stage: build
   script:
-    - cd tag
+    - cd $CI_PROJECT_DIR/tag
     - yarn install
     - npm run build
 
 tag-test:
   stage: test
   script:
-    - cd tag
+    - cd $CI_PROJECT_DIR/tag
     - npm run test
 
 cache:
