@@ -1,0 +1,10 @@
+{
+  "name": "killbug-root",
+  "private": true,
+  "scripts": {
+    "database": "",
+    "ci:setup":"npm run --silent ci:setup:runner",
+    "ci:setup:runner":"kubectl apply -f ci/gitlab-ci-runner.yml --namespace=killbug",
+    "roi:spent":"HOUR_RATE=20 HOURS_PER_DAYS=3 DAYS=$(git summary | grep active | grep -oEi '[0-9]+') SPENT_EUROS=$(($DAYS*$HOURS_PER_DAYS*$HOUR_RATE)); echo \"${SPENT_EUROS}€ ($DAYS days, ${HOURS_PER_DAYS}h/days, ${HOUR_RATE}€/h)\""
+  }
+}
