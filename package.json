@@ -2,9 +2,17 @@
   "name": "killbug-root",
   "private": true,
   "scripts": {
-    "database": "",
-    "ci:setup":"npm run --silent ci:setup:runner",
-    "ci:setup:runner":"kubectl apply -f ci/gitlab-ci-runner.yml --namespace=killbug",
+    "ci":"cd ci && npm run --",
+    "api":"cd api && npm run",
+    "certs":"cd certs && npm run",
+    "dashboard":"cd dashboard && npm run",
+    "dashboard:setup":"cd dashboard && yarn install",
+    "database":"cd database && npm run",
+    "database:setup":"cd dashboard && yarn install",
+    "relay":"cd relay && npm run",
+    "relay:setup":"cd relay && yarn install",
+    "tag":"cd tag && npm run",
+    "tag:setup":"cd tag && yarn install",
     "roi:spent":"HOUR_RATE=20 HOURS_PER_DAYS=3 DAYS=$(git summary | grep active | grep -oEi '[0-9]+') SPENT_EUROS=$(($DAYS*$HOURS_PER_DAYS*$HOUR_RATE)); echo \"${SPENT_EUROS}€ ($DAYS days, ${HOURS_PER_DAYS}h/days, ${HOUR_RATE}€/h)\""
   }
 }

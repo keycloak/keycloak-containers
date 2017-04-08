@@ -1,3 +1,4 @@
+# https://docs.gitlab.com/ce/ci/yaml/
 image: kkarczmarczyk/node-yarn:7.5-slim
 
 # https://docs.gitlab.com/ce/ci/variables/#predefined-variables-environment-variables
@@ -20,23 +21,32 @@ stages:
 #
 
 #
-# /database
-#
-
-#
 # /dashboard
 #
 dashboard-build:
   stage: build
   script:
-    - cd $CI_PROJECT_DIR/dashboard
-    - yarn install
+    - npm run dashboard:setup
 
 dashboard-test:
   stage: test
   script:
-    - cd $CI_PROJECT_DIR/dashboard
-    - npm run test
+    - npm run dashboard -- test
+
+#
+# /database
+#
+
+database-build:
+  stage: build
+  script:
+    - npm run database:setup
+
+database-test:
+  stage: test
+  script:
+    - npm run database -- test
+
 
 #
 # /relay
@@ -44,14 +54,12 @@ dashboard-test:
 relay-build:
   stage: build
   script:
-    - cd $CI_PROJECT_DIR/relay
-    - yarn install
+    - npm run relay:setup
 
 relay-test:
   stage: test
   script:
-    - cd $CI_PROJECT_DIR/relay
-    - npm run
+    - npm run relay -- test
 
 #
 # /tag
@@ -59,15 +67,12 @@ relay-test:
 tag-build:
   stage: build
   script:
-    - cd $CI_PROJECT_DIR/tag
-    - yarn install
-    - npm run build
+    - npm run tag:setup
 
 tag-test:
   stage: test
   script:
-    - cd $CI_PROJECT_DIR/tag
-    - npm run test
+    - npm run tag -- test
 
 cache:
   paths:

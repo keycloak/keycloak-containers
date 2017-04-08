@@ -1,0 +1,64 @@
+version: "3"
+services:
+  postgresql:
+    image: postgres:9
+    env_file: .env
+    volumes:
+      # https://docs.docker.com/compose/compose-file/#volumes
+      - ./__volumes/db-data:/var/lib/postgresql/data
+      - ./:/api
+    restart: always
+    networks:
+      - default
+    ports:
+      - "5432:5432"
+
+  postgrest:
+    image: begriffs/postgrest:v0.3.2.0
+    ports:
+      # https://docs.sdocker.com/compose/compose-file/#short-syntax
+      - "3000:3000"
+    # https://postgrest.com/en/v0.4/admin.html?highlight=pool#configuration
+    # and don't forget to:
+    # in __volumes/db-data/pg_ident.conf -> "host    all        authenticator        all         md5" must be present
+    # be sure you are using the right database!
+    command: postgrest postgres://$POSTGRES_AUTHENTICATOR_USER:$POSTGRES_AUTHENTICATOR_PASSWORD@postgresql:5432/$POSTGRES_DB --schema $POSTGRES_DB_SCHEMA --anonymous $POSTGREST_ANONYMOUS --pool $POSTGREST_POOL --jwt-secret $POSTGREST_JWT_SECRET --max-rows $POSTGREST_MAX_ROWS
+    restart: always
+    healthcheck:
+      test: ["CMD", "wget", "http://localhost:3000"]
+      interval: 10s
+      timeout: 1s
+      retries: 3
+    depends_on:
+      - postgresql
+    networks:
+      - default
+  #
+  # postgresql-to-amqp:
+  #   image: fgribreau/postgresql-to-amqp
+  #   depends_on:
+  #     - postgresql
+  #     - rabbitmq
+  #   restart: always
+  #   environment:
+  #     - POSTGRESQL_URI=postgres://postgres:password@postgresql:5432/defaultdb
+  #     - POSTGRESQL_CHANNEL=notify
+  #     - AMQP_HOST_PORT=rabbitmq:5672
+  #     - AMQP_QUEUE_NAME=pg_notify
+  #     - RUST_BACKTRACE=full
+
+  # rabbitmq:
+  #   image: rabbitmq:3-management
+  #   ports:
+  #     # https://docs.sdocker.com/compose/compose-file/#short-syntax
+  #     - "15672:15672"
+  #     - "5672:5672"
+  #   healthcheck:
+  #     test: ["CMD", "wget", "http://localhost:15672"]
+  #     interval: 10s
+  #     timeout: 1s
+  #     retries: 3
+  #   depends_on:
+  #     - postgresql
+  #   networks:
+  #     - default

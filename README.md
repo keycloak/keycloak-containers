@@ -6,8 +6,6 @@ To start it locally see `npm run`.
 
 
 
-
-
 - `clone`
 - `npm install`
 - Ask FG for environment variables and you local app_id
