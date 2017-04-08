@@ -4,7 +4,6 @@
   "private": true,
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "KillBug",
-  "description": "tag",
   "engines": {
     "node": "6"
   },
@@ -20,10 +19,9 @@
   "bin": {},
   "scripts": {
     "build": "webpack",
-    "test": "WEBPACK_COMPRESS=false mocha-webpack --webpack-config webpack.config-test.js $(find src -name '*.test.js')",
-    "test-watch": "WEBPACK_COMPRESS=false mocha-webpack --webpack-config webpack.config-test.js -w $(find src -name '*.test.js')",
-    "postinstall": "npm run build",
-    "build-watch": "WEBPACK_COMPRESS=false CLIENT_ENDPOINT='http://killbug.local' webpack --watch"
+    "build:watch": "webpack --watch",
+    "test": "WEBPACK_COMPRESS=false webpack $(find src -name '*.test.js')",
+    "test-watch": "WEBPACK_COMPRESS=false mocha-webpack --webpack-config webpack.config-test.js -w $(find src -name '*.test.js')"
   },
   "main": "src/client.js",
   "devDependencies": {
@@ -39,6 +37,7 @@
     "conventional-changelog-cli": "^1.2.0",
     "jsdom": "^9.9.1",
     "mocha": "^3.0.1",
+    "mocha-webpack": "^0.7.0",
     "nyc": "^8.1.0",
     "sinon": "^1.17.5",
     "updtr": "^0.2.1",

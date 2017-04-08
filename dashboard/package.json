@@ -4,7 +4,6 @@
   "private": true,
   "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
   "license": "KillBug",
-  "description": "dashboard",
   "engines": {
     "node": "6"
   },
@@ -78,7 +77,5 @@
     "superagent-use": "^0.1.0",
     "ui-router-react": "^0.3.0",
     "ui-router-visualizer": "^2.0.11"
-  },
-  "license": "MIT",
-  "description": ""
+  }
 }

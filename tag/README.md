@@ -1,15 +1,15 @@
-### Kill Bug Today client
+### KillBug tag
 
 
 # Production build
 
 ```shell
-npm run build
+WEBPACK_COMPRESS=true npm run build
 ```
 
 
 # Development build
 
 ```shell
-npm run build-watch
+WEBPACK_COMPRESS=false CLIENT_ENDPOINT=http://killbug.local npm run build:watch
 ```

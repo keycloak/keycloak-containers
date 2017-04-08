@@ -8,7 +8,7 @@ const {plugins} = require('./webpack/config')(webpack);
 module.exports = {
   devtool: 'source-map',
   entry: {
-    client: ['./src/client']
+    client: './src/client.js'
   },
   module: {
     loaders: [
@@ -28,8 +28,8 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: join(__dirname, './build'),
-    publicPath: '/build'
+    // path: join(__dirname, './build'),
+    // publicPath: '/build'
   },
   plugins: plugins,
   resolve: {

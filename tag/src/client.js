@@ -4,7 +4,7 @@ if(typeof killbugtodaySettings !== 'object' || typeof killbugtodaySettings.app_i
   throw new Error('`killbugtodaySettings` must be a global object and contain an `app_id` property with a string value.');
 }
 
-const {wrap, Serializer} = require('../../backend/src/sockets/wrap');
+const {wrap, Serializer} = require('../../relay/src/sockets/wrap');
 const io = require('socket.io-client');
 
 
