@@ -2,17 +2,18 @@
   "name": "killbug-root",
   "private": true,
   "scripts": {
+    "postinstall":"CMDS=`node -p -e 'Object.keys(require(\"./package.json\").scripts).filter(k => k.endsWith(\":setup\")).map(x => \"npm run \" + x).join(\" && \")'` && echo $CMDS && $($CMDS)",
     "ci":"cd ci && npm run --",
     "api":"cd api && npm run",
     "certs":"cd certs && npm run",
     "dashboard":"cd dashboard && npm run",
-    "dashboard:setup":"cd dashboard && yarn install",
+    "dashboard:setup":"cd dashboard && yarn",
     "database":"cd database && npm run",
-    "database:setup":"cd dashboard && yarn install",
+    "database:setup":"cd dashboard && yarn",
     "relay":"cd relay && npm run",
-    "relay:setup":"cd relay && yarn install",
+    "relay:setup":"cd relay && yarn",
     "tag":"cd tag && npm run",
-    "tag:setup":"cd tag && yarn install",
+    "tag:setup":"cd tag && yarn",
     "roi:spent":"HOUR_RATE=20 HOURS_PER_DAYS=3 DAYS=$(git summary | grep active | grep -oEi '[0-9]+') SPENT_EUROS=$(($DAYS*$HOURS_PER_DAYS*$HOUR_RATE)); echo \"${SPENT_EUROS}€ ($DAYS days, ${HOURS_PER_DAYS}h/days, ${HOUR_RATE}€/h)\""
   }
 }
