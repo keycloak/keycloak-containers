@@ -30,7 +30,7 @@ dashboard:build:
   artifacts:
     expire_in: 1 week
     paths:
-    - node_modules
+    - dashboard/node_modules
 
 dashboard:test:
   stage: test
@@ -50,7 +50,7 @@ database:build:
   artifacts:
     expire_in: 1 week
     paths:
-    - node_modules
+    - database/node_modules
 
 database:test:
   stage: test
@@ -70,7 +70,7 @@ relay:build:
   artifacts:
     expire_in: 1 week
     paths:
-    - node_modules
+    - relay/node_modules
 
 relay:test:
   stage: test
@@ -89,7 +89,7 @@ tag:build:
   artifacts:
     expire_in: 1 week
     paths:
-    - node_modules
+    - tag/node_modules
 
 tag:test:
   stage: test
