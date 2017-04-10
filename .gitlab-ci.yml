@@ -23,56 +23,80 @@ stages:
 #
 # /dashboard
 #
-dashboard-build:
+dashboard:build:
   stage: build
   script:
-    - npm run dashboard:setup
+    - npm run dashboard:build
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - node_modules
 
-dashboard-test:
+dashboard:test:
   stage: test
   script:
     - npm run dashboard -- test
+  dependencies:
+    - dashboard:build
 
 #
 # /database
 #
 
-database-build:
+database:build:
   stage: build
   script:
-    - npm run database:setup
+    - npm run database:build
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - node_modules
 
-database-test:
+database:test:
   stage: test
   script:
     - npm run database -- test
+  dependencies:
+    - database:build
 
 
 #
 # /relay
 #
-relay-build:
+relay:build:
   stage: build
   script:
-    - npm run relay:setup
+    - npm run relay:build
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - node_modules
 
-relay-test:
+relay:test:
   stage: test
   script:
     - npm run relay -- test
+  dependencies:
+    - relay:build
 
 #
 # /tag
 #
-tag-build:
+tag:build:
   stage: build
   script:
-    - npm run tag:setup
+    - npm run tag:build
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - node_modules
 
-tag-test:
+tag:test:
   stage: test
   script:
     - npm run tag -- test
+  dependencies:
+    - tag:build
 
 cache:
   paths:
