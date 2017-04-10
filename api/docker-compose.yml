@@ -19,8 +19,6 @@ services:
       # https://docs.sdocker.com/compose/compose-file/#short-syntax
       - "3000:3000"
     # https://postgrest.com/en/v0.4/admin.html?highlight=pool#configuration
-    # and don't forget to:
-    # in __volumes/db-data/pg_ident.conf -> "host    all        authenticator        all         md5" must be present
     # be sure you are using the right database!
     command: postgrest postgres://$POSTGRES_AUTHENTICATOR_USER:$POSTGRES_AUTHENTICATOR_PASSWORD@postgresql:5432/$POSTGRES_DB --schema $POSTGRES_DB_SCHEMA --anonymous $POSTGREST_ANONYMOUS --pool $POSTGREST_POOL --jwt-secret $POSTGREST_JWT_SECRET --max-rows $POSTGREST_MAX_ROWS
     restart: always

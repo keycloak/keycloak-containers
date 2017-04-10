@@ -6,8 +6,6 @@
 -- set client_min_messages to warning;
 set client_min_messages to debug;
 
--- how to log queries https://stackoverflow.com/questions/722221/how-to-log-postgresql-queries
-
 -- two best things EVER (force to make every declaration explicit):
 -- https://twitter.com/FGRibreau/status/850270856299270146
 set search_path = '';

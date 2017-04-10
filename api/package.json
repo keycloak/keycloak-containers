@@ -10,7 +10,7 @@
   "scripts": {
     "postinstall":"npm run --silent test-setup",
     "//": "http://blog.fgribreau.com/2017/04/docker-compose-watch-k-docker-compose.html",
-    "docker:compose:watch": "zsh -c 'source ~/.zshrc && docker-compose-watch'",
+    "docker:compose:watch": "zsh -c 'source ~/.zshrc && npm run --silent postgresql:ensureLogs && docker-compose-watch'",
     "test":"find sql -name '*.test.sql' | sort -r | xargs -I {} npm run --silent psql:exec -- -f /api/{}",
     "test:setup":"DIR=sql/vendor/test && rm -rf $DIR && mkdir -p $DIR && curl --silent https://raw.githubusercontent.com/raitraidma/pgtest/master/pgtest.sql > $DIR/pgtest.testsetup.sql && echo 'CREATE SCHEMA IF NOT EXISTS test;' > $DIR/pgtest_w.testsetup.sql",
     "test:watch":"find sql -name '*.testsetup.sql' | sort -r | xargs -I {} npm run --silent psql:exec -- -f /api/{} && watchexec --clear --watch $(pwd)/sql --kill --restart --filter '*.sql' 'npm run test'",
@@ -19,6 +19,7 @@
     "psql:exec": "source .env && docker exec api_postgresql_1 psql -U postgres $POSTGRES_DB",
     "psql:init": "npm run --silent psql:exec -- -f /api/sql/init.sql",
     "postgrest:restart": "echo \"Restarting PostgREST...\" && docker restart api_postgrest_1",
+    "postgresql:ensureLogs": "LINE=\"log_statement = 'all'\" FILE=__volumes/db-data/postgresql.conf && grep -q -F \"$LINE\" $FILE || echo \"$LINE\" >> $FILE",
     "postgrest:ensureAccess": "LINE='host all authenticator all md5' FILE=__volumes/db-data/pg_ident.conf && grep -q -F \"$LINE\" $FILE || echo \"$LINE\" >> $FILE",
     "psql:init:watch": "watchexec --watch $(pwd) --kill --ignore old --ignore '*.test.sql' --ignore local --restart -e sql 'npm run --silent postgrest:ensureAccess && npm run --silent psql:init && npm run --silent postgrest:restart'"
   }
