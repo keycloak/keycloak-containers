@@ -26,3 +26,6 @@ When starting the Keycloak instance you can pass a number of environment variabl
 
 Specify name of MongoDB database (optional, default is `keycloak`).
 
+### You can alternatively use docker-compose
+
+    docker-compose up -d

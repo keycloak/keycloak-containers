@@ -1,0 +1,12 @@
+mongo:
+    image: mongo:3.0.7
+    volumes:
+        - /spool/mongodb:/data/db
+    environment:
+        - MONGODB_DBNAME=keycloak
+keycloak:
+    image: jboss/keycloak-mongo
+    links:
+        - mongo
+    environment:
+        - MONGODB_DBNAME=keycloak
