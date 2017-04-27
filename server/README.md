@@ -29,6 +29,12 @@ When starting the Keycloak instance you can pass a number an environment variabl
 
     docker run -e KEYCLOAK_LOGLEVEL=DEBUG jboss/keycloak
 
+### Enabling proxy address forwarding
+
+When running Keycloak behind a proxy, you will need to enable proxy address forwarding.
+
+    docker run -e PROXY_ADDRESS_FORWARDING true jboss/keycloak
+
 ## Other details
 
 This image extends the [`jboss/base-jdk`](https://github.com/JBoss-Dockerfiles/base-jdk) image which adds the OpenJDK distribution on top of the [`jboss/base`](https://github.com/JBoss-Dockerfiles/base) image. Please refer to the README.md for selected images for more info.
