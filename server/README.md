@@ -33,7 +33,7 @@ When starting the Keycloak instance you can pass a number an environment variabl
 
 When running Keycloak behind a proxy, you will need to enable proxy address forwarding.
 
-    docker run -e PROXY_ADDRESS_FORWARDING true jboss/keycloak
+    docker run -e PROXY_ADDRESS_FORWARDING=true jboss/keycloak
 
 ## Other details
 
