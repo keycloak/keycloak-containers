@@ -108,7 +108,7 @@ spec:
         app: keycloak
     spec:
       containers:
-        - name: keycoak
+        - name: keycloak
           image: solsson/keycloak-ha-mysql
           ports:
             - name: http
