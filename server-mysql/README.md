@@ -32,4 +32,4 @@ Specify user for MySQL database (optional, default is `keycloak`).
 
 #### MYSQL_PASSWORD
 
-Specify password for MySQL database (optional, default is `keycloak`).
+Specify password for MySQL database (optional, default is `password`).
