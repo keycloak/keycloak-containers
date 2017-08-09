@@ -32,4 +32,4 @@ Specify user for PostgreSQL database (optional, default is `keycloak`).
 
 #### POSTGRES_PASSWORD
 
-Specify password for PostgreSQL database (optional, default is `keycloak`).
+Specify password for PostgreSQL database (optional, default is `password`).
