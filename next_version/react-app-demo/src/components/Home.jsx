@@ -1,0 +1,109 @@
+import React from "react";
+import {connect} from "react-redux";
+import {initChannel, sendCommand} from "../actions/channels";
+
+class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      command: ''
+    };
+  }
+
+  componentWillMount() {
+    this.props.init();
+  }
+
+  onChangeCommand(evt) {
+    this.setState({
+      command: evt.target.value
+    });
+  }
+
+  sendCommand() {
+    this.props.sendCommand(this.state.command);
+    this.setState({
+      command: ''
+    });
+  }
+
+  handleKeyPress(e) {
+    if (e.key === 'Enter') {
+      this.sendCommand();
+    }
+  }
+
+  render() {
+    const kc = this.props.kc;
+    const channel = this.props.channel;
+
+    let channelMessage = 'Nothing';
+    if (channel.initializing)
+      channelMessage = 'Initializing...';
+    else if (channel.connected)
+      channelMessage = 'Connected.';
+    else if (channel.error)
+      channelMessage = 'Connection error.';
+
+    const dataReceived = channel.data.map(function(e, i) {
+      return (<p key={i}>{e}</p>);
+    });
+
+    return (
+      <div>
+        <div className="row">
+          <h1>Killbug auth testing</h1>
+          <p>
+            Logged as {kc.tokenParsed.preferred_username}&nbsp;
+            <button className="btn btn-success btn-sm" onClick={kc.logout}>Logout</button>
+          </p>
+          <hr/>
+        </div>
+        <div className="row">
+          <p>Channel status: {channelMessage}</p>
+          { channel.connected ? (
+            <div>
+              <input type="text" onKeyPress={evt => this.handleKeyPress(evt)} value={this.state.command} onChange={evt => this.onChangeCommand(evt)} />
+              <button onClick={evt => this.sendCommand()}>Send</button>
+            </div>
+          ):
+            (<div></div>)
+          }
+        </div>
+        <div>
+          {dataReceived}
+        </div>
+      </div>
+    );
+  }
+}
+
+Home.defaultProps = {
+  channel: {
+    initializing: false,
+    connected: false,
+    error: false,
+    channel: null,
+    data: []
+  }
+};
+
+const mapStateToProps = state => {
+  return {
+    kc: state.keycloak,
+    channel: state.channel
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    init: () => {
+      dispatch(initChannel());
+    },
+    sendCommand: (cmd) => {
+      dispatch(sendCommand(cmd));
+    }
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
