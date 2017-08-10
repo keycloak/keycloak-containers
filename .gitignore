@@ -4,3 +4,5 @@ flow-typed
 frontendOLD
 marketing
 design
+node_modules
+npm-debug.log

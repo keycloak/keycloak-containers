@@ -1,0 +1,33 @@
+version: '2'
+services:
+  #web:
+  #  build: ./nginx-nchan
+  #  ports:
+  #   - "80:80"
+  #   - "443:443"
+  #  links:
+  #    - keycloak
+
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_DATABASE=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_ROOT_PASSWORD=root_password
+
+  keycloak:
+    image: jboss/keycloak-postgres
+    environment:
+      - POSTGRES_DATABASE=keycloak
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=password
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - PROXY_ADDRESS_FORWARDING=true
+      - POSTGRES_PORT_5432_TCP_ADDR=postgres
+      - POSTGRES_PORT_5432_TCP_PORT=5432
+    ports:
+     - "8080:8080"
+    links:
+      - postgres

@@ -36,6 +36,7 @@
     "conventional-changelog": "^1.1.0",
     "conventional-changelog-cli": "^1.2.0",
     "jsdom": "^9.9.1",
+    "json-loader": "^0.5.7",
     "mocha": "^3.0.1",
     "mocha-webpack": "^0.7.0",
     "nyc": "^8.1.0",
@@ -50,6 +51,7 @@
     "lodash.keys": "^4.2.0",
     "lodash.throttle": "^4.1.1",
     "raven-js": "^3.9.1",
-    "socket.io-client": "^1.7.2"
+    "socket.io-client": "^1.7.2",
+    "websocket": "^1.0.24"
   }
 }
