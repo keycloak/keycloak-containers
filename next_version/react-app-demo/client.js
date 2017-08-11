@@ -45,59 +45,75 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
+	
 	if ((typeof killbugtodaySettings === 'undefined' ? 'undefined' : _typeof(killbugtodaySettings)) !== 'object' || typeof killbugtodaySettings.app_id !== 'string') {
 	  throw new Error('`killbugtodaySettings` must be a global object and contain an `app_id` property with a string value.');
 	}
-
+	
 	//const {wrap, Serializer} = require('../../relay/src/sockets/wrap');
 	//const io = require('socket.io-client');
-
+	
 	var WS = __webpack_require__(1).w3cwebsocket;
-
+	
 	// Note: No auth on tag (cannot authenticate users from our clients)
 	// 2nd note: route not definitive
-	var client = new WS('ws://' + ("localhost:80") + '/pubsub/' + killbugtodaySettings.app_id); // from Nchan we can extract this route param with $1
-
+	var client = new WS('ws://' + ("localhost:80") + '/channel/command/sub/' + killbugtodaySettings.app_id);
+	var resultChannel = new WS('ws://' + ("localhost:80") + '/channel/result/pub/' + killbugtodaySettings.app_id);
+	
 	//const socket = io(process.env.ENDPOINT+'/client', {});
-
+	
 	client.onerror = function () {
-	  console.log('Connection Error');
+	  console.log('Command sub channel Connection Error');
 	};
-
+	
 	client.onopen = function () {
 	  //To send msg => client.send(msg)
-
-	  console.log('WebSocket Client Connected');
+	
+	  console.log('Command sub channel  Connected');
 	};
-
+	
 	client.onclose = function () {
-	  console.log('WebSocket Client Closed');
+	  console.log('Command sub channel  Closed');
 	};
-
+	
 	client.onmessage = function (e) {
-	  // @todo Check type message (execute, etc.)
-
-	  f = wrap(f);
+	  console.log('Command sub channel Received command', e);
+	
+	  var result = eval(e.data);
+	  resultChannel.send(JSON.stringify(result));
+	
+	  /*f = wrap(f);
 	  try {
-	    var res = eval(cmd);
+	    const res = eval(cmd);
 	    // console.log(cmd, " => (",typeof res, ") ", Serializer.toPrimitive(res));
 	    // console.debug(Serializer.toPrimitive(res));
 	    f(null, res);
 	  } catch (err) {
 	    console.error('GOT ERROR', err);
 	    f(err);
-	  }
+	  }*/
 	};
-
+	
+	resultChannel.onerror = function () {
+	  console.log('Result pub channel Connection Error');
+	};
+	
+	resultChannel.onopen = function () {
+	  console.log('Result pub channel  Connected');
+	};
+	
+	resultChannel.onclose = function () {
+	  console.log('Result pub channel  Closed');
+	};
+	
 	// Plugins
 	//const Errors = require('./plugins/Errors/Errors')(socket);
 	//require('./plugins/DOM')(socket);
-
+	
 	// @todo ensure APP_ID & USER_IDENTITY (string) & CUSTOM_DATA (optional) are defined
-
+	
 	// @todo send at authentication level
 	/*
 	socket.on('handshake', function(f) {
@@ -107,7 +123,7 @@
 	  });
 	});
 	*/
-
+	
 	/*
 	socket.on('forwarding', () => {
 	  // console.log('forwarding');
@@ -141,21 +157,21 @@
 	var _global = (function() { return this; })();
 	var NativeWebSocket = _global.WebSocket || _global.MozWebSocket;
 	var websocket_version = __webpack_require__(2);
-
-
+	
+	
 	/**
 	 * Expose a W3C WebSocket class with just one or two arguments.
 	 */
 	function W3CWebSocket(uri, protocols) {
 		var native_instance;
-
+	
 		if (protocols) {
 			native_instance = new NativeWebSocket(uri, protocols);
 		}
 		else {
 			native_instance = new NativeWebSocket(uri);
 		}
-
+	
 		/**
 		 * 'native_instance' is an instance of nativeWebSocket (the browser's WebSocket
 		 * class). Since it is an Object it will be returned as it is when creating an
@@ -165,8 +181,8 @@
 		 */
 		return native_instance;
 	}
-
-
+	
+	
 	/**
 	 * Module exports.
 	 */

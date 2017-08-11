@@ -1,44 +1,33 @@
 import * as types from "../actions/types";
 
 const defaultState = {
-  initializing: false,
-  connected: false,
-  error: false,
-  channel: null,
-  data: []
+  commandChannel: null,
+  resultChannel: null,
+  results: []
 }
 
 const channelsReducer = (state = defaultState, action) => {
   switch (action.type) {
     case types.INIT_CHANNEL:
       return Object.assign({}, state, {
-        initializing: true,
-        channel: action.channel
+        commandChannel: action.payload.commandChannel,
+        resultChannel: action.payload.resultChannel
       });
 
     case types.CHANNEL_SUCCESS:
       return Object.assign({}, state, {
-        initializing: false,
-        connected: true
+
       });
 
     case types.CHANNEL_CLOSED:
-      return Object.assign({}, state, {
-        initializing: false,
-        connected: false,
-        error: true,
-      });
+      return Object.assign({}, state, {});
 
     case types.CHANNEL_ERROR:
-      return Object.assign({}, state, {
-        initializing: false,
-        connected: false,
-        error: true,
-      });
+      return Object.assign({}, state, {});
 
-    case types.RECEIVED_DATA:
+    case types.RECEIVED_RESULT:
       return Object.assign({}, state, {
-        data: [...state.data, action.data]
+        results: [...state.results, action.result]
       });
 
     default:

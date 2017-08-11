@@ -7,9 +7,10 @@ const WS = require('websocket').w3cwebsocket;
 export function initChannel() {
   return (dispatch, getState) => {
     var appId = 'app_1245'
-    var channel = new WS('ws://localhost:80/auth-pubsub/' + appId + '?access_token=' + getState().keycloak.token);
+    var commandChannel = new WS('ws://localhost:80/channel/command/pub/' + appId + '?access_token=' + getState().keycloak.token);
+    var resultChannel = new WS('ws://localhost:80/channel/result/sub/' + appId + '?access_token=' + getState().keycloak.token);
 
-    channel.onerror = function() {
+    commandChannel.onerror = function() {
       console.log('Connection Error');
 
       dispatch({
@@ -17,39 +18,43 @@ export function initChannel() {
       });
     };
 
-    channel.onopen = function() {
+    commandChannel.onopen = function() {
       console.log('WebSocket Client Connected');
       dispatch({
         type: types.CHANNEL_SUCCESS
       });
     };
 
-    channel.onclose = function() {
+    commandChannel.onclose = function() {
       console.log('WebSocket Client Closed');
       dispatch({
         type: types.CHANNEL_CLOSED
       });
     };
 
-    channel.onmessage = function(e) {
-      console.log('got:', e);
+    commandChannel.onmessage = function(e) {
+      //console.log('Command channel received:', e);
+    }
+
+    resultChannel.onmessage = function(e) {
+      console.log('Result channel received:', e);
 
       dispatch({
-        type: types.RECEIVED_DATA,
-        data: e.data
+        type: types.RECEIVED_RESULT,
+        result: e.data
       });
     }
 
     dispatch({
       type: types.INIT_CHANNEL,
-      channel: channel
+      payload: {commandChannel: commandChannel, resultChannel: resultChannel}
     });
   }
 }
 
 export function sendCommand(command) {
   return (dispatch, getState) => {
-    getState().channel.channel.send(command);
+    getState().channels.commandChannel.send(command);
 
     dispatch({
       type: types.SEND_COMMAND,

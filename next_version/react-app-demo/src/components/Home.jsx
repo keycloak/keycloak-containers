@@ -35,24 +35,26 @@ class Home extends React.Component {
 
   render() {
     const kc = this.props.kc;
-    const channel = this.props.channel;
+    const commandChannel = this.props.channels.commandChannel;
 
     let channelMessage = 'Nothing';
-    if (channel.initializing)
-      channelMessage = 'Initializing...';
-    else if (channel.connected)
+    if (commandChannel == null)
+      {}
+    else if (commandChannel.readyState == 0)
+      channelMessage = 'Not connected';
+    else if (commandChannel.readyState == 1)
       channelMessage = 'Connected.';
-    else if (channel.error)
+    else if (commandChannel.readyState == 3)
       channelMessage = 'Connection error.';
 
-    const dataReceived = channel.data.map(function(e, i) {
+    const dataReceived = this.props.channels.results.map(function(e, i) {
       return (<p key={i}>{e}</p>);
     });
 
     return (
       <div>
         <div className="row">
-          <h1>Killbug auth testing</h1>
+          <h2>Identity</h2>
           <p>
             Logged as {kc.tokenParsed.preferred_username}&nbsp;
             <button className="btn btn-success btn-sm" onClick={kc.logout}>Logout</button>
@@ -60,8 +62,9 @@ class Home extends React.Component {
           <hr/>
         </div>
         <div className="row">
+          <h2>Send command</h2>
           <p>Channel status: {channelMessage}</p>
-          { channel.connected ? (
+          { commandChannel != null && commandChannel.readyState == 1 ? (
             <div>
               <input type="text" onKeyPress={evt => this.handleKeyPress(evt)} value={this.state.command} onChange={evt => this.onChangeCommand(evt)} />
               <button onClick={evt => this.sendCommand()}>Send</button>
@@ -70,6 +73,7 @@ class Home extends React.Component {
             (<div></div>)
           }
         </div>
+        <h2>Commands results</h2>
         <div>
           {dataReceived}
         </div>
@@ -79,19 +83,13 @@ class Home extends React.Component {
 }
 
 Home.defaultProps = {
-  channel: {
-    initializing: false,
-    connected: false,
-    error: false,
-    channel: null,
-    data: []
-  }
+
 };
 
 const mapStateToProps = state => {
   return {
     kc: state.keycloak,
-    channel: state.channel
+    channels: state.channels
   }
 };
 

@@ -1,11 +1,11 @@
 import {combineReducers} from "redux";
 import {routerReducer} from "react-router-redux";
-import channel from "./channels"
+import channels from "./channels"
 import keycloak from "./keycloak";
 
 const state = combineReducers({
   routing: routerReducer,
-  channel,
+  channels,
   keycloak
 });
 

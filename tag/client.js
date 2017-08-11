@@ -59,37 +59,53 @@
 	
 	// Note: No auth on tag (cannot authenticate users from our clients)
 	// 2nd note: route not definitive
-	var client = new WS('ws://' + ("localhost:80") + '/pubsub/' + killbugtodaySettings.app_id); // from Nchan we can extract this route param with $1
+	var client = new WS('ws://' + ("localhost:80") + '/channel/command/sub/' + killbugtodaySettings.app_id);
+	var resultChannel = new WS('ws://' + ("localhost:80") + '/channel/result/pub/' + killbugtodaySettings.app_id);
 	
 	//const socket = io(process.env.ENDPOINT+'/client', {});
 	
 	client.onerror = function () {
-	  console.log('Connection Error');
+	  console.log('Command sub channel Connection Error');
 	};
 	
 	client.onopen = function () {
 	  //To send msg => client.send(msg)
 	
-	  console.log('WebSocket Client Connected');
+	  console.log('Command sub channel  Connected');
 	};
 	
 	client.onclose = function () {
-	  console.log('WebSocket Client Closed');
+	  console.log('Command sub channel  Closed');
 	};
 	
 	client.onmessage = function (e) {
-	  // @todo Check type message (execute, etc.)
+	  console.log('Command sub channel Received command', e);
 	
-	  f = wrap(f);
+	  var result = eval(e.data);
+	  resultChannel.send(JSON.stringify(result));
+	
+	  /*f = wrap(f);
 	  try {
-	    var res = eval(cmd);
+	    const res = eval(cmd);
 	    // console.log(cmd, " => (",typeof res, ") ", Serializer.toPrimitive(res));
 	    // console.debug(Serializer.toPrimitive(res));
 	    f(null, res);
 	  } catch (err) {
 	    console.error('GOT ERROR', err);
 	    f(err);
-	  }
+	  }*/
+	};
+	
+	resultChannel.onerror = function () {
+	  console.log('Result pub channel Connection Error');
+	};
+	
+	resultChannel.onopen = function () {
+	  console.log('Result pub channel  Connected');
+	};
+	
+	resultChannel.onclose = function () {
+	  console.log('Result pub channel  Closed');
 	};
 	
 	// Plugins
