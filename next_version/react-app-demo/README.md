@@ -1,3 +1,3 @@
-# Keycloak React.JS Demo
+# Keycloak React.JS Nchan Demo
 
-Demo for React.JS and Keycloak SSO integration.
+Demo for React.JS, Keycloak & Nchan integration.

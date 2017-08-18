@@ -6,7 +6,7 @@
     "webpack": "./node_modules/.bin/webpack",
     "watch": "./node_modules/.bin/webpack-dev-server --inline --hot"
   },
-  "author": "Niko Köbler <niko@n-k.de> (http://www.n-k.de)",
+  "author": "",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.16.0",
