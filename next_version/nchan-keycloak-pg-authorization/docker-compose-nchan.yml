@@ -1,6 +1,6 @@
 version: '2'
 services:
-  web:
+  nginx:
     build: ./nginx-nchan
     ports:
      - "80:80"
