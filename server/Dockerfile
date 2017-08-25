@@ -18,6 +18,18 @@ ADD docker-entrypoint.sh /opt/jboss/
 ADD setLogLevel.xsl /opt/jboss/keycloak/
 RUN java -jar /usr/share/java/saxon.jar -s:/opt/jboss/keycloak/standalone/configuration/standalone.xml -xsl:/opt/jboss/keycloak/setLogLevel.xsl -o:/opt/jboss/keycloak/standalone/configuration/standalone.xml
 
+ADD databases/postgres/changeDatabase.xsl /opt/jboss/keycloak/databases/postgres/
+ADD databases/postgres/changeDatabase.sh /opt/jboss/keycloak/databases/postgres/
+ADD databases/postgres/module.xml /opt/jboss/keycloak/databases/postgres/
+ADD databases/mysql/changeDatabase.xsl /opt/jboss/keycloak/databases/mysql/
+ADD databases/mysql/changeDatabase.sh /opt/jboss/keycloak/databases/mysql/
+ADD databases/mysql/module.xml /opt/jboss/keycloak/databases/mysql/
+
+ENV POSTGRES_JDBC_VERSION 42.1.4
+
+RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main; cd /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main && curl -O http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.18/mysql-connector-java-5.1.18.jar
+RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main; cd /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main; curl -L http://central.maven.org/maven2/org/postgresql/postgresql/$POSTGRES_JDBC_VERSION/postgresql-$POSTGRES_JDBC_VERSION.jar > postgres-jdbc.jar
+
 ENV JBOSS_HOME /opt/jboss/keycloak
 
 #Enabling Proxy address forwarding so we can correctly handle SSL termination in front ends
