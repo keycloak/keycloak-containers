@@ -1,2 +1,0 @@
-DOM mirroring & distant control
-===============================

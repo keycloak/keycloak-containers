@@ -1,1 +1,0 @@
--- view declared in the private schema MUST STAY PRIVATE

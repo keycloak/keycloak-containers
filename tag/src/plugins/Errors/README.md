@@ -1,5 +1,0 @@
-- XMLHttpRequests
-- URL / address bar changes
-- UI clicks and keypress DOM events
-- console log statements
-- previous errors OK
