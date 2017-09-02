@@ -1,5 +1,21 @@
-version: '2'
+version: '3.3'
 services:
+  nginx:
+    image: meroje/alpine-nchan:latest
+    volumes:
+      - type: bind
+        source: ../docker/nginx-nchan/nginx.conf
+        target: /etc/nginx/nginx.conf
+      - type: bind
+        source: ../docker/nginx-nchan/nginx.vh.default.conf
+        target: /etc/nginx/nginx.vh.default.conf
+    ports:
+     - "80:80"
+     - "443:443"
+    network_mode: "host"
+    depends_on:
+     - keycloak
+
   #web:
   #  build: ./nginx-nchan
   #  ports:
@@ -15,6 +31,12 @@ services:
       - POSTGRES_USER=keycloak
       - POSTGRES_PASSWORD=password
       - POSTGRES_ROOT_PASSWORD=root_password
+    ports:
+     - "5432:5432"
+    volumes:
+      - type: bind
+        source: ./postgres_data
+        target: /var/lib/postgresql/data
 
   keycloak:
     image: jboss/keycloak-postgres
@@ -31,3 +53,5 @@ services:
      - "8080:8080"
     links:
       - postgres
+    depends_on:
+     - postgres

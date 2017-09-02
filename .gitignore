@@ -6,3 +6,4 @@ marketing
 design
 node_modules
 npm-debug.log
+deploy/docker-compose/postgres_data
