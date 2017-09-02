@@ -8,7 +8,7 @@ Extends the Keycloak docker image to use PostgreSQL
 
 First start a PostgreSQL instance using the PostgreSQL docker image:
 
-    docker run --name postgres -e POSTGRES_DATABASE=keycloak -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password -e POSTGRES_ROOT_PASSWORD=root_password -d postgres
+    docker run --name postgres -e POSTGRES_DATABASE=keycloak -e POSTGRES_SCHEMA=auth -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password -e POSTGRES_ROOT_PASSWORD=root_password -d postgres
 
 ### Start a Keycloak instance
 
@@ -20,11 +20,15 @@ Start a Keycloak instance and connect to the PostgreSQL instance:
 
 When starting the Keycloak instance you can pass a number of environment variables to configure how it connects to PostgreSQL. For example:
 
-    docker run --name keycloak --link postgres:postgres -e POSTGRES_DATABASE=keycloak -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password jboss/keycloak-postgres
+    docker run --name keycloak --link postgres:postgres -e POSTGRES_DATABASE=keycloak -e POSTGRES_SCHEMA=auth -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password jboss/keycloak-postgres
 
 #### POSTGRES_DATABASE
 
 Specify name of PostgreSQL database (optional, default is `keycloak`).
+
+#### POSTGRES_SCHEMA
+
+Specify name of PostgreSQL schema (optional, default is `public`).
 
 #### POSTGRES_USER
 
