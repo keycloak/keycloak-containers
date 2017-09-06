@@ -10,5 +10,5 @@ RUN rm /opt/jboss/keycloak/changeDatabase.xsl
 
 RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main && \
   cd /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main && \
-  curl -O http://central.maven.org/maven2/org/postgresql/postgresql/$POSTGRES_JDBC_VERSION/postgresql-$POSTGRES_JDBC_VERSION.jar > postgres-jdbc.jar
+  curl -L http://central.maven.org/maven2/org/postgresql/postgresql/$POSTGRES_JDBC_VERSION/postgresql-$POSTGRES_JDBC_VERSION.jar > postgres-jdbc.jar
 ADD module.xml /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main/
