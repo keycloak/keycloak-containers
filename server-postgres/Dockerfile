@@ -1,4 +1,4 @@
-FROM jboss/keycloak:latest
+FROM jboss/keycloak:3.3.0.CR2
 
 ENV POSTGRES_JDBC_VERSION 42.1.4
 
