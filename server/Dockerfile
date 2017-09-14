@@ -23,7 +23,7 @@ ENV JBOSS_HOME /opt/jboss/keycloak
 
 #Enabling Proxy address forwarding so we can correctly handle SSL termination in front ends
 #such as an OpenShift Router or Apache Proxy
-RUN sed -i -e 's/<http-listener /& proxy-address-forwarding="${env.PROXY_ADDRESS_FORWARDING}" /' $JBOSS_HOME/standalone/configuration/standalone-ha.xml
+RUN sed -i -e 's/<http-listener /& proxy-address-forwarding="${env.PROXY_ADDRESS_FORWARDING}" /' $JBOSS_HOME/standalone/configuration/standalone.xml
 
 EXPOSE 8080
 
