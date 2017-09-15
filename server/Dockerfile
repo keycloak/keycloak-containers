@@ -15,20 +15,19 @@ RUN cd /opt/jboss/ && curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VER
 
 ADD docker-entrypoint.sh /opt/jboss/
 
-ADD enable-logging.txt /opt/jboss/keycloak
+ADD server-configuration.txt /opt/jboss/keycloak
 
-RUN /opt/jboss/keycloak/bin/jboss-cli.sh --file=/opt/jboss/keycloak/enable-logging.txt; \
-    sed -i -e 's/standalone/standalone-ha/' /opt/jboss/keycloak/enable-logging.txt; \
-    /opt/jboss/keycloak/bin/jboss-cli.sh --file=/opt/jboss/keycloak/enable-logging.txt;
+RUN /opt/jboss/keycloak/bin/jboss-cli.sh --file=/opt/jboss/keycloak/server-configuration.txt; \
+    sed -i -e 's/standalone/standalone-ha/' /opt/jboss/keycloak/server-configuration.txt; \
+    /opt/jboss/keycloak/bin/jboss-cli.sh --file=/opt/jboss/keycloak/server-configuration.txt;
 
 RUN rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history/current/*; \
-    rm -rf /opt/jboss/keycloak/enable-logging.txt
+    rm -rf /opt/jboss/keycloak/server-configuration.txt
 
 ENV JBOSS_HOME /opt/jboss/keycloak
 
 #Enabling Proxy address forwarding so we can correctly handle SSL termination in front ends
 #such as an OpenShift Router or Apache Proxy
-RUN sed -i -e 's/<http-listener /& proxy-address-forwarding="${env.PROXY_ADDRESS_FORWARDING}" /' $JBOSS_HOME/standalone/configuration/standalone.xml
 
 EXPOSE 8080
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-KEYCLOAK_VERSION=${1:-3.3.0.CR2}
+SECTION=${1:-}
+KEYCLOAK_VERSION=${2:-3.3.0.CR2}
 GIT_SHA=$(git log -n1 | head -n1 | cut -c8-16)
 
 wget --timestamping https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/keycloak-$KEYCLOAK_VERSION.tar.gz
@@ -9,7 +10,7 @@ tar xvf keycloak-$KEYCLOAK_VERSION.tar.gz --strip=3 \
     keycloak-$KEYCLOAK_VERSION/standalone/configuration/standalone-ha.xml \
     keycloak-$KEYCLOAK_VERSION/standalone/configuration/standalone.xml
 
-cd server
+cd server$SECTION
 
 docker build -t jboss/keycloak:$GIT_SHA .
 
@@ -28,8 +29,9 @@ docker run --rm --interactive --tty --entrypoint=/usr/bin/cat \
 cd ..
 
 echo "Comparing jboss/keycloak - standalone.xml"
-diff -u -b standalone.xml /tmp/standalone.xml
+diff -u -w --strip-trailing-cr standalone.xml /tmp/standalone.xml
 
 echo "Comparing jboss/keycloak - standalone-ha.xml"
-diff -u -b standalone-ha.xml /tmp/standalone-ha.xml
+diff -u -w --strip-trailing-cr standalone-ha.xml /tmp/standalone-ha.xml
+echo $SECTION
 
