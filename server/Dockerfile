@@ -16,8 +16,13 @@ RUN cd /opt/jboss/ && curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VER
 ADD docker-entrypoint.sh /opt/jboss/
 
 ADD enable-logging.txt /opt/jboss/keycloak
-RUN /opt/jboss/keycloak/bin/jboss-cli.sh --file=/opt/jboss/keycloak/enable-logging.txt
-RUN rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history/current/*
+
+RUN /opt/jboss/keycloak/bin/jboss-cli.sh --file=/opt/jboss/keycloak/enable-logging.txt; \
+    sed -i -e 's/standalone/standalone-ha/' /opt/jboss/keycloak/enable-logging.txt; \
+    /opt/jboss/keycloak/bin/jboss-cli.sh --file=/opt/jboss/keycloak/enable-logging.txt;
+
+RUN rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history/current/*; \
+    rm -rf /opt/jboss/keycloak/enable-logging.txt
 
 ENV JBOSS_HOME /opt/jboss/keycloak
 

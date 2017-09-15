@@ -1,3 +1,4 @@
 embed-server --server-config=standalone.xml --std-out=echo
 /subsystem=logging/logger=org.keycloack:add
 /subsystem=logging/logger=org.keycloack:write-attribute(name=level,value=${env.KEYCLOAK_LOGLEVEL:INFO})
+stop-embedded-server
