@@ -4,7 +4,11 @@ ENV KEYCLOAK_VERSION 3.3.0.CR2
 # Enables signals getting passed from startup script to JVM
 # ensuring clean shutdown when container is stopped.
 ENV LAUNCH_JBOSS_IN_BACKGROUND 1
+
+#Enabling Proxy address forwarding so we can correctly handle SSL termination in front ends
+#such as an OpenShift Router or Apache Proxy
 ENV PROXY_ADDRESS_FORWARDING false
+
 USER root
 
 RUN yum install -y epel-release && yum install -y jq && yum clean all
@@ -25,9 +29,6 @@ RUN rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history/c
     rm -rf /opt/jboss/keycloak/server-configuration.txt
 
 ENV JBOSS_HOME /opt/jboss/keycloak
-
-#Enabling Proxy address forwarding so we can correctly handle SSL termination in front ends
-#such as an OpenShift Router or Apache Proxy
 
 EXPOSE 8080
 
