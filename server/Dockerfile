@@ -23,9 +23,8 @@ ADD server-configuration.txt /opt/jboss/keycloak
 
 RUN /opt/jboss/keycloak/bin/jboss-cli.sh --file=/opt/jboss/keycloak/server-configuration.txt; \
     sed -i -e 's/standalone/standalone-ha/' /opt/jboss/keycloak/server-configuration.txt; \
-    /opt/jboss/keycloak/bin/jboss-cli.sh --file=/opt/jboss/keycloak/server-configuration.txt;
-
-RUN rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history/current/*; \
+    /opt/jboss/keycloak/bin/jboss-cli.sh --file=/opt/jboss/keycloak/server-configuration.txt; \
+	rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history/current/*; \
     rm -rf /opt/jboss/keycloak/server-configuration.txt
 
 ENV JBOSS_HOME /opt/jboss/keycloak
