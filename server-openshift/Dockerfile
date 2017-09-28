@@ -4,8 +4,6 @@ USER root
 
 ADD openshift-entrypoint.sh /usr/bin/
 ADD start-keycloak.sh /usr/bin/
-ADD start-keycloak-with-mysql.sh /usr/bin/
-ADD start-keycloak-with-postgres.sh /usr/bin/
 
 #Give correct permissions when used in an OpenShift environment.
 RUN chown -R jboss:0 $JBOSS_HOME/standalone && \
