@@ -1,3 +1,3 @@
-FROM jboss/keycloak:latest
+FROM jboss/keycloak:3.3.0.CR2-2
 
 ENV DB_VENDOR MYSQL
