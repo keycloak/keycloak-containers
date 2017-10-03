@@ -20,7 +20,7 @@ fi
 
 if [ "$databaseToInstall" != "" ]; then
     echo "[KEYCLOAK DOCKER IMAGE] Using the external $databaseToInstall database"
-    /bin/sh /opt/jboss/keycloak/databases/$databaseToInstall/changeDatabase.sh
+    /bin/sh /opt/jboss/keycloak/bin/change-database.sh $databaseToInstall
 else
     echo "[KEYCLOAK DOCKER IMAGE] Using the embedded H2 database"
 fi

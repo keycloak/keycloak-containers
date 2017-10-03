@@ -15,27 +15,25 @@ RUN cd /opt/jboss/ && curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VER
 
 ADD docker-entrypoint.sh /opt/jboss/
 
-ADD setLogLevel.xsl /opt/jboss/keycloak/
-RUN java -jar /usr/share/java/saxon.jar -s:/opt/jboss/keycloak/standalone/configuration/standalone.xml -xsl:/opt/jboss/keycloak/setLogLevel.xsl -o:/opt/jboss/keycloak/standalone/configuration/standalone.xml
-
-ADD databases/postgres/changeDatabase.xsl /opt/jboss/keycloak/databases/postgres/
-ADD databases/postgres/changeDatabase.sh /opt/jboss/keycloak/databases/postgres/
-ADD databases/postgres/module.xml /opt/jboss/keycloak/databases/postgres/
-ADD databases/mysql/changeDatabase.xsl /opt/jboss/keycloak/databases/mysql/
-ADD databases/mysql/changeDatabase.sh /opt/jboss/keycloak/databases/mysql/
-ADD databases/mysql/module.xml /opt/jboss/keycloak/databases/mysql/
+ADD cli /opt/jboss/keycloak/cli
+RUN cd /opt/jboss/keycloak && bin/jboss-cli.sh --file=cli/standalone-configuration.cli && rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
+RUN cd /opt/jboss/keycloak && bin/jboss-cli.sh --file=cli/standalone-ha-configuration.cli && rm -rf /opt/jboss/keycloak/standalone-ha/configuration/standalone_xml_history
 
 ENV JDBC_POSTGRES_VERSION 42.1.4
 ENV JDBC_MYSQL_VERSION 5.1.18
 
+ADD databases/change-database.sh /opt/jboss/keycloak/bin/change-database.sh
+
 RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main; cd /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main && curl -O http://central.maven.org/maven2/mysql/mysql-connector-java/$JDBC_MYSQL_VERSION/mysql-connector-java-$JDBC_MYSQL_VERSION.jar
+ADD databases/mysql/module.xml /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main/module.xml
+
 RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main; cd /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main; curl -L http://central.maven.org/maven2/org/postgresql/postgresql/$JDBC_POSTGRES_VERSION/postgresql-$JDBC_POSTGRES_VERSION.jar > postgres-jdbc.jar
+ADD databases/postgres/module.xml /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main
+
+RUN rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
+RUN rm -rf /opt/jboss/keycloak/standalone_ha/configuration/standalone_xml_history
 
 ENV JBOSS_HOME /opt/jboss/keycloak
-
-#Enabling Proxy address forwarding so we can correctly handle SSL termination in front ends
-#such as an OpenShift Router or Apache Proxy
-RUN sed -i -e 's/<http-listener /& proxy-address-forwarding="${env.PROXY_ADDRESS_FORWARDING}" /' $JBOSS_HOME/standalone/configuration/standalone.xml
 
 EXPOSE 8080
 
