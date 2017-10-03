@@ -4,7 +4,6 @@ if [ $KEYCLOAK_USER ] && [ $KEYCLOAK_PASSWORD ]; then
     keycloak/bin/add-user-keycloak.sh --user $KEYCLOAK_USER --password $KEYCLOAK_PASSWORD
 fi
 
-
 if [ "$DB_VENDOR" == "POSTGRES" ]; then
   databaseToInstall="postgres"
 elif [ "$DB_VENDOR" == "MYSQL" ]; then
@@ -12,9 +11,9 @@ elif [ "$DB_VENDOR" == "MYSQL" ]; then
 elif [ "$DB_VENDOR" == "H2" ]; then
   databaseToInstall=""
 else
-    if [ $POSTGRES_DATABASE ]; then
-        databaseToInstall="postgres"
-    elif [ $MYSQL_DATABASE ]; then
+    if (printenv | grep '^POSTGRES_' &>/dev/null); then
+      databaseToInstall="postgres"
+    elif (printenv | grep '^MYSQL_' &>/dev/null); then
       databaseToInstall="mysql"
     fi
 fi
