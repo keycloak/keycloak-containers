@@ -43,7 +43,7 @@ The available environment variables and parameters are the same as for the `jbos
 
 ### Use with an external MySql database
 
-    docker run --name keycloak --link mysql:mysql -e MYSQL_DATABASE=keycloak -e MYSQL_USERNAME=keycloak -e MYSQL_PASSWORD=password jboss/keycloak-openshift start-keycloak.sh
+    docker run --name keycloak --link mysql:mysql -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password jboss/keycloak-openshift start-keycloak.sh
 
 As soon as the `MYSQL_DATABASE` environment variable is detected, the external Mysql database is used.
 
