@@ -1,0 +1,178 @@
+# In kubernetes, keycloak-ha-mysql has two advantages over keycloak-ha-postgres:
+#  - MySQL is easy to cluster, thanks to Galera. See for example https://github.com/Yolean/kubernetes-mysql-cluster
+#  - JDBC_PING works out of the box with MySQL, contrary to Postgres.
+
+# The default JGroups configuration uses MPING which will work in Minikube,
+# but not in typical multi-node clusters such as GKE
+
+# KUBE_PING (http://jgroups.org/manual4/index.html#_kube_ping, https://github.com/jgroups-extras/jgroups-kubernetes/)
+# is an alternative, but the jars are not bundled by default and the configuration is complex.
+# JDBC is appropriate because Keycloak has a datasource already.
+
+# To try this example setup, use for example https://github.com/kubernetes/minikube, and start with:
+# kubectl apply -f ./
+
+# Caveat: Keycloak may start but without jgroups (so you don't actually have a cluster even if there's three nodes)
+# Logs will say "Error reading table: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'keycloak.JGROUPSPING' doesn't exist"
+# That's because JGroups tried to create the table before the database was initialized, and it won't retry.
+# The solution is to kill one of the keycloak pods, with commands like:
+# kubectl scale --replicas=2 deployment/keycloak
+# kubectl scale --replicas=3 deployment/keycloak
+
+# Generic caveat with Keycloak HA: Authentication will respond even as JGroups fails.
+# Inspect the logs to see that you get "rebalance for cache" and "new cluster view" at node changes.
+
+# The port declarations for the keycloak container need review. They were picked from standalone-ha.xml.
+
+# Log warnings:
+
+# WARN  [org.jgroups.protocols.TCP] (TransferQueueBundler,ee,kc-680399654-aekgt) JGRP000032: kc-680399654-aekgt: no physical address for 94cfcd82-89fd-0761-b510-92589f820516, dropping message
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: keycloak
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: keycloak
+spec:
+  ports:
+    - port: 3306
+      name: mysql
+  selector:
+    app: mariadb
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mariadb
+  namespace: keycloak
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:10.1.21
+          ports:
+            - containerPort: 3306
+              name: mysql
+            - containerPort: 4444
+              name: sst
+            - containerPort: 4567
+              name: replication
+            - containerPort: 4567
+              protocol: UDP
+              name: replicationudp
+            - containerPort: 4568
+              name: ist
+          env:
+            - name: MYSQL_RANDOM_ROOT_PASSWORD
+              value: "yes"
+            - name: MYSQL_DATABASE
+              value: keycloak
+            - name: MYSQL_USER
+              value: keycloak
+            - name: MYSQL_PASSWORD
+              value: keycloak
+            - name: MYSQL_INITDB_SKIP_TZINFO
+              value: "yes"
+          args:
+            - --wsrep-new-cluster
+            # https://issues.jboss.org/browse/KEYCLOAK-3873
+            #- --character-set-server=utf8mb4
+            #- --collation-server=utf8mb4_unicode_ci
+          volumeMounts:
+            - name: datadir
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: datadir
+          emptyDir: {}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: kc
+  namespace: keycloak
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: solsson/keycloak-ha-mysql
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: management
+              containerPort: 9090
+            - name: jgroups-tcp
+              containerPort: 7600
+            - name: jgroups-tcp-fd
+              containerPort: 57600
+            - name: jgroups-udp
+              containerPort: 55200
+              protocol: UDP
+            - name: jgroups-udp-mc
+              containerPort: 45688
+              protocol: UDP
+            - name: jgroups-udp-fd
+              containerPort: 54200
+              protocol: UDP
+            - name: modcluster
+              containerPort: 23364
+            - name: modcluster-udp
+              containerPort: 23364
+              protocol: UDP
+            - name: txn-recovery-ev
+              containerPort: 4712
+            - name: txn-status-mgr
+              containerPort: 4713
+          env:
+            - name: MYSQL_DATABASE
+              value: keycloak
+            - name: MYSQL_USER
+              value: keycloak
+            - name: MYSQL_PASSWORD
+              value: keycloak
+            - name: MYSQL_PORT_3306_TCP_ADDR
+              value: mysql.keycloak
+            - name: MYSQL_PORT_3306_TCP_PORT
+              value: "3306"
+            # first start only, testing only
+            - name: KEYCLOAK_USER
+              value: admin
+            - name: KEYCLOAK_PASSWORD
+              value: test
+            - name: JGROUPS_STACK
+              value: tcp
+          args:
+            - -b=0.0.0.0
+            - -bmanagement=0.0.0.0
+            - --server-config=standalone-ha.xml
+          readinessProbe:
+            httpGet:
+              path: /auth/
+              port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+  namespace: keycloak
+spec:
+  ports:
+    - port: 8080
+      name: http
+  selector:
+    app: keycloak
+  type: NodePort
