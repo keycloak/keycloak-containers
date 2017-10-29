@@ -60,6 +60,8 @@ spec:
           value: admin
         - name: KEYCLOAK_PASSWORD
           value: test
+        - name: PROXY_ADDRESS_FORWARDING
+          value: "true"
         command:
         - /bin/bash
         - /keycloak-ha-dev/entrypoint-instead-of-dockerfile.sh
