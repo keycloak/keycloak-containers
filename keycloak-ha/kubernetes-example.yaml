@@ -28,6 +28,13 @@ data:
       https://raw.githubusercontent.com/Reposoft/keycloak-ha-kubernetes/keycloak3-ha-mysql/server-ha-mysql/cache-owners.xsl;
     ./xsl-transform keycloak/standalone/configuration/standalone-ha.xml cache-owners.xsl
 
+    # JGROUPS_STACK with tcp=JDBC_PING
+
+    curl -o jgroups-jdbc.xsl -sLS \
+      https://raw.githubusercontent.com/Reposoft/keycloak-ha-kubernetes/keycloak3-ha-mysql/server-ha-mysql/jgroups-jdbc.xsl;
+    sed -i 's|jgroups:4.0|jgroups:5.0|' jgroups-jdbc.xsl
+    ./xsl-transform keycloak/standalone/configuration/standalone-ha.xml jgroups-jdbc.xsl
+
     # End custom entrypoint
 
     echo "Calling the actual entrypoint ..."
@@ -73,6 +80,8 @@ spec:
           value: "true"
         - name: CACHE_OWNERS
           value: "2"
+        - name: JGROUPS_STACK
+          value: tcp
         command:
         - /bin/bash
         - /keycloak-ha-dev/entrypoint-instead-of-dockerfile.sh
