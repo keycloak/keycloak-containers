@@ -1,3 +1,31 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: dev-volume
+  namespace: keycloak
+data:
+  entrypoint-instead-of-dockerfile.sh: |
+    #!/bin/bash
+    set -e
+    set -x
+
+    # Prepare xsl transoforms
+
+    curl -o xsl-transform -sLS \
+      https://raw.githubusercontent.com/Reposoft/keycloak-ha-kubernetes/keycloak3-ha-mysql/server-ha-mysql/xsl-transform.sh;
+    chmod u+x xsl-transform
+
+    echo '<?xml version="1.0" encoding="UTF-8"?><xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:output method="xml" indent="yes"/><xsl:template match="@*|node()"><xsl:copy><xsl:apply-templates select="@*|node()"/></xsl:copy></xsl:template></xsl:stylesheet>' > indent.xsl
+    ./xsl-transform keycloak/standalone/configuration/standalone-ha.xml indent.xsl
+
+    # End custom entrypoint
+
+    echo "Calling the actual entrypoint ..."
+    echo ""
+    exec "$@"
+
+---
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
@@ -32,7 +60,11 @@ spec:
           value: admin
         - name: KEYCLOAK_PASSWORD
           value: test
-        args:
+        command:
+        - /bin/bash
+        - /keycloak-ha-dev/entrypoint-instead-of-dockerfile.sh
+        - /opt/jboss/docker-entrypoint.sh
+        #args:
         - -b=0.0.0.0
         - -bmanagement=0.0.0.0
         - --server-config=standalone-ha.xml
@@ -67,3 +99,10 @@ spec:
           httpGet:
             path: /auth/
             port: 8080
+        volumeMounts:
+        - name: keycloak-ha-dev
+          mountPath: /keycloak-ha-dev
+      volumes:
+      - name: keycloak-ha-dev
+        configMap:
+          name: dev-volume
