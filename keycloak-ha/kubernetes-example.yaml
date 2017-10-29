@@ -17,16 +17,16 @@ spec:
       - name: keycloak-ha
         image: jboss/keycloak:3.3.0.Final@sha256:b89ee37d56f8da62c6844dd58d1a1dff5904df675536b7c075243cfc6ffeb7ca
         env:
+        - name: MYSQL_PORT_3306_TCP_ADDR
+          value: mysql.mysql
+        - name: MYSQL_PORT_3306_TCP_PORT
+          value: "3306"
         - name: MYSQL_DATABASE
           value: keycloak
         - name: MYSQL_USER
           value: keycloak
         - name: MYSQL_PASSWORD
           value: keycloak
-        - name: MYSQL_PORT_3306_TCP_ADDR
-          value: mysql.keycloak
-        - name: MYSQL_PORT_3306_TCP_PORT
-          value: "3306"
         # first start only, testing only
         - name: KEYCLOAK_USER
           value: admin
