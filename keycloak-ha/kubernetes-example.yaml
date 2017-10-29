@@ -10,6 +10,9 @@ data:
     set -e
     set -x
 
+    # -bprivate=eth0 startup can't be used for inet-address -> nic
+    sed -i 's|<inet-address value="${jboss.bind.address.private:127.0.0.1}"/>|<nic name="eth0"/>|' keycloak/standalone/configuration/standalone-ha.xml
+
     # Prepare xsl transoforms
 
     curl -o xsl-transform -sLS \
