@@ -19,6 +19,12 @@ data:
     echo '<?xml version="1.0" encoding="UTF-8"?><xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:output method="xml" indent="yes"/><xsl:template match="@*|node()"><xsl:copy><xsl:apply-templates select="@*|node()"/></xsl:copy></xsl:template></xsl:stylesheet>' > indent.xsl
     ./xsl-transform keycloak/standalone/configuration/standalone-ha.xml indent.xsl > /dev/null
 
+    # CACHE_OWNERS
+
+    curl -o cache-owners.xsl -sLS \
+      https://raw.githubusercontent.com/Reposoft/keycloak-ha-kubernetes/keycloak3-ha-mysql/server-ha-mysql/cache-owners.xsl;
+    ./xsl-transform keycloak/standalone/configuration/standalone-ha.xml cache-owners.xsl
+
     # End custom entrypoint
 
     echo "Calling the actual entrypoint ..."
@@ -32,7 +38,7 @@ metadata:
   name: kc
   namespace: keycloak
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: keycloak
@@ -62,6 +68,8 @@ spec:
           value: test
         - name: PROXY_ADDRESS_FORWARDING
           value: "true"
+        - name: CACHE_OWNERS
+          value: "2"
         command:
         - /bin/bash
         - /keycloak-ha-dev/entrypoint-instead-of-dockerfile.sh
