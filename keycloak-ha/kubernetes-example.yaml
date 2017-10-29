@@ -1,0 +1,71 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: kc
+  namespace: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - name: keycloak-ha
+        image: jboss/keycloak:3.3.0.Final@sha256:b89ee37d56f8da62c6844dd58d1a1dff5904df675536b7c075243cfc6ffeb7ca
+        env:
+        - name: MYSQL_DATABASE
+          value: keycloak
+        - name: MYSQL_USER
+          value: keycloak
+        - name: MYSQL_PASSWORD
+          value: keycloak
+        - name: MYSQL_PORT_3306_TCP_ADDR
+          value: mysql.keycloak
+        - name: MYSQL_PORT_3306_TCP_PORT
+          value: "3306"
+        # first start only, testing only
+        - name: KEYCLOAK_USER
+          value: admin
+        - name: KEYCLOAK_PASSWORD
+          value: test
+        - name: JGROUPS_STACK
+          value: tcp
+        args:
+        - -b=0.0.0.0
+        - -bmanagement=0.0.0.0
+        - --server-config=standalone-ha.xml
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: management
+          containerPort: 9090
+        - name: jgroups-tcp
+          containerPort: 7600
+        - name: jgroups-tcp-fd
+          containerPort: 57600
+        - name: jgroups-udp
+          containerPort: 55200
+          protocol: UDP
+        - name: jgroups-udp-mc
+          containerPort: 45688
+          protocol: UDP
+        - name: jgroups-udp-fd
+          containerPort: 54200
+          protocol: UDP
+        - name: modcluster
+          containerPort: 23364
+        - name: modcluster-udp
+          containerPort: 23364
+          protocol: UDP
+        - name: txn-recovery-ev
+          containerPort: 4712
+        - name: txn-status-mgr
+          containerPort: 4713
+        readinessProbe:
+          httpGet:
+            path: /auth/
+            port: 8080
