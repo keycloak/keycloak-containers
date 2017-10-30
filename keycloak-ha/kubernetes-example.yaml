@@ -28,12 +28,66 @@ data:
       https://raw.githubusercontent.com/Reposoft/keycloak-ha-kubernetes/keycloak3-ha-mysql/server-ha-mysql/cache-owners.xsl;
     ./xsl-transform keycloak/standalone/configuration/standalone-ha.xml cache-owners.xsl
 
+    # JGROUPS_STACK with tcp=JDBC_PING
+
+    if [ "$JGROUPS_STACK" == "tcp" ]; then
+      ./xsl-transform keycloak/standalone/configuration/standalone-ha.xml /keycloak-ha-dev/jgroups-stack-tcp.xsl
+    fi
+    ./xsl-transform keycloak/standalone/configuration/standalone-ha.xml /keycloak-ha-dev/jgroups-jdbc.xsl
+
     # End custom entrypoint
 
     echo "Calling the actual entrypoint ..."
     echo ""
     exec "$@"
+  jgroups-stack-tcp.xsl: |
+    <?xml version="1.0" encoding="UTF-8"?>
 
+    <xsl:stylesheet version="2.0"
+                    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                    xmlns:jgroups="urn:jboss:domain:jgroups:5.0"
+                    exclude-result-prefixes="jgroups">
+
+        <xsl:output method="xml" indent="yes"/>
+
+        <xsl:template match="//jgroups:subsystem/jgroups:channels/jgroups:channel">
+            <xsl:copy>
+                <xsl:apply-templates select="node()|@*"/>
+                <xsl:attribute name="stack">tcp</xsl:attribute>
+            </xsl:copy>
+        </xsl:template>
+
+        <xsl:template match="@*|node()">
+            <xsl:copy>
+                <xsl:apply-templates select="@*|node()"/>
+            </xsl:copy>
+        </xsl:template>
+
+    </xsl:stylesheet>
+  jgroups-jdbc.xsl: |
+    <?xml version="1.0" encoding="UTF-8"?>
+
+    <xsl:stylesheet version="2.0"
+                    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                    xmlns:jgroups="urn:jboss:domain:jgroups:5.0"
+                    exclude-result-prefixes="jgroups">
+
+        <xsl:output method="xml" indent="yes"/>
+
+        <xsl:template match="//jgroups:subsystem/jgroups:stacks/jgroups:stack[@name='tcp']/jgroups:socket-protocol[@type='MPING']">
+            <xsl:comment> MPING was removed in favor of JDBC_PING </xsl:comment>
+            <protocol xmlns="urn:jboss:domain:jgroups:5.0" type="JDBC_PING">
+                <property name="datasource_jndi_name">java:jboss/datasources/KeycloakDS</property>
+            </protocol>
+        </xsl:template>
+
+        <xsl:template match="@*|node()">
+            <xsl:copy>
+                <xsl:apply-templates select="@*|node()"/>
+            </xsl:copy>
+        </xsl:template>
+
+    </xsl:stylesheet>
 ---
 apiVersion: apps/v1beta2
 kind: Deployment
@@ -73,6 +127,8 @@ spec:
           value: "true"
         - name: CACHE_OWNERS
           value: "2"
+        - name: JGROUPS_STACK
+          value: tcp
         command:
         - /bin/bash
         - /keycloak-ha-dev/entrypoint-instead-of-dockerfile.sh
