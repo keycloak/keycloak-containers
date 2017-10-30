@@ -28,6 +28,13 @@ data:
       https://raw.githubusercontent.com/Reposoft/keycloak-ha-kubernetes/keycloak3-ha-mysql/server-ha-mysql/cache-owners.xsl;
     ./xsl-transform keycloak/standalone/configuration/standalone-ha.xml cache-owners.xsl
 
+    # Add node identifier placeholder
+
+    curl -o node-identifier.xsl -sLS \
+      https://raw.githubusercontent.com/Reposoft/keycloak-ha-kubernetes/keycloak3-ha-mysql/server-ha-mysql/node-identifier.xsl;
+    sed -i 's|transactions:3.0|transactions:4.0|' node-identifier.xsl
+    ./xsl-transform keycloak/standalone/configuration/standalone-ha.xml node-identifier.xsl
+
     # JGROUPS_STACK with tcp=JDBC_PING
 
     if [ "$JGROUPS_STACK" == "tcp" ]; then
