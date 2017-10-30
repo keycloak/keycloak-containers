@@ -75,12 +75,10 @@ data:
         <xsl:output method="xml" indent="yes"/>
 
         <xsl:template match="//jgroups:subsystem/jgroups:stacks/jgroups:stack[@name='tcp']/jgroups:socket-protocol[@type='MPING']">
+            <xsl:comment> MPING was removed in favor of JDBC_PING </xsl:comment>
             <protocol xmlns="urn:jboss:domain:jgroups:5.0" type="JDBC_PING">
                 <property name="datasource_jndi_name">java:jboss/datasources/KeycloakDS</property>
             </protocol>
-            <xsl:copy>
-                <xsl:apply-templates select="@*|node()"/>
-            </xsl:copy>
         </xsl:template>
 
         <xsl:template match="@*|node()">
