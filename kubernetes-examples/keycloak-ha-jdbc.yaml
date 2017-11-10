@@ -113,7 +113,7 @@ spec:
     spec:
       containers:
       - name: keycloak-ha
-        image: jboss/keycloak:3.4.0.CR1@sha256:374cdff2b6b2f47770044b700120424e949d140603bc496af83117f7ac3c151a
+        image: jboss/keycloak:3.4.0.Final@sha256:73f3325c9bf9518cb1a2661ff1d1e365cfeb51b44a323f4cfc23040f3d84e6ef
         env:
         - name: MYSQL_PORT_3306_TCP_ADDR
           value: mysql.mysql
