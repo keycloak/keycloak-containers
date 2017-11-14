@@ -1,2 +1,2 @@
-/subsystem=logging/logger=org.keycloack:add
-/subsystem=logging/logger=org.keycloack:write-attribute(name=level,value=${env.KEYCLOAK_LOGLEVEL:INFO})
+/subsystem=logging/logger=org.keycloak:add
+/subsystem=logging/logger=org.keycloak:write-attribute(name=level,value=${env.KEYCLOAK_LOGLEVEL:INFO})
