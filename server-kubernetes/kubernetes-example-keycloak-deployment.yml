@@ -38,8 +38,6 @@ spec:
         # TODO
         #- name: CACHE_OWNERS
         #  value: "2"
-        - name: JGROUPS_STACK
-          value: tcp
         ports:
         - name: http
           containerPort: 8080
