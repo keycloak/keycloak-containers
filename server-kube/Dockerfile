@@ -17,16 +17,16 @@ RUN mvn package \
 
 FROM jboss/keycloak:3.4.0.Final@sha256:73f3325c9bf9518cb1a2661ff1d1e365cfeb51b44a323f4cfc23040f3d84e6ef
 
-COPY module.xml keycloak/modules/system/layers/base/org/jgroups/kubernetes/main/
-COPY --from=kube-build /usr/src/jgroups-kubernetes/target/*.jar keycloak/modules/system/layers/base/org/jgroups/kubernetes/main/
+COPY module.xml keycloak/modules/org/jgroups/kubernetes/main/
+COPY --from=kube-build /usr/src/jgroups-kubernetes/target/*.jar keycloak/modules/org/jgroups/kubernetes/main/
+
+RUN sed -i.bak 's|<module name="org.jgroups.azure"/>|<module name="org.jgroups.azure"/>\n        <module name="org.jgroups.kubernetes"/>|' \
+  keycloak/modules/system/layers/base/org/jgroups/main/module.xml \
+  && diff -u keycloak/modules/system/layers/base/org/jgroups/main/module.xml.bak keycloak/modules/system/layers/base/org/jgroups/main/module.xml \
+  && echo "Failed to update jgroups dependencies" && exit 1 || :
 
 COPY cli /opt/jboss/keycloak/cli/kube
 
 RUN cd /opt/jboss/keycloak && bin/jboss-cli.sh --file=cli/kube/standalone-ha-configuration.cli && rm -rf /opt/jboss/keycloak/standalone-ha/configuration/standalone_xml_history
-
-# investigate WFLYCLJG0016: Unable to load protocol class org.jgroups.protocols.KUBE_PING
-RUN ls -la keycloak/modules/system/layers/base/org/jgroups/kubernetes/main/
-RUN ls -laR keycloak/modules/system/layers/base/org/jgroups/azure/
-RUN cat keycloak/modules/system/layers/base/org/jgroups/azure/main/module.xml
 
 CMD ["--server-config=standalone-ha.xml"]
