@@ -29,4 +29,8 @@ COPY cli /opt/jboss/keycloak/cli/kube
 
 RUN cd /opt/jboss/keycloak && bin/jboss-cli.sh --file=cli/kube/standalone-ha-configuration.cli && rm -rf /opt/jboss/keycloak/standalone-ha/configuration/standalone_xml_history
 
-CMD ["--server-config=standalone-ha.xml"]
+CMD [ \
+  "--server-config=standalone-ha.xml", \
+  "-b=0.0.0.0", \
+  "-bprivate=0.0.0.0" \
+]

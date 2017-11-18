@@ -40,13 +40,6 @@ spec:
         #  value: "2"
         - name: JGROUPS_STACK
           value: tcp
-        command:
-        - /opt/jboss/docker-entrypoint.sh
-        args:
-        - -b=0.0.0.0
-        - -bprivate=0.0.0.0
-        - -bmanagement=0.0.0.0
-        - --server-config=standalone-ha.xml
         ports:
         - name: http
           containerPort: 8080
