@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<module xmlns="urn:jboss:module:1.3" name="org.jgroups.kubernetes.kubernetes">
+<module xmlns="urn:jboss:module:1.5" name="org.jgroups.protocols.kubernetes">
+    <!-- from https://github.com/infinispan/infinispan/blob/9.1.3.Final/server/integration/feature-pack/src/main/resources/modules/system/layers/base/org/jgroups/kubernetes/kubernetes/main/module.xml
     <properties>
         <property name="jboss.api" value="private"/>
     </properties>
+    -->
 
     <resources>
-        <artifact name="${org.jgroups.kubernetes:jgroups-kubernetes}"/>
-        <artifact name="${net.oauth.core:oauth}"/>
+        <resource-root path="jgroups-kubernetes-1.0.5.Final.jar"/>
+        <resource-root path="oauth-20100527.jar"/>
     </resources>
 
     <dependencies>
