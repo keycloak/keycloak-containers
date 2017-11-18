@@ -1,0 +1,14 @@
+
+/subsystem=logging/logger=org.jgroups.protocols.kubernetes:add
+/subsystem=logging/logger=org.jgroups.protocols.kubernetes:write-attribute(name=level,value=${env.KEYCLOAK_LOGLEVEL_KUBE:DEBUG})
+
+/subsystem=jgroups/channel=ee:write-attribute(name=stack,value=tcp)
+
+# https://github.com/jgroups-extras/jgroups-azure is already bundled with keycloak so do something similar
+# See also
+# https://github.com/infinispan/infinispan/blob/9.0.0.Final/server/integration/feature-pack/src/main/resources/modules/system/layers/base/org/jgroups/kubernetes/kubernetes/main/module.xml#L9-L12
+
+/subsystem=jgroups/stack=tcp/protocol=MPING: remove()
+/subsystem=jgroups/stack=tcp/protocol=KUBE_PING:add
+
+#/subsystem=jgroups/stack=tcp/protocol=KUBE_PING/:write-attribute(name=dump_requests,value=true)
