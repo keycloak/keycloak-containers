@@ -117,6 +117,8 @@ When starting the Keycloak instance you can pass a number an environment variabl
 
     docker run -e KEYCLOAK_LOGLEVEL=DEBUG jboss/keycloak
 
+Note that there are still per-package loglevel defaults.
+
 ### Enabling proxy address forwarding
 
 When running Keycloak behind a proxy, you will need to enable proxy address forwarding.
