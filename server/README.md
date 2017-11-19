@@ -158,9 +158,17 @@ directory.
 
 ### Specify log level
 
-When starting the Keycloak instance you can pass a number an environment variables to set log level for Keycloak, for example:
+There are two environment variables available to control the log level for Keycloak:
 
-    docker run -e KEYCLOAK_LOGLEVEL=DEBUG jboss/keycloak
+* `KEYCLOAK_LOGLEVEL`: Specify log level for Keycloak (optional, default is `INFO`)
+* `ROOT_LOGLEVEL`: Specify log level for underlying container (optional, default is `INFO`)
+
+Supported log levels are `ALL`, `DEBUG`, `ERROR`, `FATAL`, `INFO`, `OFF`, `TRACE` and `WARN`.
+
+Log level can also be changed at runtime, for example (assuming docker exec access):
+
+    ./keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/root-logger=ROOT:change-root-log-level(level=DEBUG)'
+    ./keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/logger=org.keycloak:write-attribute(name=level,value=DEBUG)'
 
 ### Enabling proxy address forwarding
 
