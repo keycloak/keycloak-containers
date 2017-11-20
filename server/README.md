@@ -120,8 +120,7 @@ When starting the Keycloak instance you can pass a number an environment variabl
 Log level can also be changed at runtime, for example (assuming docker exec access):
 
     ./keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/root-logger=ROOT:change-root-log-level(level=DEBUG)'
-
-Note that the `org.keycloak` package, and other `logger category` entries from config, will keep their minimum level.
+    ./keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/logger=org.keycloak:write-attribute(name=level,value=DEBUG)'
 
 ### Enabling proxy address forwarding
 
