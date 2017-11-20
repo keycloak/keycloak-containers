@@ -2,8 +2,9 @@
 /subsystem=logging/logger=org.keycloak:write-attribute(name=level,value=${env.KEYCLOAK_LOGLEVEL:INFO})
 /subsystem=logging/root-logger=ROOT:change-root-log-level(level=${env.KEYCLOAK_LOGLEVEL:INFO})
 
-/subsystem=logging/console-handler=CONSOLE:write-attribute(name=level,value=${env.KEYCLOAK_LOGLEVEL:INFO})
-
 # logging to file is uninteresting in docker
 /subsystem=logging/periodic-rotating-file-handler=FILE:remove
 /subsystem=logging/root-logger=ROOT:remove-handler(name="FILE")
+
+# with file logging removed, don't reduce log level for console
+/subsystem=logging/console-handler=CONSOLE:write-attribute(name=level,value=TRACE)
