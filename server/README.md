@@ -121,7 +121,7 @@ Log level can also be changed at runtime, for example (assuming docker exec acce
 
     ./keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/root-logger=ROOT:change-root-log-level(level=DEBUG)'
 
-Note that there are still per-package loglevel defaults.
+Note that the `org.keycloak` package, and other `logger category` entries from config, will keep their minimum level.
 
 ### Enabling proxy address forwarding
 
