@@ -1,0 +1,16 @@
+
+/subsystem=logging/logger=org.jgroups.protocols.kubernetes:add
+/subsystem=logging/logger=org.jgroups.protocols.kubernetes:write-attribute(name=level,value=${env.KEYCLOAK_LOGLEVEL_KUBE:DEBUG})
+
+# https://github.com/jgroups-extras/jgroups-azure is already bundled with keycloak so do something similar
+# See also
+# https://github.com/infinispan/infinispan/blob/9.1.3.Final/server/integration/feature-pack/src/main/resources/modules/system/layers/base/org/jgroups/kubernetes/kubernetes/main/module.xml
+# https://github.com/eAybars/docker-wildfly-kubernetes
+
+/subsystem=jgroups/channel=ee:write-attribute(name=stack,value=tcp)
+/subsystem=jgroups/stack=tcp/protocol=MPING:remove
+/subsystem=jgroups/stack=tcp/protocol=kubernetes.KUBE_PING:add(add-index=0,properties=[ \
+  namespace=${KUBE_NAMESPACE:keycloak}, \
+  labels=${KUBE_LABELS:app=keycloak}, \
+  dump_requests=${KUBE_DUMP_REQUESTS:false} \
+])
