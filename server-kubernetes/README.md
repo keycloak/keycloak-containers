@@ -1,6 +1,6 @@
 # Keycloak Kubernetes
 
-Example Docker file for clustered Keycloak using a PostgreSQ
+Example Docker file for clustered Keycloak using Kubernetes
 
 ## Environment Variables
 
@@ -9,6 +9,8 @@ Example Docker file for clustered Keycloak using a PostgreSQ
 Uses 'default' kubernetes namespace by default.
 
 ## Kubernetes config YAML
+
+### Expose ports
 
     spec:
       containers:
