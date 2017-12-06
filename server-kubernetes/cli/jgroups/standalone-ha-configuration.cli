@@ -1,0 +1,3 @@
+embed-server --server-config=standalone-ha.xml --std-out=echo
+run-batch --file=cli/jgroups/${env.JGROUPS_PROTOCOL}/change-jgroups.cli
+stop-embedded-server
