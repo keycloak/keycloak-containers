@@ -3,6 +3,9 @@ FROM jboss/keycloak:latest
 ENV JGROUPS_VERSION 3.6.14.Final
 ENV JGROUPS_PROTOCOL kubernetes
 
+ADD cli/jgroups /opt/jboss/keycloak/cli/jgroups
+RUN cd /opt/jboss/keycloak && bin/jboss-cli.sh --file=cli/jgroups/standalone-ha-configuration.cli && rm -rf /opt/jboss/keycloak/standalone-ha/configuration/standalone_xml_history
+
 ADD jgroups/change-jgroups.sh /opt/jboss/keycloak/bin/change-jgroups.sh
 
 RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/jgroups/main; cd /opt/jboss/keycloak/modules/system/layers/base/org/jgroups/main; curl -L http://central.maven.org/maven2/org/jgroups/jgroups/$JGROUPS_VERSION/jgroups-$JGROUPS_VERSION.jar > jgroups.jar

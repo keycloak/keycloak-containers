@@ -8,12 +8,29 @@ Example Docker file for clustered Keycloak using Kubernetes
 
 Uses 'default' kubernetes namespace by default.
 
+### POD_NAME
+
+See config YAML below.  Uses the Kubernetes Pod name which will remove warning "WFLYTX0013: The node-identifier attribute on the /subsystem=transactions is set to the default value. This is a danger for environments running multiple servers. Please make sure the attribute value is unique."
+
+### CACHE_OWNERS
+
+Uses '1' as default.  See http://www.keycloak.org/docs/latest/server_installation/index.html#replication-and-failover
+
+### PROXY_ADDR_FORWARDING
+
+Uses 'false' as default.  See http://www.keycloak.org/docs/latest/server_installation/index.html#_setting-up-a-load-balancer-or-proxy
+
 ## Kubernetes config YAML
 
 ### Expose ports
 
     spec:
       containers:
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         ports:
         - containerPort: 8443
           protocol: TCP

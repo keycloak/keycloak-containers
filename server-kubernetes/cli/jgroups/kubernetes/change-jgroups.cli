@@ -5,6 +5,7 @@
 /subsystem=jgroups/stack=tcp/transport=TCP:add(socket-binding="jgroups-tcp")
 /subsystem=jgroups/stack=tcp/protocol=kubernetes.KUBE_PING:add()
 /subsystem=jgroups/stack=tcp/protocol=kubernetes.KUBE_PING/property=namespace:add(value=${env.KUBE_NAMESPACE:default})
+
 /subsystem=jgroups/stack=tcp/protocol=FD_SOCK:add()
 /subsystem=jgroups/stack=tcp/protocol=FD:add()
 /subsystem=jgroups/stack=tcp/protocol=VERIFY_SUSPECT:add()
@@ -19,3 +20,12 @@
 /interface=private:write-attribute(name=nic, value=eth0)
 /interface=private:undefine-attribute(name=inet-address)
 /socket-binding-group=standard-sockets/socket-binding=jgroups-mping:remove()
+
+/subsystem=transactions:write-attribute(name=node-identifier, value=${env.POD_NAME:default})
+
+/subsystem=infinispan/cache-container=keycloak/distributed-cache=sessions:write-attribute(name=owners, value=${env.CACHE_OWNERS:1})
+/subsystem=infinispan/cache-container=keycloak/distributed-cache=authenticationSessions:write-attribute(name=owners, value=${env.CACHE_OWNERS:1})
+/subsystem=infinispan/cache-container=keycloak/distributed-cache=offlineSessions:write-attribute(name=owners, value=${env.CACHE_OWNERS:1})
+/subsystem=infinispan/cache-container=keycloak/distributed-cache=loginFailures:write-attribute(name=owners, value=${env.CACHE_OWNERS:1})
+
+/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=proxy-address-forwarding, value=${env.PROXY_ADDR_FORWARDING:false})
