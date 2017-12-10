@@ -4,13 +4,13 @@ Example Docker file for clustered Keycloak using Kubernetes
 
 ## Environment Variables
 
-### KUBE_NAMESPACE
+### POD_NAMESPACE
 
-Uses 'default' kubernetes namespace by default.
+Uses 'default' kubernetes namespace by default. Config for KUBE_PING.
 
-### POD_NAME
+### POD_IP
 
-See config YAML below.  Uses the Kubernetes Pod name which will remove warning "WFLYTX0013: The node-identifier attribute on the /subsystem=transactions is set to the default value. This is a danger for environments running multiple servers. Please make sure the attribute value is unique."
+See config YAML below.  Uses the Kubernetes Pod IP address for node-identifier forwill remove warning "WFLYTX0013: The node-identifier attribute on the /subsystem=transactions is set to the default value. This is a danger for environments running multiple servers. Please make sure the attribute value is unique."
 
 ### CACHE_OWNERS
 
