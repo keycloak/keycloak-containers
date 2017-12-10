@@ -1,0 +1,1 @@
+/subsystem=transactions: write-attribute(name=node-identifier, value=${env.POD_IP:default})

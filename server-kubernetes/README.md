@@ -27,10 +27,18 @@ Uses 'false' as default.  See http://www.keycloak.org/docs/latest/server_install
     spec:
       containers:
         env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         - name: POD_NAME
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         ports:
         - containerPort: 8443
           protocol: TCP
@@ -41,6 +49,7 @@ Uses 'false' as default.  See http://www.keycloak.org/docs/latest/server_install
         - containerPort: 7600
           protocol: TCP
 
+WFLYCTL0419: 'keycloak-4257859680-4wkcm' is an invalid value for parameter node-identifier. Values must have a maximum length of 23 bytes"
 ### PostgreSQL
 
     spec:
