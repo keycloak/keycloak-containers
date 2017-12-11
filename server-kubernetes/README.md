@@ -16,7 +16,7 @@ See config YAML below.  Uses the Kubernetes Pod IP address for node-identifier f
 
 Uses '1' as default.  See http://www.keycloak.org/docs/latest/server_installation/index.html#replication-and-failover
 
-### PROXY_ADDR_FORWARDING
+### PROXY_ADDRESS_FORWARDING
 
 Uses 'false' as default.  See http://www.keycloak.org/docs/latest/server_installation/index.html#_setting-up-a-load-balancer-or-proxy
 
