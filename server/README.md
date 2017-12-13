@@ -47,7 +47,7 @@ You can also use the `DB_VENDOR` environment variable to explicitly specify the 
 
 First start a MySQL instance using the MySQL docker image:
 
-    docker run --name mysql -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=root_password -d mysql
+    docker run --name mysql -e MYSQL_ADDR=mysql -e MYSQL_PORT=3306 -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=root_password -d mysql
 
 #### Start a Keycloak instance
 
@@ -59,7 +59,7 @@ Start a Keycloak instance and connect to the MySQL instance:
 
 When starting the Keycloak instance you can pass a number of environment variables to configure how it connects to MySQL. For example:
 
-    docker run --name keycloak --link mysql:mysql -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password jboss/keycloak
+    docker run --name keycloak --link mysql:mysql -e MYSQL_ADDR=mysql -e MYSQL_PORT=3306 -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password jboss/keycloak
 
 ##### MYSQL_DATABASE
 
@@ -72,6 +72,14 @@ Specify user for MySQL database (optional, default is `keycloak`).
 ##### MYSQL_PASSWORD
 
 Specify password for MySQL database (optional, default is `password`).
+
+##### MYSQL_ADDR
+
+Specify host for MySQL database (optional, default is `mysql`).
+
+##### MYSQL_PORT
+
+Specify port for MySQL database (optional, default is `3306`).
 
 
 
