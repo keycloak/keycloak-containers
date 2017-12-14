@@ -17,7 +17,7 @@ ADD docker-entrypoint.sh /opt/jboss/
 
 ADD cli /opt/jboss/keycloak/cli
 RUN cd /opt/jboss/keycloak && bin/jboss-cli.sh --file=cli/standalone-configuration.cli && rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
-RUN cd /opt/jboss/keycloak && bin/jboss-cli.sh --file=cli/standalone-ha-configuration.cli && rm -rf /opt/jboss/keycloak/standalone-ha/configuration/standalone_xml_history
+RUN cd /opt/jboss/keycloak && bin/jboss-cli.sh --file=cli/standalone-ha-configuration.cli && rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
 
 ENV JDBC_POSTGRES_VERSION 42.1.4
 ENV JDBC_MYSQL_VERSION 5.1.18
@@ -31,7 +31,6 @@ RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/
 ADD databases/postgres/module.xml /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main
 
 RUN rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
-RUN rm -rf /opt/jboss/keycloak/standalone_ha/configuration/standalone_xml_history
 
 ENV JBOSS_HOME /opt/jboss/keycloak
 
