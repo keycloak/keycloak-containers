@@ -30,8 +30,6 @@ ADD databases/mysql/module.xml /opt/jboss/keycloak/modules/system/layers/base/co
 RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main; cd /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main; curl -L http://central.maven.org/maven2/org/postgresql/postgresql/$JDBC_POSTGRES_VERSION/postgresql-$JDBC_POSTGRES_VERSION.jar > postgres-jdbc.jar
 ADD databases/postgres/module.xml /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main
 
-RUN rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
-
 ENV JBOSS_HOME /opt/jboss/keycloak
 
 EXPOSE 8080
