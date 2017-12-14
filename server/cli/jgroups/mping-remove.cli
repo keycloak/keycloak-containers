@@ -1,0 +1,2 @@
+/subsystem=jgroups/stack=tcp/protocol=MPING: remove()
+/socket-binding-group=standard-sockets/socket-binding=jgroups-mping: remove()
