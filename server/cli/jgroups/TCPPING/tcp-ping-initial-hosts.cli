@@ -1,0 +1,3 @@
+/subsystem=jgroups/stack=tcp/protocol=TCPPING:add(add-index=0,properties=[ \
+  initial_hosts="${JGROUPS_INITIAL_HOSTS}" \
+])

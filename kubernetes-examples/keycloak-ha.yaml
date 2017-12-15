@@ -1,10 +1,30 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jgroups-dns-ping
+  namespace: keycloak
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  publishNotReadyAddresses: true
+  clusterIP: None
+  selector:
+    app: keycloak
+  ports:
+  - protocol: TCP
+    port: 7600
+---
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: kc
   namespace: keycloak
 spec:
-  replicas: 1
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
   selector:
     matchLabels:
       app: keycloak
@@ -38,7 +58,7 @@ spec:
         - name: CACHE_OWNERS
           value: "2"
         - name: JGROUPS_SETUP
-          value: JDBC_PING
+          value: TCPPING
         args:
         - -b=0.0.0.0
         - -bmanagement=0.0.0.0
