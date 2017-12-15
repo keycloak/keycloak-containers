@@ -3,7 +3,8 @@ run-batch --file=cli/jgroups/tcp-stack.cli
 run-batch --file=cli/jgroups/interface-private-eth0.cli
 run-batch --file=cli/jgroups/mping-remove.cli
 # JNDI reuse is convenient, but fails to clean up at graceful shutdown - javax.resource.ResourceException: IJ000470: You are trying to use a connection factory that has been shut down: java:jboss/datasources/KeycloakDS
-#run-batch --file=cli/jgroups/JDBC_PING/tcp-ping-jdbc-jndi.cli
+run-batch --file=cli/jgroups/JDBC_PING/tcp-ping-jdbc-jndi.cli
 # Note that Postgres might need custom SQL statements, see http://www.jgroups.org/manual/index.html#_jdbc_ping
-run-batch --file=cli/jgroups/JDBC_PING/${env.DB_VENDOR}/tcp-ping-jdbc.cli
+# and that no database driver is available to the jgroups module by default
+#run-batch --file=cli/jgroups/JDBC_PING/${env.DB_VENDOR}/tcp-ping-jdbc.cli
 stop-embedded-server
