@@ -36,6 +36,7 @@ spec:
       containers:
       - name: keycloak-ha
         image: jboss/keycloak
+        # Once https://github.com/jboss-dockerfiles/keycloak/pull/100 is built we can use that image and remove imagePullPolicy
         imagePullPolicy: Never
         env:
         - name: MYSQL_PORT_3306_TCP_ADDR
