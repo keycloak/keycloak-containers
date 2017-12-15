@@ -1,10 +1,8 @@
 #!/bin/bash -e
 
-JGROUPS_DIR=$1
-
 cd /opt/jboss/keycloak
 
-if [ "$JGROUPS_DIR" == "TCPPING" ]; then
+if [ "$1" == "TCPPING" ]; then
 
   [ -z "$JGROUPS_DNS_NAME" ] && export JGROUPS_DNS_NAME=jgroups-dns-ping
   while [ -z "$JGROUPS_INITIAL_HOSTS" ]; do
@@ -33,7 +31,7 @@ __EOF
 
 else
 
-  bin/jboss-cli.sh --file=cli/jgroups/$JGROUPS_DIR/standalone-ha-configuration.cli
+  bin/jboss-cli.sh --file=cli/jgroups/$1/standalone-ha-configuration.cli
   rm -rf standalone/configuration/standalone_xml_history/current/*
 
 fi
