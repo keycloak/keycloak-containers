@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
 JGROUPS_DIR=$1
-DB_VENDOR=$2
 
 cd /opt/jboss/keycloak
 
@@ -19,6 +18,5 @@ if [ "$JGROUPS_DIR" == "TCPPING" ]; then
   sed "s|\${JGROUPS_INITIAL_HOSTS}|${JGROUPS_INITIAL_HOSTS}|" cli/jgroups/TCPPING/tcp-ping-initial-hosts.cli > /tmp/tcp-ping-initial-hosts.cli
 fi
 
-export DB_VENDOR
 bin/jboss-cli.sh --file=cli/jgroups/$JGROUPS_DIR/standalone-ha-configuration.cli
 rm -rf standalone/configuration/standalone_xml_history/current/*

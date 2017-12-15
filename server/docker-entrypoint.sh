@@ -27,7 +27,7 @@ fi
 
 if [ "$JGROUPS_SETUP" != "" ]; then
     echo "[KEYCLOAK DOCKER IMAGE] Using non-default JGroups setup $JGROUPS_SETUP"
-    /bin/sh /opt/jboss/keycloak/bin/change-jgroups.sh $JGROUPS_SETUP $databaseToInstall
+    /bin/sh /opt/jboss/keycloak/bin/change-jgroups.sh $JGROUPS_SETUP
 fi
 
 exec /opt/jboss/keycloak/bin/standalone.sh $@

@@ -1,6 +1,0 @@
-/subsystem=jgroups/stack=tcp/protocol=JDBC_PING:add(add-index=0,properties=[ \
-  connection_driver=com.mysql.jdbc.jdbc2.optional.MysqlXADataSource, \
-  connection_username=${env.MYSQL_USER:keycloak}, \
-  connection_password=${env.MYSQL_PASSWORD:password}, \
-  connection_url=jdbc:mysql://${env.MYSQL_PORT_3306_TCP_ADDR}:${env.MYSQL_PORT_3306_TCP_PORT}/${env.MYSQL_DATABASE:keycloak}?characterEncoding=UTF-8 \
-])
