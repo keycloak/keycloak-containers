@@ -49,10 +49,10 @@ As soon as the `MYSQL_DATABASE` environment variable is detected, the external M
 
 The available environment variables and parameters are the same as for the `jboss/keycloak-mysql` image.
 
-### Use with an external Postres database
+### Use with an external Postgres database
 
     docker run --name keycloak --link postgres:postgres -e POSTGRES_DATABASE=keycloak -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password jboss/keycloak-openshift start-keycloak.sh
 
-As soon as the `POSTGRES_DATABASE` environment variable is detected, the external Posgres database is used.
+As soon as the `POSTGRES_DATABASE` environment variable is detected, the external Postgres database is used.
 
 The available environment variables and parameters are the same as for the `jboss/keycloak-postgres` image.
