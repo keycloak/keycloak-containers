@@ -31,6 +31,7 @@ RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/
 ADD databases/postgres/module.xml /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main
 
 ENV JBOSS_HOME /opt/jboss/keycloak
+ENV LANG en_US.UTF-8
 
 EXPOSE 8080
 
