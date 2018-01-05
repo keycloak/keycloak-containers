@@ -25,5 +25,10 @@ else
     echo "[KEYCLOAK DOCKER IMAGE] Using the embedded H2 database"
 fi
 
+if [ $JGROUPS_PROTOCOL ]; then
+    echo "[KEYCLOAK DOCKER IMAGE] Using JGroups $JGROUPS_PROTOCOL"
+    /bin/sh /opt/jboss/keycloak/bin/change-jgroups.sh $JGROUPS_PROTOCOL
+fi
+
 exec /opt/jboss/keycloak/bin/standalone.sh $@
 exit $?
