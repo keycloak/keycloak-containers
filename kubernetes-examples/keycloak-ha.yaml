@@ -1,0 +1,81 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jgroups-dns-ping
+  namespace: keycloak
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  publishNotReadyAddresses: true
+  clusterIP: None
+  selector:
+    app: keycloak
+  ports:
+  - protocol: TCP
+    port: 7600
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: kc
+  namespace: keycloak
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+      - name: keycloak-ha
+        image: jboss/keycloak
+        # Once https://github.com/jboss-dockerfiles/keycloak/pull/100 is built we can use that image and remove imagePullPolicy
+        imagePullPolicy: Never
+        env:
+        - name: MYSQL_PORT_3306_TCP_ADDR
+          value: mysql.mysql
+        - name: MYSQL_PORT_3306_TCP_PORT
+          value: "3306"
+        - name: MYSQL_DATABASE
+          value: keycloak
+        - name: MYSQL_USER
+          value: keycloak
+        - name: MYSQL_PASSWORD
+          value: keycloak
+        # first start only, testing only
+        - name: KEYCLOAK_USER
+          value: admin
+        - name: KEYCLOAK_PASSWORD
+          value: test
+        - name: PROXY_ADDRESS_FORWARDING
+          value: "true"
+        - name: CACHE_OWNERS
+          value: "2"
+        - name: JGROUPS_SETUP
+          value: TCPPING
+        args:
+        - -b=0.0.0.0
+        - -bmanagement=0.0.0.0
+        - --server-config=standalone-ha.xml
+        ports:
+        - name: http
+          containerPort: 8080
+        - name: management
+          containerPort: 9090
+        - name: jgroups-tcp
+          containerPort: 7600
+        - name: txn-recovery-ev
+          containerPort: 4712
+        - name: txn-status-mgr
+          containerPort: 4713
+        readinessProbe:
+          httpGet:
+            path: /auth/
+            port: 8080

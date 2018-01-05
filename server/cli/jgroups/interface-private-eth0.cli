@@ -1,0 +1,2 @@
+/interface=private: write-attribute(name=nic, value=eth0)
+/interface=private: undefine-attribute(name=inet-address)

@@ -1,0 +1,1 @@
+/subsystem=transactions:write-attribute(name=node-identifier, value=${jboss.node.name})

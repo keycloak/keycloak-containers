@@ -1,0 +1,4 @@
+/subsystem=jgroups/stack=tcp/protocol=JDBC_PING:add(add-index=0,properties=[ \
+  datasource_jndi_name=java:jboss/datasources/KeycloakDS, \
+  clear_table_on_view_change=true \
+])

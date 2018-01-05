@@ -1,0 +1,1 @@
+/subsystem=jgroups/channel=ee: write-attribute(name=stack,value=tcp)

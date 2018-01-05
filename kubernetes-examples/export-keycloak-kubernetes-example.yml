@@ -1,0 +1,45 @@
+# http://www.keycloak.org/docs/latest/server_admin/topics/export-import.html
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kc-export
+  namespace: keycloak
+spec:
+  template:
+    metadata:
+      labels:
+        app: keycloak-export
+    spec:
+      containers:
+      - name: keycloak-ha
+        image: jboss/keycloak:3.4.1.Final
+        env:
+        - name: MYSQL_PORT_3306_TCP_ADDR
+          value: mysql.mysql
+        - name: MYSQL_PORT_3306_TCP_PORT
+          value: "3306"
+        - name: MYSQL_DATABASE
+          value: keycloak
+        - name: MYSQL_USER
+          value: keycloak_readonly
+        - name: MYSQL_PASSWORD
+          value: keycloak_readonly
+        command:
+        - /bin/bash
+        - -c
+        - >
+          mkdir keycloak-export;
+          date +%FT%T.%N > keycloak-export/keycloak-export-timestamp.txt;
+          echo "Full startup log is in $(pwd)/export-start.log";
+          echo "Wait for export confirmation below, then do something like:";
+          echo "kubectl exec $HOSTNAME -- tar cvz keycloak-export/ > keycloak-export.tgz";
+          echo "...";
+          keycloak/bin/standalone.sh
+          -Dkeycloak.migration.action=export
+          -Dkeycloak.migration.provider=dir
+          -Dkeycloak.migration.dir=$(pwd)/keycloak-export
+          --start-mode=suspend | tee export-start.log | grep -E "(xport|WARN|ERROR)";
+          echo "WARNING Unexpected exit by keycloak";
+          tail -f /dev/null
+      restartPolicy: Never
+  backoffLimit: 2
