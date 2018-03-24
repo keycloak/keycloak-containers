@@ -184,6 +184,7 @@ Specify user for MariaDB database (optional, default is `keycloak`).
 
 Specify password for MariaDB database (optional, default is `password`).
 
+Specify connection with ssl (optional, default is `false`). 
 
 ### Legacy container links
 

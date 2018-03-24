@@ -1,5 +1,5 @@
 /subsystem=datasources/data-source=KeycloakDS: remove()
-/subsystem=datasources/data-source=KeycloakDS: add(jndi-name=java:jboss/datasources/KeycloakDS,enabled=true,use-java-context=true,use-ccm=true, connection-url=jdbc:postgresql://${env.POSTGRES_ADDR:postgres}:${env.POSTGRES_PORT:5432}/${env.POSTGRES_DATABASE:keycloak}, driver-name=postgresql)
+/subsystem=datasources/data-source=KeycloakDS: add(jndi-name=java:jboss/datasources/KeycloakDS,enabled=true,use-java-context=true,use-ccm=true, connection-url=jdbc:postgresql://${env.POSTGRES_ADDR:postgres}:${env.POSTGRES_PORT:5432}/${env.POSTGRES_DATABASE:keycloak}?ssl\=${env.POSTGRES_SSL:false}, driver-name=postgresql)
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=user-name, value=${env.POSTGRES_USER:keycloak})
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=password, value=${env.POSTGRES_PASSWORD:password})
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=check-valid-connection-sql, value="SELECT 1")
