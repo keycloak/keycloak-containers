@@ -190,15 +190,15 @@ Specify password for MariaDB database (optional, default is `password`).
 Legacy container links (`--link`) are still supported, but these will be removed at some point in the future.
 We recommend if you are using these to change to user defined networks as shown in the previous examples.
 
-#### Example with MariaDB using container links
+#### Example with PostgreSQL using container links
 
 ##### Start a PostgreSQL instance
 
-docker run --name mariadb -e -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password mariadb -d mariadb
+docker run --name postgres -e POSTGRES_DB=keycloak -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password -d postgres
 
 ##### Start a Keycloak instance
 
-    docker run --name keycloak --link mariadb:mariadb jboss/keycloak
+    docker run --name keycloak --link postgres:postgres jboss/keycloak
 
 
 
