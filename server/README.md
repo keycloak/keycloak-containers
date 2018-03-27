@@ -39,11 +39,12 @@ Then restarting the container:
 
 ## Database
 
-This image supports using H2, MySQL or PostgreSQL as the database. The image will automatically detect what DB to use based
+This image supports using H2, MySQL, PostgreSQL or MariaDB as the database. The image will automatically detect what DB to use based
 on the following rules:
 
 - Use PostgreSQL if `postgres` hostname resolves or `POSTGRES_ADDR` environment variable is set
 - Use MySQL if `mysql` hostname resolves or `MYSQL_ADDR` environment variable is set
+- Use MariaDB if `mariadb` hostname resolves or `MARIADB_ADDR` environment variable is set
 - Use embedded H2 if none of above and `DB_VENDOR` environment variable not set 
 
 You can also use the `DB_VENDOR` environment variable to explicitly specify the database:
@@ -51,6 +52,7 @@ You can also use the `DB_VENDOR` environment variable to explicitly specify the 
 - `h2` for the embedded H2 database,
 - `postgres` for the Postgres database,
 - `mysql` for the MySql database.
+- `mariadb` for the MariaDB database.
 
 
 
@@ -126,7 +128,7 @@ Specify hostname of PostgreSQL database (optional, default is `postgres`).
 
 ##### POSTGRES_PORT
 
-Specify port of PostgreSQL database (optional, default is `3306`).
+Specify port of PostgreSQL database (optional, default is `5432`).
 
 ##### POSTGRES_DATABASE
 
@@ -140,6 +142,47 @@ Specify user for PostgreSQL database (optional, default is `keycloak`).
 
 Specify password for PostgreSQL database (optional, default is `password`).
 
+### MariaDB
+
+#### Create a user define network
+
+    docker network create keycloak-network
+
+#### Start a MariaDB instance
+
+First start a MariaDB instance using the MariaDB docker image:
+
+    docker run -d --name mariadb --net keycloak-network -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password mariadb
+    
+If you choose a different container name to `mariadb` you need to specify the `MARIADB_ADDR` environment variable. 
+
+#### Start a Keycloak instance
+
+Start a Keycloak instance and connect to the MariaDB instance:
+
+    docker run --name keycloak --net keycloak-network jboss/keycloak
+
+#### Environment variables
+
+##### MARIADB_ADDR
+
+Specify hostname of MariaDB database (optional, default is `mariadb`).
+
+##### MARIADB_PORT
+
+Specify port of MariaDB database (optional, default is `3306`).
+
+##### MARIADB_DATABASE
+
+Specify name of MariaDB database (optional, default is `keycloak`).
+
+##### MARIADB_USER
+
+Specify user for MariaDB database (optional, default is `keycloak`).
+
+##### MARIADB_PASSWORD
+
+Specify password for MariaDB database (optional, default is `password`).
 
 
 ### Legacy container links
@@ -147,15 +190,15 @@ Specify password for PostgreSQL database (optional, default is `password`).
 Legacy container links (`--link`) are still supported, but these will be removed at some point in the future.
 We recommend if you are using these to change to user defined networks as shown in the previous examples.
 
-#### Example with PostgreSQL using container links
+#### Example with MariaDB using container links
 
 ##### Start a PostgreSQL instance
 
-docker run --name postgres -e POSTGRES_DB=keycloak -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password -d postgres
+docker run --name mariadb -e -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password mariadb -d mariadb
 
 ##### Start a Keycloak instance
 
-    docker run --name keycloak --link postgres:postgres jboss/keycloak
+    docker run --name keycloak --link mariadb:mariadb jboss/keycloak
 
 
 
