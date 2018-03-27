@@ -21,6 +21,7 @@ RUN cd /opt/jboss/keycloak && bin/jboss-cli.sh --file=cli/standalone-ha-configur
 
 ENV JDBC_POSTGRES_VERSION 42.1.4
 ENV JDBC_MYSQL_VERSION 5.1.18
+ENV JDBC_MARIADB_VERSION 2.2.3
 
 ADD databases/change-database.sh /opt/jboss/keycloak/bin/change-database.sh
 
@@ -29,6 +30,9 @@ ADD databases/mysql/module.xml /opt/jboss/keycloak/modules/system/layers/base/co
 
 RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main; cd /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main; curl -L http://central.maven.org/maven2/org/postgresql/postgresql/$JDBC_POSTGRES_VERSION/postgresql-$JDBC_POSTGRES_VERSION.jar > postgres-jdbc.jar
 ADD databases/postgres/module.xml /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main
+
+RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/mariadb/jdbc/main; cd /opt/jboss/keycloak/modules/system/layers/base/org/mariadb/jdbc/main; curl -L http://central.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/$JDBC_MARIADB_VERSION/mariadb-java-client-$JDBC_MARIADB_VERSION.jar > mariadb-jdbc.jar
+ADD databases/mariadb/module.xml /opt/jboss/keycloak/modules/system/layers/base/org/mariadb/jdbc/main
 
 ENV JBOSS_HOME /opt/jboss/keycloak
 ENV LANG en_US.UTF-8

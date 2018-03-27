@@ -21,7 +21,15 @@ if [ "$POSTGRES_PORT_5432_TCP_ADDR" != "" ]; then
 fi
 
 if [ "$POSTGRES_PORT_5432_TCP_PORT" != "" ]; then
-    POSTGRES_PORT="$POSTGRES_PORT_5432_TCP_PORT"
+    export POSTGRES_PORT="$POSTGRES_PORT_5432_TCP_PORT"
+fi
+
+if [ "$MARIADB_PORT_3306_TCP_ADDR" != "" ]; then
+    export MARIADB_ADDR="$MARIADB_PORT_3306_TCP_ADDR"
+fi
+
+if [ "$MARIADB_PORT_3306_TCP_PORT" != "" ]; then
+    export MARIADB_PORT="$MARIADB_PORT_3306_TCP_PORT"
 fi
 
 
@@ -31,6 +39,8 @@ if [ "$DB_VENDOR" == "POSTGRES" ]; then
     export DB_VENDOR="postgres"
 elif [ "$DB_VENDOR" == "MYSQL" ]; then
       export DB_VENDOR="mysql"
+elif [ "$DB_VENDOR" == "MARIADB" ]; then
+      export DB_VENDOR="mariadb"
 elif [ "$DB_VENDOR" == "H2" ]; then
       export DB_VENDOR="h2"
 else
@@ -39,9 +49,13 @@ else
     elif (getent hosts postgres &>/dev/null); then
         export DB_VENDOR="postgres"
     elif (printenv | grep '^MYSQL_ADDR=' &>/dev/null); then
-        export DB_VENDOR="mysql"
+        export DB_VENDOR="mysql"    
     elif (getent hosts mysql &>/dev/null); then
         export DB_VENDOR="mysql"
+    elif (printenv | grep '^MARIADB_ADDR=' &>/dev/null); then
+        export DB_VENDOR="mariadb"            
+    elif (getent hosts mariadb &>/dev/null); then
+        export DB_VENDOR="mariadb"
     fi
 fi
 
@@ -53,6 +67,8 @@ if [ "$DB_VENDOR" == "postgres" ]; then
     DB_NAME="PostgreSQL"
 elif [ "$DB_VENDOR" == "mysql" ]; then
     DB_NAME="MySQL"
+elif [ "$DB_VENDOR" == "mariadb" ]; then
+    DB_NAME="MariaDB"    
 else
     DB_NAME="embedded H2"
 fi
