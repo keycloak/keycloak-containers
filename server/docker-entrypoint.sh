@@ -73,6 +73,7 @@ else
     DB_NAME="embedded H2"
 fi
 
+export JDBC_PARAMS=$(echo ${JDBC_PARAMS} | sed '/^$/! s/^/?/')
 
 
 # Configure DB

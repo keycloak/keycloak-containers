@@ -22,6 +22,7 @@ services:
         POSTGRES_PASSWORD: password
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: Pa55w0rd
+        JDBC_PARAMS: "ssl=true"
       ports:
         - 8080:8080
       depends_on:

@@ -23,6 +23,7 @@ services:
         MYSQL_PASSWORD: password
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: Pa55w0rd
+        JDBC_PARAMS: "connectTimeout=30000"
       ports:
         - 8080:8080
       depends_on:
