@@ -99,7 +99,6 @@ Specify user for MySQL database (optional, default is `keycloak`).
 Specify password for MySQL database (optional, default is `password`).
 
 
-
 ### PostgreSQL
 
 #### Create a user define network
@@ -184,7 +183,6 @@ Specify user for MariaDB database (optional, default is `keycloak`).
 
 Specify password for MariaDB database (optional, default is `password`).
 
-
 ### Legacy container links
 
 Legacy container links (`--link`) are still supported, but these will be removed at some point in the future.
@@ -229,7 +227,26 @@ When running Keycloak behind a proxy, you will need to enable proxy address forw
 
     docker run -e PROXY_ADDRESS_FORWARDING=true jboss/keycloak
 
+### Specify JDBC parameters
 
+When connecting Keycloak instance to the database, you can specify the JDBC parameters. Learn more:
+
+* [PostgreSQL](https://jdbc.postgresql.org/documentation/head/connect.html)
+* [MySQL](https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-configuration-properties.html)
+* [MariaDB](https://mariadb.com/kb/en/library/about-mariadb-connector-j/#optional-url-parameters)
+
+
+#### PostgreSQL example
+
+    docker run --name keycloak -e JDBC_PARAMS='connectTimeout=30' jboss/keycloak
+    
+#### MySQL example
+
+    docker run --name keycloak -e JDBC_PARAMS='connectTimeout=30000' jboss/keycloak
+    
+#### MariaDB example
+
+    docker run --name keycloak -e JDBC_PARAMS='connectTimeout=30000' jboss/keycloak
 
 ## Other details
 

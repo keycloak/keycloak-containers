@@ -73,6 +73,8 @@ else
     DB_NAME="embedded H2"
 fi
 
+# Append '?' in the beggining of the string if JDBC_PARAMS value isn't empty
+export JDBC_PARAMS=$(echo ${JDBC_PARAMS} | sed '/^$/! s/^/?/')
 
 
 # Configure DB
