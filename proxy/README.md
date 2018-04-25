@@ -5,7 +5,7 @@ The Keycloak Security Proxy docker image.
 ## Usage
 
 This image is intended to be used with an existing `/tmp/conf/proxy.json` on the host machine. 
-See [the proxy documentation](https://www.keycloak.org/docs/3.3/server_installation/topics/proxy.html) 
+See [the proxy documentation](https://www.keycloak.org/docs/latest/server_installation/index.html#_proxy) 
 for more details.
 
     docker run --rm --name keycloak-proxy -v /tmp/conf:/opt/jboss/conf -p 8180:8180 jboss/keycloak-proxy
