@@ -24,17 +24,19 @@ To choose the execution mode, you can use the `DB_VENDOR` environment variable:
 - `POSTGRES` for the Postgres database,
 - `MYSQL` for the MySql database.
 
-If no `DB_VENDOR` variable is set, then the startup script will try to guess the
-execution mode based on the existence of other environment variable (more precisely
-`MYSQL_DATABASE` or `POSTGRES_DATABASE`).
+If no `DB_VENDOR` variable is set, then the startup script will fail with the following error message:
+```
+Missing mandatory environment variable DB_VENDOR. Allowed values are [H2, POSTGRES, MYSQL, MARIADB]
+```
+
 If no database-related environement variable is set, the script will use the embedded
 H2 database by default.
- 
+
 
 ### Use with an embedded database
 
     docker run -e DB_VENDOR=H2 jboss/keycloak-openshift start-keycloak.sh
-    
+
 or simply
 
     docker run jboss/keycloak-openshift start-keycloak.sh
@@ -43,16 +45,12 @@ The available environment variables and parameters are the same as for the `jbos
 
 ### Use with an external MySql database
 
-    docker run --name keycloak --link mysql:mysql -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password jboss/keycloak-openshift start-keycloak.sh
-
-As soon as the `MYSQL_DATABASE` environment variable is detected, the external Mysql database is used.
+    docker run --name keycloak --link mysql:mysql -e DB_DATABASE=keycloak -e DB_USER=keycloak -e DB_PASSWORD=password jboss/keycloak-openshift start-keycloak.sh
 
 The available environment variables and parameters are the same as for the `jboss/keycloak-mysql` image.
 
 ### Use with an external Postgres database
 
-    docker run --name keycloak --link postgres:postgres -e POSTGRES_DATABASE=keycloak -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password jboss/keycloak-openshift start-keycloak.sh
-
-As soon as the `POSTGRES_DATABASE` environment variable is detected, the external Postgres database is used.
+    docker run --name keycloak --link postgres:postgres -e DB_DATABASE=keycloak -e DB_USER=keycloak -e DB_PASSWORD=password jboss/keycloak-openshift start-keycloak.sh
 
 The available environment variables and parameters are the same as for the `jboss/keycloak-postgres` image.

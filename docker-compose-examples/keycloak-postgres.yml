@@ -15,14 +15,14 @@ services:
         POSTGRES_PASSWORD: password
   keycloak:
       image: jboss/keycloak
-      environment: 
-        POSTGRES_ADDR: postgres
-        POSTGRES_DATABASE: keycloak
-        POSTGRES_USER: keycloak
-        POSTGRES_PASSWORD: password
+      environment:
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
+        DB_PASSWORD: password
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: Pa55w0rd
-        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it. 
+        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
         #JDBC_PARAMS: "ssl=true"
       ports:
         - 8080:8080
