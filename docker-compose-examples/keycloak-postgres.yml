@@ -16,6 +16,7 @@ services:
   keycloak:
       image: jboss/keycloak
       environment:
+        DB_VENDOR: POSTGRES
         DB_ADDR: postgres
         DB_DATABASE: keycloak
         DB_USER: keycloak
