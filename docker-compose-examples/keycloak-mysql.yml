@@ -17,6 +17,7 @@ services:
   keycloak:
       image: jboss/keycloak
       environment:
+        DB_VENDOR: MYSQL
         DB_ADDR: mysql
         DB_DATABASE: keycloak
         DB_USER: keycloak
