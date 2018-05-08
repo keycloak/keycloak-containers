@@ -28,7 +28,17 @@ Run the example with the following command:
 
 Note - This example is not currently working as MySQL is not ready to receive connections when Keycloak is started.
 
+## Keycloak and Mssql
 
+The `keycloak-mssql.yml` template creates a volume for Mssql and starts Keycloak connected to a Mssql instace. 
+
+Run the example with the following command:
+
+    docker-compose -f keycloak-mssql.yml up
+    
+Note - This example is uses a additional container to create the keycloak database prior to loading the keycloak application.  In addition, the keycloak container can be rebuilt using
+    
+    docker-compose -f .\docker-compose-examples\keycloak-mssql.yml build
 
 ## Troubleshooting
 

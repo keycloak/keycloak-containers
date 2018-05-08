@@ -22,6 +22,7 @@ RUN cd /opt/jboss/keycloak && bin/jboss-cli.sh --file=cli/standalone-ha-configur
 ENV JDBC_POSTGRES_VERSION 42.2.2
 ENV JDBC_MYSQL_VERSION 5.1.18
 ENV JDBC_MARIADB_VERSION 2.2.3
+ENV JDBC_MSSQL_VERSION 6.4.0
 
 ADD databases/change-database.sh /opt/jboss/keycloak/bin/change-database.sh
 
@@ -33,6 +34,9 @@ ADD databases/postgres/module.xml /opt/jboss/keycloak/modules/system/layers/base
 
 RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/mariadb/jdbc/main; cd /opt/jboss/keycloak/modules/system/layers/base/org/mariadb/jdbc/main; curl -L http://central.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/$JDBC_MARIADB_VERSION/mariadb-java-client-$JDBC_MARIADB_VERSION.jar > mariadb-jdbc.jar
 ADD databases/mariadb/module.xml /opt/jboss/keycloak/modules/system/layers/base/org/mariadb/jdbc/main
+
+RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/keycloak/com/microsoft/sqlserver/jdbc/main; cd /opt/jboss/keycloak/modules/system/layers/keycloak/com/microsoft/sqlserver/jdbc/main; curl -L http://central.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/$JDBC_MSSQL_VERSION.jre8/mssql-jdbc-$JDBC_MSSQL_VERSION.jre8.jar > mssql-jdbc.jar
+ADD databases/mssql/module.xml /opt/jboss/keycloak/modules/system/layers/keycloak/com/microsoft/sqlserver/jdbc/main
 
 ENV JBOSS_HOME /opt/jboss/keycloak
 ENV LANG en_US.UTF-8

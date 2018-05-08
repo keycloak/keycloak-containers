@@ -39,12 +39,13 @@ Then restarting the container:
 
 ## Database
 
-This image supports using H2, MySQL, PostgreSQL or MariaDB as the database.
+This image supports using H2, MySQL, PostgreSQL, MariaDB, or Mssql as the database.
 The image will automatically detect what DB to use based on the value of the `DB_VENDOR` environment variable:
 - `H2` for the embedded H2 database,
 - `POSTGRES` for the Postgres database,
 - `MYSQL` for the MySql database.
 - `MARIADB` for the MariaDB database.
+- `MSSQL` for the Mssql database.
 
 If `DB_VENDOR` is not set the startup script will fail with the following error message:
 ```
@@ -59,10 +60,12 @@ Generic variable names can be used to configure any Database type, defaults may 
   - MySQL: `mysql`
   - PostgreSQL: `postgres`
   - MariaDB: `mariadb`
+  - Mssql: `mssqldb`
 - `DB_PORT`: Specify port of the database (optional)
   - MySQL: `3306`
   - PostgreSQL: `5432`
   - MariaDB: `3306`
+  - Mssql: `1433`
 - `DB_DATABASE`: Specify name of the database to use (optional, default is `keycloak`).
 - `DB_USER`: Specify user to use to authenticate to the database (optional, default is `keycloak`).
 - DB_PASSWORD: Specify user's password to use to authenticate to the database (optional, default is `password`).
@@ -199,6 +202,60 @@ Specify password for MariaDB database (optional, default is `password`). **Depre
 Legacy container links (`--link`) are still supported, but these will be removed at some point in the future.
 We recommend if you are using these to change to user defined networks as shown in the previous examples.
 
+### Mssql
+
+#### Create a user define network
+
+    docker network create keycloak-network
+
+#### Start a Mssql instance
+
+First start a Mssql instance using the Mssql docker image:
+
+    docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=P@ssword123' -d --net keycloak-network microsoft/mssql-server-linux:latest
+
+If you choose a different container name to `mssql` you need to specify the `DB_ADDR` environment variable.
+
+Mssql requires a strong password which must be more than 8 characters in length and satisfy at least three of the following four criteria:
+
+- contain uppercase letters.
+- lowercase letters.
+- numbers.
+- non-alphanumeric characters; for example, #, %, or ^
+
+#### Start a Keycloak instance
+
+Start a Keycloak instance and connect to the Mssql instance:
+
+    docker run --name keycloak --net keycloak-network jboss/keycloak
+
+#### Environment variables
+
+##### MSSQL_ADDR
+
+Specify hostname of Mssql database (optional, default is `mssql`). **Deprecated**. Use `DB_ADDR`
+
+##### MSSQL_PORT
+
+Specify port of Mssql database (optional, default is `1433`). **Deprecated**. Use `DB_PORT`
+
+##### MSSQL_DATABASE
+
+Specify name of Mssql database (optional, default is `keycloak`). **Deprecated**. Use `DB_DATABASE`
+
+##### MSSQL_USER
+
+Specify user for Mssql database (optional, default is `sa`). **Deprecated**. Use `DB_USER`
+
+##### MSSQL_PASSWORD
+
+Specify password for Mssql database (optional, default is `password`). **Deprecated**. Use `DB_PASSWORD`
+
+### Legacy container links
+
+Legacy container links (`--link`) are still supported, but these will be removed at some point in the future.
+We recommend if you are using these to change to user defined networks as shown in the previous examples.
+
 #### Example with PostgreSQL using container links
 
 ##### Start a PostgreSQL instance
@@ -245,7 +302,7 @@ When connecting Keycloak instance to the database, you can specify the JDBC para
 * [PostgreSQL](https://jdbc.postgresql.org/documentation/head/connect.html)
 * [MySQL](https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-configuration-properties.html)
 * [MariaDB](https://mariadb.com/kb/en/library/about-mariadb-connector-j/#optional-url-parameters)
-
+* [Mssql](https://docs.microsoft.com/en-us/sql/connect/jdbc/building-the-connection-url?view=sql-server-2017)
 
 #### PostgreSQL example
 
