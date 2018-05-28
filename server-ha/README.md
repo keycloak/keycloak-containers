@@ -1,26 +1,62 @@
-# Keycloak HA PostgreSQL
+# Keycloak Docker image
 
-Example Docker file for clustered Keycloak using a PostgreSQL
+Keycloak HA Server Docker image.
 
 ## Usage
 
-### Start a PostgreSQL instance
+Settings are same like in jboss/keycloak image.
 
-First start a PostgreSQL instance using the PostgreSQL docker image:
+## Expose on localhost
 
-    docker run --name postgres -e POSTGRES_DATABASE=keycloak -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password -e POSTGRES_ROOT_PASSWORD=password -d postgres
+To be able to open Keycloak on localhost map port 8080 locally
 
-### Start a Keycloak HA instance
-
-Start two or more Keycloak instances that form a cluster and connect to the PostgreSQL instance running in previously started 'postgres' container:
-
-    docker run --name keycloak --link postgres:postgres -e DB_DATABASE=keycloak -e DB_USER=keycloak -e DB_PASSWORD=password jboss/keycloak-ha-postgres
-    docker logs -f keycloak
-
-    docker run --name keycloak2 --link postgres:postgres -e DB_DATABASE=keycloak -e DB_USER=keycloak -e DB_PASSWORD=password jboss/keycloak-ha-postgres
-    docker logs -f keycloak2
+    docker run -p 8080:8080 jboss/keycloak-ha
 
 
+#### Example with PostgreSQL
+
+##### Start a PostgreSQL instance
+
+    docker run --name postgres -e POSTGRES_DB=keycloak -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password -d postgres
+
+##### Start a Keycloak instances
+
+    docker run --name keycloak1 jboss/keycloak-ha
+    docker run --name keycloak2 jboss/keycloak-ha
+
+##### Docker Compose Example
+    
+    version: "3.2"
+    services:
+      keycloak:
+        image: jboss/keycloak-ha:latest
+        restart: always
+        deploy:
+          replicas: 2
+        ports:
+          - "8080:8080"
+        networks:
+          - devnet
+      postgres:
+        image: postgres:latest
+        restart: always
+        environment:
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: keycloak
+          POSTGRES_DB: keycloak
+        deploy:
+          replicas: 1
+          placement:
+            constraints: [node.role == manager]
+        networks:
+          - devnet
+    networks:
+        devnet:
+    
+    
+    
 ## Other details
 
-This image extends the [`jboss/keycloak-postgres`](https://github.com/jboss-dockerfiles/keycloak) image. Please refer to the README.md for selected images for more info.
+This image extends the [`jboss/base-jdk`](https://github.com/JBoss-Dockerfiles/base-jdk) image which adds the OpenJDK
+distribution on top of the [`jboss/base`](https://github.com/JBoss-Dockerfiles/base) image. Please refer to the README.md
+for selected images for more info.
