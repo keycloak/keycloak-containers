@@ -20,7 +20,7 @@ RUN cd /opt/jboss/keycloak && bin/jboss-cli.sh --file=cli/standalone-configurati
 RUN cd /opt/jboss/keycloak && bin/jboss-cli.sh --file=cli/standalone-ha-configuration.cli && rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
 
 ENV JDBC_POSTGRES_VERSION 42.2.2
-ENV JDBC_MYSQL_VERSION 5.1.18
+ENV JDBC_MYSQL_VERSION 5.1.46
 ENV JDBC_MARIADB_VERSION 2.2.3
 
 ADD databases/change-database.sh /opt/jboss/keycloak/bin/change-database.sh
