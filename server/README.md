@@ -76,7 +76,7 @@ Generic variable names can be used to configure any Database type, defaults may 
 
 First start a MySQL instance using the MySQL docker image:
 
-    docker run --name mysql -d --net keycloak-network -e MYSQL_ROOT_PASSWORD=root_password mysql
+    docker run --name mysql -d --net keycloak-network -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password -e MYSQL_ROOT_PASSWORD=root_password mysql
 
 #### Start a Keycloak instance
 
@@ -96,7 +96,7 @@ If you used a different name for the MySQL instance to `mysql` you need to speci
 
 First start a PostgreSQL instance using the PostgreSQL docker image:
 
-    docker run -d --name postgres --net keycloak-network postgres
+    docker run -d --name postgres --net keycloak-network -e POSTGRES_DB=keycloak -e POSTGRES_USER=keycloak -e POSTGRES_PASSWORD=password postgres
 
 #### Start a Keycloak instance
 
@@ -116,7 +116,7 @@ If you used a different name for the PostgreSQL instance to `postgres` you need 
 
 First start a MariaDB instance using the MariaDB docker image:
 
-    docker run -d --name mariadb --net keycloak-network -e MYSQL_ROOT_PASSWORD=password mariadb
+    docker run -d --name mariadb --net keycloak-network -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=keycloak -e MYSQL_USER=keycloak -e MYSQL_PASSWORD=password mariadb
 
 #### Start a Keycloak instance
 
