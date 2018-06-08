@@ -42,6 +42,9 @@ elif [ "$DB_VENDOR" == "MYSQL" ]; then
 elif [ "$DB_VENDOR" == "MARIADB" ]; then
     export DB_VENDOR="mariadb"
     DB_NAME="MariaDB"
+elif [ "$DB_VENDOR" == "MSSQL" ]; then
+    export DB_VENDOR="mssql"
+    DB_NAME="MSSQL"
 elif [ "$DB_VENDOR" == "H2" ]; then
     export DB_VENDOR="h2"
     DB_NAME="embedded H2"
