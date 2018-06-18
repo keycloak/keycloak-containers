@@ -7,11 +7,14 @@ ENV LAUNCH_JBOSS_IN_BACKGROUND 1
 ENV PROXY_ADDRESS_FORWARDING false
 USER root
 
-RUN yum install -y epel-release && yum install -y jq && yum clean all
+RUN yum install -y epel-release jq git && yum clean all
 
 USER jboss
 
-RUN cd /opt/jboss/ && curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/keycloak-$KEYCLOAK_VERSION.tar.gz | tar zx && mv /opt/jboss/keycloak-$KEYCLOAK_VERSION /opt/jboss/keycloak
+ARG SOURCE_BRANCH
+
+ADD build-keycloak.sh /opt/jboss/build-keycloak.sh
+RUN /opt/jboss/build-keycloak.sh
 
 ADD docker-entrypoint.sh /opt/jboss/
 
