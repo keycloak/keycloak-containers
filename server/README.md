@@ -183,3 +183,27 @@ When running Keycloak behind a proxy, you will need to enable proxy address forw
 This image extends the [`jboss/base-jdk`](https://github.com/JBoss-Dockerfiles/base-jdk) image which adds the OpenJDK
 distribution on top of the [`jboss/base`](https://github.com/JBoss-Dockerfiles/base) image. Please refer to the README.md
 for selected images for more info.
+
+
+
+## Building image with Keycloak from different sources
+
+### Building Keycloak from GitHub repository
+
+It is possible to build Keycloak from a GitHub repository instead of downloading the official release. To do this set the `GITHUB_REPO` build argument to the GitHub repository name and optionally set the `GITHUB_BRANCH` build argument to the branch to build. For example:
+
+    docker build --build-arg GIT_REPO=keycloak/keycloak --build-arg GIT_BRANCH=master .
+
+This will clone the repository then build Keycloak from source. If you don't include GIT_BRANCH it will use the `master` branch.
+
+#### Download Keycloak from an alternative location
+
+It is possible to download the Keycloak distribution from an alternative location. This can for example be useful if you want to build a Docker image from Keycloak built locally. For example:
+
+    docker build --build-arg KEYCLOAK_DIST=http://172.17.0.1:8000/keycloak-4.1.0.Final-SNAPSHOT.tar.gz .
+
+For Keycloak built locally you need to first build the distribution then serve it with a web browser. For example use SimpleHTTPServer:
+
+    cd $KEYCLOAK_CHECKOUT/distribution/server-dist/target
+    python -m SimpleHTTPServer 8000
+    
