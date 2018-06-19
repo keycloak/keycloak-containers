@@ -1,13 +1,11 @@
 #!/bin/bash -e
 
-echo KEYCLOAK_BRANCH = $SOURCE_BRANCH
-
-if [ "$SOURCE_BRANCH" == master ] || [[ "$SOURCE_BRANCH" == build-* ]]; then
-    if [[ "$SOURCE_BRANCH" == build-* ]]; then
-        SOURCE_BRANCH=`echo $SOURCE_BRANCH | sed 's/build-//'`
+if [ "$GIT_REPO" != "" ]; then
+    if [ "$GIT_BRANCH" == "" ]; then
+        GIT_BRANCH="master"
     fi
 
-    echo "Build Keycloak from branch $SOURCE_BRANCH"
+    echo "Build from https://github.com/$GIT_REPO (branch $GIT_BRANCH)"
 
     # Install Maven
     cd /opt/jboss 
@@ -16,7 +14,7 @@ if [ "$SOURCE_BRANCH" == master ] || [[ "$SOURCE_BRANCH" == build-* ]]; then
     export M2_HOME=/opt/jboss/maven
 
     # Clone repository
-    git clone --depth 1 https://github.com/keycloak/keycloak.git -b $SOURCE_BRANCH /opt/jboss/keycloak-source
+    git clone --depth 1 https://github.com/$GIT_REPO.git -b $GIT_BRANCH /opt/jboss/keycloak-source
 
     # Build
     cd /opt/jboss/keycloak-source
@@ -25,14 +23,15 @@ if [ "$SOURCE_BRANCH" == master ] || [[ "$SOURCE_BRANCH" == build-* ]]; then
     cd /opt/jboss
     tar xfz /opt/jboss/keycloak-source/distribution/server-dist/target/keycloak-*.tar.gz
     
-    mv /opt/jboss/keycloak-?.?.?.Final-SNAPSHOT /opt/jboss/keycloak
+    mv /opt/jboss/keycloak-?.?.?.* /opt/jboss/keycloak
 
     # Remove temporary files
     rm -rf /opt/jboss/maven
     rm -rf /opt/jboss/keycloak-source
     rm -rf $HOME/.m2/repository
 else
+    echo "Download Keycloak from $KEYCLOAK_DIST"
     cd /opt/jboss/
-    curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/keycloak-$KEYCLOAK_VERSION.tar.gz | tar zx
-    mv /opt/jboss/keycloak-$KEYCLOAK_VERSION /opt/jboss/keycloak
+    curl -L $KEYCLOAK_DIST | tar zx
+    mv /opt/jboss/keycloak-?.?.?.* /opt/jboss/keycloak
 fi
