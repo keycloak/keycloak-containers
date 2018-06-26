@@ -6,7 +6,7 @@ Example Docker file for Keycloak using an Oracle database
 ### Start an Oracle database instance
 First start an Oracle database instance using the official docker image:
 ```bash
-docker run --name oracle -e ORACLE_PWD=oracle -d oracle/database:11.2.0.2-xe
+docker run --shm-size="2gb" --name oracle -e ORACLE_PWD=oracle -d oracle/database:11.2.0.2-xe
 ```
 Wait for the database to start, that is until you see:
 ```
