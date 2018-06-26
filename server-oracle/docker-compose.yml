@@ -1,0 +1,5 @@
+version: "3"
+services:
+    service-name:
+        image: jboss/keycloak-oracle:4.0.0.Final
+        build: .
