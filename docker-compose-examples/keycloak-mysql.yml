@@ -3,6 +3,8 @@ version: '3'
 volumes:
   mysql_data:
       driver: local
+  kc_data:
+      driver: local
 
 services:
   mysql:
@@ -16,6 +18,8 @@ services:
         MYSQL_PASSWORD: password
   keycloak:
       image: jboss/keycloak
+      volumes:
+        - kc_data:/opt/jboss/keycloak/standalone/data
       environment:
         DB_VENDOR: MYSQL
         DB_ADDR: mysql
