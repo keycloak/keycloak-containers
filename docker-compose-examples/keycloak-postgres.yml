@@ -3,6 +3,8 @@ version: '3'
 volumes:
   postgres_data:
       driver: local
+  kc_data:
+      driver: local
 
 services:
   postgres:
@@ -15,6 +17,8 @@ services:
         POSTGRES_PASSWORD: password
   keycloak:
       image: jboss/keycloak
+      volumes:
+        - kc_data:/opt/jboss/keycloak/standalone/data
       environment:
         DB_VENDOR: POSTGRES
         DB_ADDR: postgres
