@@ -89,6 +89,10 @@ fi
 ##################
 # Start Keycloak #
 ##################
+if [ "$KEYCLOAK_OPERATING_MODE" != "" ]; then
+    exec /opt/jboss/keycloak/bin/${KEYCLOAK_OPERATING_MODE}.sh $@ 
+else
+    exec /opt/jboss/keycloak/bin/standalone.sh $@
+fi
 
-exec /opt/jboss/keycloak/bin/standalone.sh $@
 exit $?
