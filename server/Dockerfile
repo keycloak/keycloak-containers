@@ -7,7 +7,11 @@ ENV LAUNCH_JBOSS_IN_BACKGROUND 1
 ENV PROXY_ADDRESS_FORWARDING false
 USER root
 
-RUN yum install -y epel-release jq git && yum clean all
+RUN yum install -y epel-release git && yum clean all
+# The package epel-release has to be present before jq can be installed, so
+# this has to be done in a separate line, after installation of epel-release is
+# done:
+RUN yum install -y jq && yum clean all
 
 USER jboss
 
