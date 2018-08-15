@@ -9,8 +9,8 @@ if [ "$GIT_REPO" != "" ]; then
 
     # Install Maven
     cd /opt/jboss 
-    curl -s http://apache.uib.no/maven/maven-3/3.5.3/binaries/apache-maven-3.5.3-bin.tar.gz | tar xz
-    mv apache-maven-3.5.3 /opt/jboss/maven
+    curl -s http://apache.uib.no/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz | tar xz
+    mv apache-maven-3.5.4 /opt/jboss/maven
     export M2_HOME=/opt/jboss/maven
 
     # Clone repository
@@ -21,6 +21,7 @@ if [ "$GIT_REPO" != "" ]; then
     $M2_HOME/bin/mvn -Pdistribution -pl distribution/server-dist -am -Dmaven.test.skip clean install
     
     cd /opt/jboss
+
     tar xfz /opt/jboss/keycloak-source/distribution/server-dist/target/keycloak-*.tar.gz
     
     mv /opt/jboss/keycloak-?.?.?.* /opt/jboss/keycloak
