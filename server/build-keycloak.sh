@@ -5,8 +5,6 @@ if [ "$GIT_REPO" != "" ]; then
         GIT_BRANCH="master"
     fi
 
-    echo "Build from https://github.com/$GIT_REPO (branch $GIT_BRANCH)"
-
     # Install Maven
     cd /opt/jboss 
     curl -s http://apache.uib.no/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz | tar xz
@@ -19,8 +17,8 @@ if [ "$GIT_REPO" != "" ]; then
     # Build
     cd /opt/jboss/keycloak-source
 
-    MASTER_HEAD=`git log -n1 --format="%H" upstream/master`
-    echo "Keycloak build: $GIT_REPO/$GIT_BRANCH/commit/$MASTER_HEAD"
+    MASTER_HEAD=`git log -n1 --format="%H"`
+    echo "Keycloak from [build]: $GIT_REPO/$GIT_BRANCH/commit/$MASTER_HEAD"
 
     $M2_HOME/bin/mvn -Pdistribution -pl distribution/server-dist -am -Dmaven.test.skip clean install
     
@@ -35,7 +33,7 @@ if [ "$GIT_REPO" != "" ]; then
     rm -rf /opt/jboss/keycloak-source
     rm -rf $HOME/.m2/repository
 else
-    echo "Keycloak download: $KEYCLOAK_DIST"
+    echo "Keycloak from [download]: $KEYCLOAK_DIST"
 
     cd /opt/jboss/
     curl -L $KEYCLOAK_DIST | tar zx
