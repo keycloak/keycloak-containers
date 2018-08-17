@@ -16,11 +16,12 @@ if [ "$GIT_REPO" != "" ]; then
     # Clone repository
     git clone --depth 1 https://github.com/$GIT_REPO.git -b $GIT_BRANCH /opt/jboss/keycloak-source
 
+    # Build
+    cd /opt/jboss/keycloak-source
+
     MASTER_HEAD=`git log -n1 --format="%H" upstream/master`
     echo "Keycloak build: $GIT_REPO/$GIT_BRANCH/commit/$MASTER_HEAD"
 
-    # Build
-    cd /opt/jboss/keycloak-source
     $M2_HOME/bin/mvn -Pdistribution -pl distribution/server-dist -am -Dmaven.test.skip clean install
     
     cd /opt/jboss
