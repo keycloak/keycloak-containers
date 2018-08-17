@@ -9,6 +9,14 @@ if [ $KEYCLOAK_USER ] && [ $KEYCLOAK_PASSWORD ]; then
 fi
 
 ############
+# Hostname #
+############
+
+if [ "$KEYCLOAK_HOSTNAME" != "" ]; then
+    SYS_PROPS="-Dkeycloak.hostname.provider=fixed -Dkeycloak.hostname.fixed.hostname=$KEYCLOAK_HOSTNAME"
+fi
+
+############
 # DB setup #
 ############
 
@@ -90,5 +98,5 @@ fi
 # Start Keycloak #
 ##################
 
-exec /opt/jboss/keycloak/bin/standalone.sh $@
+exec /opt/jboss/keycloak/bin/standalone.sh $SYS_PROPS $@
 exit $?
