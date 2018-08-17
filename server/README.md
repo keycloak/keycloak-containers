@@ -156,6 +156,12 @@ directory.
 
 ## Misc
 
+### Specify hostname
+
+To set a fixed hostname for Keycloak use the following environment value. This is highly recommended in production.
+
+* `KEYCLOAK_HOSTNAME`: Specify hostname for Keycloak (optional, default is retrieved from request, recommended in production)
+
 ### Specify log level
 
 There are two environment variables available to control the log level for Keycloak:
