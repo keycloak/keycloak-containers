@@ -16,6 +16,9 @@ if [ "$GIT_REPO" != "" ]; then
     # Clone repository
     git clone --depth 1 https://github.com/$GIT_REPO.git -b $GIT_BRANCH /opt/jboss/keycloak-source
 
+    MASTER_HEAD=`git log -n1 --format="%H" upstream/master`
+    echo "Keycloak build: $GIT_REPO/$GIT_BRANCH/commit/$MASTER_HEAD"
+
     # Build
     cd /opt/jboss/keycloak-source
     $M2_HOME/bin/mvn -Pdistribution -pl distribution/server-dist -am -Dmaven.test.skip clean install
@@ -31,7 +34,8 @@ if [ "$GIT_REPO" != "" ]; then
     rm -rf /opt/jboss/keycloak-source
     rm -rf $HOME/.m2/repository
 else
-    echo "Download Keycloak from $KEYCLOAK_DIST"
+    echo "Keycloak download: $KEYCLOAK_DIST"
+
     cd /opt/jboss/
     curl -L $KEYCLOAK_DIST | tar zx
     mv /opt/jboss/keycloak-?.?.?.* /opt/jboss/keycloak
