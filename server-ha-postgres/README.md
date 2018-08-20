@@ -1,5 +1,7 @@
 # Keycloak HA PostgreSQL
 
+This image is deprecated.
+
 Example Docker file for clustered Keycloak using a PostgreSQL
 
 ## Usage

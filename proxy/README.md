@@ -1,5 +1,7 @@
 # Keycloak Security Proxy
 
+This image is deprecated as the Java based Proxy will be replaced by a new Go based implementation soon.
+
 The Keycloak Security Proxy docker image.
 
 ## Usage
