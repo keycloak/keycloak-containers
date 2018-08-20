@@ -5,7 +5,7 @@
 ##################
 
 if [ $KEYCLOAK_USER ] && [ $KEYCLOAK_PASSWORD ]; then
-    keycloak/bin/add-user-keycloak.sh --user $KEYCLOAK_USER --password $KEYCLOAK_PASSWORD
+    /opt/jboss/keycloak/bin/add-user-keycloak.sh --user $KEYCLOAK_USER --password $KEYCLOAK_PASSWORD
 fi
 
 ############
@@ -91,7 +91,7 @@ echo "========================================================================="
 echo ""
 
 if [ "$DB_VENDOR" != "h2" ]; then
-    /bin/sh /opt/jboss/keycloak/bin/change-database.sh $DB_VENDOR
+    /bin/sh /opt/jboss/tools/change-database.sh $DB_VENDOR
 fi
 
 ##################

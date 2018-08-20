@@ -1,5 +1,0 @@
-embed-server --server-config=standalone-ha.xml --std-out=echo
-run-batch --file=cli/loglevel.cli
-run-batch --file=cli/proxy.cli
-run-batch --file=cli/hostname.cli
-stop-embedded-server
