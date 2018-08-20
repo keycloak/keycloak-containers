@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$SOURCE_BRANCH" == "master" ] && [[ "$IMAGE_NAME" == *:nightly ]]; then
+if [ "$SOURCE_BRANCH" == "master" ] && [[ "$IMAGE_NAME" == *:master ]]; then
     GIT_REPO="keycloak/keycloak"
     GIT_BRANCH="master"
 elif [[ "$IMAGE_NAME" == *:nightly-* ]]; then
