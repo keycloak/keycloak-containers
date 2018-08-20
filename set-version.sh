@@ -7,11 +7,11 @@ if [ "$KEYCLOAK_VERSION" == "" ] || [ "$TAG_NAME" == "" ]; then
     echo "usage: set-version.sh <KEYCLOAK_VERSION> <TAG_NAME>"
 fi
 
-for i in adapter-wildfly examples proxy server; do
+for i in adapter-wildfly examples server; do
 	sed -i "s/ENV KEYCLOAK_VERSION .*/ENV KEYCLOAK_VERSION $KEYCLOAK_VERSION/" $i/Dockerfile
 done
 
-for i in server-mysql server-postgres server-openshift; do
+for i in server-openshift; do
     sed -i "s/FROM jboss\/keycloak:.*/FROM jboss\/keycloak:$TAG_NAME/" $i/Dockerfile
 done
 
