@@ -94,6 +94,8 @@ if [ "$DB_VENDOR" != "h2" ]; then
     /bin/sh /opt/jboss/tools/change-database.sh $DB_VENDOR
 fi
 
+/opt/jboss/tools/x509.sh
+
 ##################
 # Start Keycloak #
 ##################

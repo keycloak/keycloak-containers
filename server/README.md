@@ -184,6 +184,22 @@ When running Keycloak behind a proxy, you will need to enable proxy address forw
 
 
 
+### Setting up TLS(SSL)
+
+Keycloak image allows you to specify both a private key and a certificate for serving HTTPS. In that case you need to provide two files:
+
+* tls.crt - a certificate
+* tls.key - a private key
+
+Those files need to be mounted in `/etc/x509/https` directory. The image will automatically convert them into a Java keystore and reconfigure Wildfly to use it.
+
+It is also possible to provide an additional CA bundle and setup Mutual TLS this way. In that case, you need to mount an additional volume to the image
+containing a `crt` file and point `X509_CA_BUNDLE` environmental variable to that file. 
+
+NOTE: See `openshift-examples` directory for an out of the box setup for OpenShift.
+
+
+
 ## Other details
 
 This image extends the [`jboss/base-jdk`](https://github.com/JBoss-Dockerfiles/base-jdk) image which adds the OpenJDK
