@@ -1,6 +1,6 @@
 # Keycloak HA PostgreSQL
 
-_This image is deprecated. The main server image already has support for PostgreSQL and will soon have support for clustering/HA as well._
+**This image is deprecated. The main server image already has support for PostgreSQL and will soon have support for clustering/HA as well.**
 
 Example Docker file for clustered Keycloak using a PostgreSQL
 
