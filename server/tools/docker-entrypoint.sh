@@ -5,7 +5,15 @@
 ##################
 
 if [ $KEYCLOAK_USER ] && [ $KEYCLOAK_PASSWORD ]; then
-    keycloak/bin/add-user-keycloak.sh --user $KEYCLOAK_USER --password $KEYCLOAK_PASSWORD
+    /opt/jboss/keycloak/bin/add-user-keycloak.sh --user $KEYCLOAK_USER --password $KEYCLOAK_PASSWORD
+fi
+
+############
+# Hostname #
+############
+
+if [ "$KEYCLOAK_HOSTNAME" != "" ]; then
+    SYS_PROPS="-Dkeycloak.hostname.provider=fixed -Dkeycloak.hostname.fixed.hostname=$KEYCLOAK_HOSTNAME"
 fi
 
 ############
@@ -89,12 +97,12 @@ echo "========================================================================="
 echo ""
 
 if [ "$DB_VENDOR" != "h2" ]; then
-    /bin/sh /opt/jboss/keycloak/bin/change-database.sh $DB_VENDOR
+    /bin/sh /opt/jboss/tools/change-database.sh $DB_VENDOR
 fi
 
 ##################
 # Start Keycloak #
 ##################
 
-exec /opt/jboss/keycloak/bin/standalone.sh $@
+exec /opt/jboss/keycloak/bin/standalone.sh $SYS_PROPS $@
 exit $?

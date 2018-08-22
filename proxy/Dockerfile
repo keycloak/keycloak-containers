@@ -1,6 +1,6 @@
 FROM jboss/base-jdk:8
 
-ENV KEYCLOAK_VERSION 4.1.0.Final
+ENV KEYCLOAK_VERSION 4.3.0.Final
 USER jboss
 RUN cd /opt/jboss/ && curl -L https://downloads.jboss.org/keycloak/${KEYCLOAK_VERSION}/keycloak-proxy-${KEYCLOAK_VERSION}.zip | jar xvf /dev/stdin && mv /opt/jboss/keycloak-proxy-${KEYCLOAK_VERSION} /opt/jboss/keycloak-proxy
 ADD docker-entrypoint.sh /opt/jboss/
