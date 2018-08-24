@@ -91,7 +91,7 @@ echo "========================================================================="
 echo ""
 
 if [ "$DB_VENDOR" != "h2" ]; then
-    /bin/sh /opt/jboss/tools/change-database.sh $DB_VENDOR
+    /bin/sh /opt/jboss/tools/databases/change-database.sh $DB_VENDOR
 fi
 
 ##################
