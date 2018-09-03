@@ -14,6 +14,14 @@ fi
 
 if [ "$KEYCLOAK_HOSTNAME" != "" ]; then
     SYS_PROPS="-Dkeycloak.hostname.provider=fixed -Dkeycloak.hostname.fixed.hostname=$KEYCLOAK_HOSTNAME"
+
+    if [ "$KEYCLOAK_HTTP_PORT" != "" ]; then
+        SYS_PROPS+=" -Dkeycloak.hostname.fixed.httpPort=$KEYCLOAK_HTTP_PORT"
+    fi
+
+    if [ "$KEYCLOAK_HTTPS_PORT" != "" ]; then
+        SYS_PROPS+=" -Dkeycloak.hostname.fixed.httpsPort=$KEYCLOAK_HTTPS_PORT"
+    fi
 fi
 
 ############

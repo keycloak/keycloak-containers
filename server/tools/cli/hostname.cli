@@ -1,2 +1,4 @@
 /subsystem=keycloak-server/spi=hostname:write-attribute(name=default-provider, value="${keycloak.hostname.provider:request}")
 /subsystem=keycloak-server/spi=hostname/provider=fixed:write-attribute(name=properties.hostname,value="${keycloak.hostname.fixed.hostname:localhost}")
+/subsystem=keycloak-server/spi=hostname/provider=fixed:write-attribute(name=properties.httpPort,value="${keycloak.hostname.fixed.httpPort:-1}")
+/subsystem=keycloak-server/spi=hostname/provider=fixed:write-attribute(name=properties.httpsPort,value="${keycloak.hostname.fixed.httpsPort:-1}")
