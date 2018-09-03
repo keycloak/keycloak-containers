@@ -162,6 +162,13 @@ To set a fixed hostname for Keycloak use the following environment value. This i
 
 * `KEYCLOAK_HOSTNAME`: Specify hostname for Keycloak (optional, default is retrieved from request, recommended in production)
 
+### Specify ports
+
+To set fixed ports for http and https for Keycloak use the following environment values.
+
+* `KEYCLOAK_HTTP_PORT`: Specify the http port for Keycloak (optional, default is retrieved from request)
+* `KEYCLOAK_HTTPS_PORT`: Specify the https port for Keycloak (optional, default is retrieved from request)
+
 ### Specify log level
 
 There are two environment variables available to control the log level for Keycloak:
