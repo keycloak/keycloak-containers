@@ -8,6 +8,18 @@ if [ $KEYCLOAK_USER ] && [ $KEYCLOAK_PASSWORD ]; then
     /opt/jboss/keycloak/bin/add-user-keycloak.sh --user $KEYCLOAK_USER --password $KEYCLOAK_PASSWORD
 fi
 
+######################################
+# Download and install custom themes #
+######################################
+
+if [ "$CUSTOM_THEMES_DIST" != "" ]; then
+    echo "Keycloak custom themes from [download]: $CUSTOM_THEMES_DIST"
+	mkdir -p /opt/jboss/keycloak/themes/
+    cd /opt/jboss/keycloak/themes/
+    curl -L $CUSTOM_THEMES_DIST | tar zx
+fi
+
+
 ############
 # Hostname #
 ############
