@@ -144,6 +144,7 @@ found here:
 ## Adding custom theme
 
 To add a custom theme extend the Keycloak image add the theme to the `/opt/jboss/keycloak/themes` directory.
+You can also specify the environment variable `CUSTOM_THEMES_DIST` with url to tar.gz package containing your custom themes folders. The package will be downloaded and installed on container start.
 
 
 
