@@ -184,6 +184,13 @@ To set a fixed hostname for Keycloak use the following environment value. This i
 
 * `KEYCLOAK_HOSTNAME`: Specify hostname for Keycloak (optional, default is retrieved from request, recommended in production)
 
+### Specify ports
+
+To set fixed ports for http and https for Keycloak use the following environment values.
+
+* `KEYCLOAK_HTTP_PORT`: Specify the http port for Keycloak (optional, default is retrieved from request)
+* `KEYCLOAK_HTTPS_PORT`: Specify the https port for Keycloak (optional, default is retrieved from request)
+
 ### Specify log level
 
 There are two environment variables available to control the log level for Keycloak:
@@ -203,6 +210,22 @@ Log level can also be changed at runtime, for example (assuming docker exec acce
 When running Keycloak behind a proxy, you will need to enable proxy address forwarding.
 
     docker run -e PROXY_ADDRESS_FORWARDING=true jboss/keycloak
+
+
+
+### Setting up TLS(SSL)
+
+Keycloak image allows you to specify both a private key and a certificate for serving HTTPS. In that case you need to provide two files:
+
+* tls.crt - a certificate
+* tls.key - a private key
+
+Those files need to be mounted in `/etc/x509/https` directory. The image will automatically convert them into a Java keystore and reconfigure Wildfly to use it.
+
+It is also possible to provide an additional CA bundle and setup Mutual TLS this way. In that case, you need to mount an additional volume to the image
+containing a `crt` file and point `X509_CA_BUNDLE` environmental variable to that file. 
+
+NOTE: See `openshift-examples` directory for an out of the box setup for OpenShift.
 
 
 

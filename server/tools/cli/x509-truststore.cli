@@ -1,0 +1,15 @@
+embed-server --server-config=$configuration_file --std-out=discard
+/subsystem=elytron/key-store=kcTrustStore:add(path=$keycloak_tls_truststore_file,type=JKS,credential-reference={clear-text=$keycloak_tls_truststore_password})
+/subsystem=elytron/trust-manager=kcTrustManager:add(key-store=kcTrustStore)
+if (outcome != success) of /subsystem=elytron/server-ssl-context=kcSSLContext:read-resource
+	/subsystem=elytron/server-ssl-context=kcSSLContext:add(trust-manager=kcTrustManager,want-client-auth=true)
+	batch
+	/subsystem=undertow/server=default-server/https-listener=https:undefine-attribute(name=security-realm)
+	/subsystem=undertow/server=default-server/https-listener=https:write-attribute(name=ssl-context,value=kcSSLContext)
+	run-batch
+else
+    # The SSL Context has been added by keystore, not much to do - just append trust store and we are done.
+	/subsystem=elytron/server-ssl-context=kcSSLContext:write-attribute(name=trust-manager, value=kcTrustManager)
+    /subsystem=elytron/server-ssl-context=kcSSLContext:write-attribute(name=want-client-auth, value=true)
+end-if
+stop-embedded-server

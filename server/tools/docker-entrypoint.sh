@@ -14,6 +14,14 @@ fi
 
 if [ "$KEYCLOAK_HOSTNAME" != "" ]; then
     SYS_PROPS="-Dkeycloak.hostname.provider=fixed -Dkeycloak.hostname.fixed.hostname=$KEYCLOAK_HOSTNAME"
+
+    if [ "$KEYCLOAK_HTTP_PORT" != "" ]; then
+        SYS_PROPS+=" -Dkeycloak.hostname.fixed.httpPort=$KEYCLOAK_HTTP_PORT"
+    fi
+
+    if [ "$KEYCLOAK_HTTPS_PORT" != "" ]; then
+        SYS_PROPS+=" -Dkeycloak.hostname.fixed.httpsPort=$KEYCLOAK_HTTPS_PORT"
+    fi
 fi
 
 ############
@@ -99,6 +107,8 @@ echo ""
 if [ "$DB_VENDOR" != "h2" ]; then
     /bin/sh /opt/jboss/tools/databases/change-database.sh $DB_VENDOR
 fi
+
+/opt/jboss/tools/x509.sh
 
 ##################
 # Start Keycloak #

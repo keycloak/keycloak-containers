@@ -1,4 +1,4 @@
 #!/bin/bash
 
-exec /opt/jboss/docker-entrypoint.sh "$@"
+exec /opt/jboss/tools/docker-entrypoint.sh "$@"
 exit $?
