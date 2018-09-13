@@ -137,7 +137,7 @@ If you used a different name for the MariaDB instance to `mariadb` you need to s
 
 First start a Microsoft SQL Server instance using the Microsoft SQL Server docker image:
 
-    docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=P@ssword123' -d --name mariadb --net keycloak-network microsoft/mssql-server-linux:latest mssql
+    docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=P@ssword123' -d --name mssql --net keycloak-network microsoft/mssql-server-linux:latest
 
 #### Start a Keycloak instance
 
