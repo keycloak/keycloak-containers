@@ -24,6 +24,14 @@ if [ "$KEYCLOAK_HOSTNAME" != "" ]; then
     fi
 fi
 
+################
+# Realm import #
+################
+
+if [ "$KEYCLOAK_IMPORT" ]; then
+    SYS_PROPS+=" -Dkeycloak.import=$KEYCLOAK_IMPORT"
+fi
+
 ############
 # DB setup #
 ############
