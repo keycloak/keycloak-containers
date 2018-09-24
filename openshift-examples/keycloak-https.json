@@ -55,6 +55,12 @@
             "name": "HOSTNAME_HTTPS",
             "value": "",
             "required": false
+        },
+        {
+            "displayName": "Namespace used for DNS discovery",
+            "description": "This namespace is a part of DNS query sent to Kubernetes API. This query allows the DNS_PING protocol to extract cluster members. This parameter might be removed once https://issues.jboss.org/browse/JGRP-2292 is implemented.",
+            "name": "NAMESPACE",
+            "required": true
         }
     ],
     "objects": [
@@ -207,6 +213,14 @@
                                     {
                                         "name": "DB_VENDOR",
                                         "value": "${DB_VENDOR}"
+                                    },
+                                    {
+                                        "name": "JGROUPS_DISCOVERY_PROTOCOL",
+                                        "value": "dns.DNS_PING"
+                                    },
+                                    {
+                                        "name": "JGROUPS_DISCOVERY_PROPERTIES",
+                                        "value": "${APPLICATION_NAME}.${NAMESPACE}.svc.cluster.local"
                                     }
                                 ],
                                 "securityContext": {

@@ -150,17 +150,75 @@ found here:
 
 
 
-## Adding custom theme
+## Adding a custom theme
 
 To add a custom theme extend the Keycloak image add the theme to the `/opt/jboss/keycloak/themes` directory.
 
 
 
-## Adding custom provider
+## Adding a custom provider
 
 To add a custom provider extend the Keycloak image and add the provider to the `/opt/jboss/keycloak/standalone/deployments/`
 directory.
 
+
+## Clustering
+
+Replacing the default discovery protocols (`PING` for the UDP stack and `MPING` for the TCP one) can be achieved by defining
+two additional environment variables:
+
+- `JGROUPS_DISCOVERY_PROTOCOL` - name of the discovery protocol, e.g. DNS_PING
+- `JGROUPS_DISCOVERY_PROPERTIES` - an optional parameter with the discovery protocol properties in the following format:
+`PROP1=FOO,PROP2=BAR`
+
+The bootstrap script will detect the variables and adjust the `standalone-ha.xml` configuration based on them.
+
+### PING example
+
+The `PING` discovery protocol is used by default in `udp` stack (which is used by default in `standalone-ha.xml`).
+Since the Keycloak image runs in clustered mode by default, all you need to do is to run it:
+
+    docker run jboss/keycloak
+
+If you two instances of it locally, you will notice that they form a cluster.
+
+### OpenShift example with dns.DNS_PING
+
+Clustering for OpenShift can be achieved by using either `dns.DNS_PING` and a governing service or `kubernetes.KUBE_PING`.
+The latter requires `view` permissions which are not granted by default, so we suggest using `dns.DNS_PING`.
+
+#### Using the template
+
+The full example has been put into the `openshift-examples` directory. Just run one of the two templates. Here's an example:
+
+    oc new-app -p NAMESPACE=`oc project -q` -f keycloak-https.json
+
+#### What happen under the hood?
+
+Both OpenShift templates use `dns.DNS_PING` under the hood. Here's an equivalent docker-based command that OpenShift
+is invoking:
+
+    docker run \
+    -e JGROUPS_DISCOVERY_PROTOCOL=dns.DNS_PING -e \
+    JGROUPS_DISCOVERY_PROPERTIES=dns_query=keycloak.myproject.svc.cluster.local \
+    jboss/keycloak
+
+In this example the `dns.DNS_PING` that queries `A` records from the DNS Server with the following query
+`keycloak.myproject.svc.cluster.local`.
+
+### Adding custom discovery protocols
+
+The default mechanism for adding discovery protocols should cover most of the cases. However, sometimes
+you need to add more protocols at the same time, or adjust other protocols. In such cases you will need
+your own cli file placed in `/opt/jboss/tools/cli/jgroups/discovery`. The `JGROUPS_DISCOVERY_PROTOCOL` need to
+match your cli file, for example:
+
+    JGROUPS_DISCOVERY_PROTOCOL=custom_protocol
+    /opt/jboss/tools/cli/jgroups/discovery/custom_protocol.cli
+
+This can be easily achieved by extending the Keycloak image and adding just one file.
+
+Of course, we highly encourage you to contribute your custom scripts back to the community image!
 
 
 ## Misc
