@@ -59,7 +59,7 @@ You can specify the DB vendor directly with the `DB_VENDOR` environment variable
 
 If `DB_VENDOR` value is not specified the image will try to detect the DB vendor based on the following logic:
 
-- Is the default host name for the DB set using `getent hosts` (`postgres`, `mysql`, `mariadb`). This works if you are 
+- Is the default host name for the DB set using `getent hosts` (`postgres`, `mysql`, `mariadb`). This works if you are
 using a user defined network and the default names as specified below.
 - Is there a DB specific `_ADDR` environment variable set (`POSTGRES_ADDR`, `MYSQL_ADDR`, `MARIADB_ADDR`). **Deprecated**
 
@@ -154,6 +154,9 @@ found here:
 
 To add a custom theme extend the Keycloak image add the theme to the `/opt/jboss/keycloak/themes` directory.
 
+To set the welcome theme, use the following environment value :
+
+* `KEYCLOAK_WELCOME_THEME`: Specify the theme to use for welcome page (must be non empty and must match an existing theme name)
 
 
 ## Adding a custom provider
@@ -268,7 +271,7 @@ Keycloak image allows you to specify both a private key and a certificate for se
 Those files need to be mounted in `/etc/x509/https` directory. The image will automatically convert them into a Java keystore and reconfigure Wildfly to use it.
 
 It is also possible to provide an additional CA bundle and setup Mutual TLS this way. In that case, you need to mount an additional volume to the image
-containing a `crt` file and point `X509_CA_BUNDLE` environmental variable to that file. 
+containing a `crt` file and point `X509_CA_BUNDLE` environmental variable to that file.
 
 NOTE: See `openshift-examples` directory for an out of the box setup for OpenShift.
 
@@ -302,4 +305,3 @@ For Keycloak built locally you need to first build the distribution then serve i
 
     cd $KEYCLOAK_CHECKOUT/distribution/server-dist/target
     python -m SimpleHTTPServer 8000
-    
