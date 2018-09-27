@@ -192,10 +192,7 @@
                                         "port": 8080,
                                         "scheme": "HTTP"
                                     },
-                                    "initialDelaySeconds": 60,
-                                    "periodSeconds": 10,
-                                    "successThreshold": 1,
-                                    "timeoutSeconds": 10
+                                    "initialDelaySeconds": 60
                                 },
                                 "ports": [
                                     {
@@ -215,10 +212,8 @@
                                         "port": 8080,
                                         "scheme": "HTTP"
                                     },
-                                    "initialDelaySeconds": 60,
-                                    "periodSeconds": 10,
-                                    "successThreshold": 1,
-                                    "timeoutSeconds": 10
+                                    "initialDelaySeconds": 30,
+                                    "failureThreshold": 10
                                 },
                                 "env": [
                                     {
