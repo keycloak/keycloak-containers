@@ -191,6 +191,15 @@
                             {
                                 "name": "${APPLICATION_NAME}",
                                 "image": "jboss/keycloak-openshift",
+                                "livenessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "path": "/",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 60
+                                },
                                 "ports": [
                                     {
                                         "containerPort": 8080,
@@ -202,6 +211,16 @@
                                         "protocol": "TCP"
                                     }
                                 ],
+                                "readinessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "path": "/",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 30,
+                                    "failureThreshold": 10
+                                },
                                 "env": [
                                     {
                                         "name": "KEYCLOAK_USER",
