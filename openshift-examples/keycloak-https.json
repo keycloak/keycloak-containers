@@ -264,18 +264,29 @@
                                         "value": "${DB_VENDOR}"
                                     },
                                     {
+                                        "name": "DB_ADDR",
+                                        "value": "${DB_ADDR}.${NAMESPACE}.svc.cluster.local"
+                                    },
+                                    {
+                                        "name": "DB_PORT",
+                                        "value": "${DB_PORT}"
+                                    },
+                                    {
+                                        "name": "DB_DATABASE",
+                                        "value": "${DB_DATABASE}"
+                                    },
+                                    {
+                                        "name": "JDBC_PARAMS",
+                                        "value": "${JDBC_PARAMS}"
+                                    },
+                                    {
                                         "name": "JGROUPS_DISCOVERY_PROTOCOL",
                                         "value": "dns.DNS_PING"
                                     },
                                     {
                                         "name": "JGROUPS_DISCOVERY_PROPERTIES",
                                         "value": "${APPLICATION_NAME}.${NAMESPACE}.svc.cluster.local"
-                                    },
-                                    {
-                                        "name": "DB_ADDR",
-                                        "value": "${DB_ADDR}.${NAMESPACE}.svc.cluster.local"
-                                    }
-                                    
+                                    }         
                                 ],
                                 "securityContext": {
                                     "privileged": false
