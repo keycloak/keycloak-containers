@@ -8,7 +8,7 @@
             "tags": "keycloak",
             "version": "4.0.0.Beta2",
             "openshift.io/display-name": "Keycloak",
-            "description": "An example Keycloak server with HTTPS"
+            "description": "An example Keycloak server with HTTPS. \n\nNOTE: If you are going to use an external database, you need to manualy inject the environment variables DB_USER and DB_PASSWORD from your database secret."
         }
     },
     "parameters": [
@@ -16,6 +16,7 @@
             "displayName": "Application Name",
             "description": "The name for the application.",
             "name": "APPLICATION_NAME",
+            "from": "maximum length of 253 lower case alphanumeric characters, -, and .",
             "value": "keycloak",
             "required": true
         },
@@ -43,6 +44,41 @@
             "required": true
         },
         {
+            "displayName": "DB ADDR",
+            "description": "Specify the name of the database pod if you are going to use an external DB. The name of the DB pod should not be 'mysql' due to an keycloak internal bug",
+            "name": "DB_ADDR",
+            "from": "maximum length of 253 lower case alphanumeric characters, -, and .",
+            "value": "",
+            "required": false
+        },
+        {
+            "displayName": "DB Port",
+            "description": "DB port (default ports for H2 = 9123, MYSQL and MARIADB = 3306, POSTGRES = 5432",
+            "name": "DB_PORT",
+            "value": "9123",
+            "required": true
+        },
+        {
+            "displayName": "DB Database",
+            "description": "Name of the DB scheme",
+            "name": "DB_DATABASE",
+            "value": "keycloak",
+            "required": true
+        },
+        {
+            "displayName": "JDBC Parameters",
+            "description": "additional database driver parameters, if you use 'useSSL=true', you manually need to add a certificate",
+            "name": "JDBC_PARAMS",
+            "value": "useSSL=false",
+            "required": true
+        },
+        {
+            "displayName": "Namespace used for DNS discovery",
+            "description": "This namespace is a part of DNS query sent to Kubernetes API. This query allows the DNS_PING protocol to extract cluster members. This parameter might be removed once https://issues.jboss.org/browse/JGRP-2292 is implemented. Should be project name without '.svc.cluster.local' ",
+            "name": "NAMESPACE",
+            "required": true
+        },
+        {
             "displayName": "Custom http Route Hostname",
             "description": "Custom hostname for http service route. Leave blank for default hostname, e.g.: <application-name>.<project>.<default-domain-suffix>",
             "name": "HOSTNAME_HTTP",
@@ -55,12 +91,6 @@
             "name": "HOSTNAME_HTTPS",
             "value": "",
             "required": false
-        },
-        {
-            "displayName": "Namespace used for DNS discovery",
-            "description": "This namespace is a part of DNS query sent to Kubernetes API. This query allows the DNS_PING protocol to extract cluster members. This parameter might be removed once https://issues.jboss.org/browse/JGRP-2292 is implemented.",
-            "name": "NAMESPACE",
-            "required": true
         }
     ],
     "objects": [
@@ -240,7 +270,12 @@
                                     {
                                         "name": "JGROUPS_DISCOVERY_PROPERTIES",
                                         "value": "${APPLICATION_NAME}.${NAMESPACE}.svc.cluster.local"
+                                    },
+                                    {
+                                        "name": "DB_ADDR",
+                                        "value": "${DB_ADDR}.${NAMESPACE}.svc.cluster.local"
                                     }
+                                    
                                 ],
                                 "securityContext": {
                                     "privileged": false
