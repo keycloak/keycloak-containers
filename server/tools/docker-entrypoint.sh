@@ -40,7 +40,10 @@ if [ -z "$BIND" ]; then
     BIND=$(hostname -i)
 fi
 if [ -z "$BIND_OPTS" ]; then
-    BIND_OPTS="-Djboss.bind.address=$BIND -Djboss.bind.address.private=$BIND"
+    for BIND_IP in $BIND
+    do
+        BIND_OPTS+=" -Djboss.bind.address=$BIND_IP -Djboss.bind.address.private=$BIND_IP "
+    done
 fi
 SYS_PROPS+=" $BIND_OPTS"
 
