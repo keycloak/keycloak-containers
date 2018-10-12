@@ -265,7 +265,7 @@
                                     },
                                     {
                                         "name": "DB_ADDR",
-                                        "value": "${DB_ADDR}.${NAMESPACE}.svc.cluster.local"
+                                        "value": "${DB_ADDR}"
                                     },
                                     {
                                         "name": "DB_PORT",
