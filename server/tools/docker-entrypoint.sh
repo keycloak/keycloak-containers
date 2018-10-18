@@ -51,9 +51,9 @@ SYS_PROPS+=" $BIND_OPTS"
 # Configuration #
 #################
 
-# If the "-c" parameter is not present, append the HA profile.
-if echo "$@" | egrep -v -- "-c "; then
-    SYS_PROPS+=" -c standalone-ha.xml"
+# If the server configuration parameter is not present, append the HA profile.
+if echo "$@" | egrep -v -- '-c |-c=|--server-config |--server-config='; then
+    SYS_PROPS+=" -c=standalone-ha.xml"
 fi
 
 ############
