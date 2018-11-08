@@ -239,7 +239,7 @@
                                     },
                                     {
                                         "name": "JGROUPS_DISCOVERY_PROPERTIES",
-                                        "value": "${APPLICATION_NAME}.${NAMESPACE}.svc.cluster.local"
+                                        "value": "dns_query=${APPLICATION_NAME}.${NAMESPACE}.svc.cluster.local"
                                     }
                                 ],
                                 "securityContext": {
