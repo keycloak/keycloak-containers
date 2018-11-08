@@ -82,7 +82,7 @@ function autogenerate_keystores() {
       -destkeystore "${JKS_TRUSTSTORE_PATH}" \
       -srcstoretype jks -deststoretype jks \
       -storepass "${PASSWORD}" -srcstorepass "changeit" >& /dev/null
-      if [ "$?" -ne "0" ]; then
+      if [ "$?" -eq "0" ]; then
         echo "Successfully imported certificates from system's Java CA certificate bundle into Keycloak truststore at: ${JKS_TRUSTSTORE_PATH}"
       else
         echo "Failed to import certificates from system's Java CA certificate bundle into Keycloak truststore!"
