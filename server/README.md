@@ -137,15 +137,28 @@ If you used a different name for the MariaDB instance to `mariadb` you need to s
 
 First start a Microsoft SQL Server instance using the Microsoft SQL Server docker image:
 
-    docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=P@ssword123' -d --name mssql --net keycloak-network microsoft/mssql-server-linux:latest
+    docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Password!23' -d --name mssql --net keycloak-network mcr.microsoft.com/mssql/server
+
+Unlike some of the other supported databases, like PostgreSQL, MySQL or MariaDB, SQL Server
+does not support creating the initial database through an environment variable.
+Consequently, the database must be created for Keycloak some other way. In
+principle, this can be done by creating an image that runs until it can create
+the database.
+
+    docker run -d --name mssql-scripts --net keycloak-network mcr.microsoft.com/mssql-tools /bin/bash -c 'until /opt/mssql-tools/bin/sqlcmd -S mssql -U sa -P "Password!23" -Q "create database Keycloak"; do sleep 5; done'
+
+This image will repeatedly attempt to create the database and terminate once the
+database is in place.
 
 #### Start a Keycloak instance
 
 Start a Keycloak instance and connect to the Microsoft SQL Server instance:
 
-    docker run --name keycloak --net keycloak-network jboss/keycloak
+    docker run --name keycloak --net keycloak-network -p 8080:8080 -e DB_VENDOR=mssql -e DB_USER=sa -e DB_PASSWORD=Password!23 -e DB_ADDR=mssql -e DB_DATABASE=Keycloak -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin jboss/keycloak
 
 If you used a different name for the Microsoft SQL Server instance to `mssql` you need to specify the `DB_ADDR` environment variable.
+
+Please see `docker-compose-examples/keycloak-mssql.yml` for a full example.
 
 ### Specify JDBC parameters
 

@@ -1,38 +1,39 @@
-version: '3'
-
-volumes:
-  mssql_data:
-      driver: local
+version: "3.2"
 
 services:
-  mssql:
-      image: microsoft/mssql-server-linux:latest
-      volumes:
-        - mssql_data:/var/lib/mssql
-      environment:
-        ACCEPT_EULA: Y
-        SA_PASSWORD: P@ssword123
-  mssql_setup:
-      depends_on:
-      - mssql
-      image: microsoft/mssql-tools:latest
-      command: /bin/bash -c "sleep 8 && /opt/mssql-tools/bin/sqlcmd -S mssql -U sa -P P@ssword123 -q 'CREATE DATABASE keycloak;'"
-  keycloak:
-      image: jboss/keycloak
-      build:
-        context: ../server
-        dockerfile: Dockerfile
-      environment:
-        DB_ADDR: mssql
-        DB_DATABASE: keycloak
-        DB_USER: sa
-        DB_PASSWORD: P@ssword123
-        DB_VENDOR: MSSQL
-        KEYCLOAK_USER: admin
-        KEYCLOAK_PASSWORD: Pa55w0rd
-        # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the MySQL JDBC driver documentation in order to use it.
-        #JDBC_PARAMS: "connectTimeout=30000"
-      ports:
-        - 8080:8080
-      depends_on:
-        - mssql
+    mssql:
+        image: mcr.microsoft.com/mssql/server
+        volumes:
+            - type: volume
+              source: keycloakdbvolume
+              target: /var/opt/mssql
+        ports:
+            - "1433:1433"
+        environment:
+            - ACCEPT_EULA=Y
+            - SA_PASSWORD=Password!23
+            - MSSQL_PID=Developer
+    mssqlscripts:
+        image: mcr.microsoft.com/mssql-tools
+        depends_on:
+            - mssql
+        command: /bin/bash -c 'until /opt/mssql-tools/bin/sqlcmd -S mssql -U sa -P "Password!23" -Q "create database Keycloak"; do sleep 5; done'
+    keycloak:
+        image: local/keycloak-rolandta
+        depends_on:
+            - mssql
+            - mssqlscripts
+            - ldap
+        ports:
+            - "8080:8080"
+        environment:
+            - KEYCLOAK_USER=admin
+            - KEYCLOAK_PASSWORD=admin
+            - DB_VENDOR=mssql
+            - DB_USER=sa
+            - DB_PASSWORD=Password!23
+            - DB_ADDR=mssql
+            - DB_DATABASE=Keycloak
+volumes:
+  keycloakdbvolume:
+  ldapvolume:
