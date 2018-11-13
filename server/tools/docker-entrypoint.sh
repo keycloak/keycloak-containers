@@ -24,6 +24,38 @@ if [ "$KEYCLOAK_HOSTNAME" != "" ]; then
     fi
 fi
 
+################
+# Realm import #
+################
+
+if [ "$KEYCLOAK_IMPORT" ]; then
+    SYS_PROPS+=" -Dkeycloak.import=$KEYCLOAK_IMPORT"
+fi
+
+########################
+# JGroups bind options #
+########################
+
+if [ -z "$BIND" ]; then
+    BIND=$(hostname -i)
+fi
+if [ -z "$BIND_OPTS" ]; then
+    for BIND_IP in $BIND
+    do
+        BIND_OPTS+=" -Djboss.bind.address=$BIND_IP -Djboss.bind.address.private=$BIND_IP "
+    done
+fi
+SYS_PROPS+=" $BIND_OPTS"
+
+#################
+# Configuration #
+#################
+
+# If the "-c" parameter is not present, append the HA profile.
+if echo "$@" | egrep -v -- "-c "; then
+    SYS_PROPS+=" -c standalone-ha.xml"
+fi
+
 ############
 # DB setup #
 ############
@@ -109,6 +141,7 @@ if [ "$DB_VENDOR" != "h2" ]; then
 fi
 
 /opt/jboss/tools/x509.sh
+/opt/jboss/tools/jgroups.sh $JGROUPS_DISCOVERY_PROTOCOL $JGROUPS_DISCOVERY_PROPERTIES
 
 ##################
 # Start Keycloak #
