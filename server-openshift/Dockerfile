@@ -1,4 +1,4 @@
-FROM jboss/keycloak:4.5.0.Final
+FROM jboss/keycloak:4.6.0.Final
 
 USER root
 
