@@ -36,9 +36,27 @@ fi
 # JGroups bind options #
 ########################
 
+# takes an IP address to be checked
+# returns "false" if not a valid IPv4, nothing otherwise
+function is_valid_ipv4() {
+    local address=$1
+    local ipv4_regex="^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
+    [[ "$address" =~ $ipv4_regex ]] || echo -n "false"
+}
+
 if [ -z "$BIND" ]; then
-    BIND=$(hostname -i)
+    # Get an IPv4 address from the interfaces
+    for ip_addr in $(hostname -I); do
+        if [ -z $(is_valid_ipv4 "$ip_addr") ]; then
+            BIND="$ip_addr"
+            break
+        fi
+    done
+    if [ -z "$BIND" ]; then
+        echo "WARNING: Did not find a suitable IPv4 address to bind to"
+    fi
 fi
+
 if [ -z "$BIND_OPTS" ]; then
     BIND_OPTS="-Djboss.bind.address=$BIND -Djboss.bind.address.private=$BIND"
 fi
