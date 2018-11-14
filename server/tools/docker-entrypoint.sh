@@ -24,12 +24,40 @@ if [ "$KEYCLOAK_HOSTNAME" != "" ]; then
     fi
 fi
 
-################
-# Realm import #
-################
+#####################
+# Migrations import #
+#####################
 
 if [ "$KEYCLOAK_IMPORT" ]; then
-    SYS_PROPS+=" -Dkeycloak.import=$KEYCLOAK_IMPORT"
+    SYS_PROPS+=" -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=$KEYCLOAK_MIGRATION_MODE"
+
+    if [ "$KEYCLOAK_MIGRATION_MODE" == "dir" ]; then
+      SYS_PROPS+=" -Dkeycloak.migration.dir=$KEYCLOAK_IMPORT"
+    fi
+
+    if [ "$KEYCLOAK_MIGRATION_MODE" == "singleFile" ]; then
+      SYS_PROPS+=" -Dkeycloak.migration.file=$KEYCLOAK_IMPORT"
+    fi
+
+    if [ "$KEYCLOAK_MIGRATION_STRATEGY" ]; then
+      SYS_PROPS+=" -Dkeycloak.migration.strategy=$KEYCLOAK_MIGRATION_STRATEGY"
+    fi
+fi
+
+#####################
+# Migrations export #
+#####################
+
+if [ "$KEYCLOAK_EXPORT" ]; then
+    SYS_PROPS+=" -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=$KEYCLOAK_MIGRATION_MODE"
+
+    if [ "$KEYCLOAK_MIGRATION_MODE" == "dir" ]; then
+      SYS_PROPS+=" -Dkeycloak.migration.dir=$KEYCLOAK_EXPORT"
+    fi
+
+    if [ "$KEYCLOAK_MIGRATION_MODE" == "singleFile" ]; then
+      SYS_PROPS+=" -Dkeycloak.migration.file=$KEYCLOAK_EXPORT"
+    fi
 fi
 
 ########################
