@@ -48,7 +48,7 @@ To create an admin account and import a previously exported realm run:
 
 ## Database
 
-This image supports using H2, MySQL, PostgreSQL or MariaDB as the database.
+This image supports using H2, MySQL, PostgreSQL, MariaDB or Microsoft SQL Server as the database.
 
 You can specify the DB vendor directly with the `DB_VENDOR` environment variable. Supported values are:
 
@@ -56,12 +56,13 @@ You can specify the DB vendor directly with the `DB_VENDOR` environment variable
 - `postgres` for the Postgres database,
 - `mysql` for the MySql database.
 - `mariadb` for the MariaDB database.
+- `mssql` for the Microsoft SQL Server database.
 
 If `DB_VENDOR` value is not specified the image will try to detect the DB vendor based on the following logic:
 
-- Is the default host name for the DB set using `getent hosts` (`postgres`, `mysql`, `mariadb`). This works if you are
+- Is the default host name for the DB set using `getent hosts` (`postgres`, `mysql`, `mariadb`, `mssql`). This works if you are 
 using a user defined network and the default names as specified below.
-- Is there a DB specific `_ADDR` environment variable set (`POSTGRES_ADDR`, `MYSQL_ADDR`, `MARIADB_ADDR`). **Deprecated**
+- Is there a DB specific `_ADDR` environment variable set (`POSTGRES_ADDR`, `MYSQL_ADDR`, `MARIADB_ADDR`, `MSSQL_ADDR`). **Deprecated**
 
 If the DB can't be detected it will default to the embedded H2 database.
 
@@ -135,6 +136,39 @@ Start a Keycloak instance and connect to the MariaDB instance:
 
 If you used a different name for the MariaDB instance to `mariadb` you need to specify the `DB_ADDR` environment variable.
 
+### Microsoft SQL Server Example
+
+#### Create a user define network
+
+    docker network create keycloak-network
+
+#### Start a Microsoft SQL Server instance
+
+First start a Microsoft SQL Server instance using the Microsoft SQL Server docker image:
+
+    docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Password!23' -d --name mssql --net keycloak-network mcr.microsoft.com/mssql/server
+
+Unlike some of the other supported databases, like PostgreSQL, MySQL or MariaDB, SQL Server
+does not support creating the initial database through an environment variable.
+Consequently, the database must be created for Keycloak some other way. In
+principle, this can be done by creating an image that runs until it can create
+the database.
+
+    docker run -d --name mssql-scripts --net keycloak-network mcr.microsoft.com/mssql-tools /bin/bash -c 'until /opt/mssql-tools/bin/sqlcmd -S mssql -U sa -P "Password!23" -Q "create database Keycloak"; do sleep 5; done'
+
+This image will repeatedly attempt to create the database and terminate once the
+database is in place.
+
+#### Start a Keycloak instance
+
+Start a Keycloak instance and connect to the Microsoft SQL Server instance:
+
+    docker run --name keycloak --net keycloak-network -p 8080:8080 -e DB_VENDOR=mssql -e DB_USER=sa -e DB_PASSWORD=Password!23 -e DB_ADDR=mssql -e DB_DATABASE=Keycloak -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin jboss/keycloak
+
+If you used a different name for the Microsoft SQL Server instance to `mssql` you need to specify the `DB_ADDR` environment variable.
+
+Please see `docker-compose-examples/keycloak-mssql.yml` for a full example.
+
 ### Specify JDBC parameters
 
 When connecting Keycloak instance to the database, you can specify the JDBC parameters. Details on JDBC parameters can be
@@ -143,6 +177,7 @@ found here:
 * [PostgreSQL](https://jdbc.postgresql.org/documentation/head/connect.html)
 * [MySQL](https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-configuration-properties.html)
 * [MariaDB](https://mariadb.com/kb/en/library/about-mariadb-connector-j/#optional-url-parameters)
+* [Microsoft SQL Server](https://docs.microsoft.com/en-us/sql/connect/jdbc/building-the-connection-url?view=sql-server-2017)
 
 #### Example
 
