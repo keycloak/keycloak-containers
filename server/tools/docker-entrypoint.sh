@@ -1,4 +1,6 @@
 #!/bin/bash
+echo "docker-entrypoint.sh arguments:"
+echo "$@"
 
 ##################
 # Add admin user #
@@ -141,5 +143,10 @@ fi
 # Start Keycloak #
 ##################
 
+echo "*** Executing /opt/jboss/tools/change-standalone.sh ***"
+/bin/sh /opt/jboss/tools/change-standalone.sh $SYS_PROPS $@
+echo "*** Ending execution ***"
+
 exec /opt/jboss/keycloak/bin/standalone.sh $SYS_PROPS $@
+
 exit $?

@@ -8,6 +8,7 @@ ENV JDBC_MARIADB_VERSION 2.2.3
 ENV LAUNCH_JBOSS_IN_BACKGROUND 1
 ENV PROXY_ADDRESS_FORWARDING false
 ENV JBOSS_HOME /opt/jboss/keycloak
+ENV JBOSS_CONFIG_FOLDER $JBOSS_HOME/standalone/configuration
 ENV LANG en_US.UTF-8
 
 ARG GIT_REPO
@@ -16,7 +17,7 @@ ARG KEYCLOAK_DIST=https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/keycloa
 
 USER root
 
-RUN yum install -y epel-release git && yum install -y jq openssl which && yum clean all
+RUN yum install -y epel-release git && yum install -y jq openssl xmlstarlet which && yum clean all
 
 ADD tools /opt/jboss/tools
 RUN /opt/jboss/tools/build-keycloak.sh
