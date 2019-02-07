@@ -22,6 +22,10 @@ if [ "$KEYCLOAK_HOSTNAME" != "" ]; then
     if [ "$KEYCLOAK_HTTPS_PORT" != "" ]; then
         SYS_PROPS+=" -Dkeycloak.hostname.fixed.httpsPort=$KEYCLOAK_HTTPS_PORT"
     fi
+
+    if [ "$KEYCLOAK_ALWAYS_HTTPS" != "" ]; then
+            SYS_PROPS+=" -Dkeycloak.hostname.fixed.httpsPort=$KEYCLOAK_ALWAYS_HTTPS"
+    fi
 fi
 
 ################

@@ -238,7 +238,7 @@ To set fixed ports for http and https for Keycloak use the following environment
 
 * `KEYCLOAK_HTTP_PORT`: Specify the http port for Keycloak (optional, default is retrieved from request)
 * `KEYCLOAK_HTTPS_PORT`: Specify the https port for Keycloak (optional, default is retrieved from request)
-
+* `KEYCLOAK_ALWAYS_HTTPS`: Force to https (optional, default is retrieved from request)
 ### Specify log level
 
 There are two environment variables available to control the log level for Keycloak:
