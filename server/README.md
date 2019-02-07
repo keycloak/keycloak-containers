@@ -164,6 +164,14 @@ To set the welcome theme, use the following environment value :
 To add a custom provider extend the Keycloak image and add the provider to the `/opt/jboss/keycloak/standalone/deployments/`
 directory.
 
+## Running custom scripts on startup
+
+To run a custom `.cli` script on container startup extend the Keycloak image and add the `.cli` file to the
+`/opt/jboss/keycloak/tools/docker-entrypoint.d` directory (create it if necessary).
+
+It is also possible to add executable scripts (`chmod +x`) to this directory.
+
+Files are ran in alphabetical order.
 
 ## Clustering
 
