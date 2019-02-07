@@ -69,6 +69,7 @@ If the DB can't be detected it will default to the embedded H2 database.
 
 Generic variable names can be used to configure any Database type, defaults may vary depending on the Database.
 
+- `DB_PROTOCOL`: Specify protocol path of the database connection url (optional)
 - `DB_ADDR`: Specify hostname of the database (optional)
 - `DB_PORT`: Specify port of the database (optional, default is DB vendor default port)
 - `DB_DATABASE`: Specify name of the database to use (optional, default is `keycloak`).
