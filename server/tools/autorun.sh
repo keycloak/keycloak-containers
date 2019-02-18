@@ -1,7 +1,7 @@
 #!/bin/bash -e
 cd /opt/jboss/keycloak
 
-ENTRYPOINT_DIR=/docker-entrypoint.d
+ENTRYPOINT_DIR=/opt/jboss/startup-scripts
 
 if [[ -d "$ENTRYPOINT_DIR" ]]; then
   # First run cli autoruns

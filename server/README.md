@@ -166,8 +166,9 @@ directory.
 
 ## Running custom scripts on startup
 
-To run custom scripts on container startup either extend the Keycloak image or use a volume, then add your script to
-the `/docker-entrypoint.d` directory.
+**Warning**: Custom scripts have no guarantees. The directory layout within the image may change at any time.
+
+To run custom scripts on container startup place a file in the `/opt/jboss/startup-scripts` directory.
 
 Two types of scripts are supported:
 
@@ -176,6 +177,23 @@ Two types of scripts are supported:
 * Any executable (`chmod +x`) script
 
 Scripts are ran in alphabetical order.
+
+### Adding custom script using Dockerfile
+
+A custom script can be added by creating your own `Dockerfile`:
+
+```
+FROM keycloak
+COPY custom-scripts/ /opt/jboss/startup-scripts/
+```
+
+### Adding custom script using volumes
+
+A single custom script can be added as a volume: `docker run -v /some/dir/my-script.cli:/opt/jboss/startup-scripts/my-script.cli`
+Or you can volume the entire directory to supply a directory of scripts.
+
+Note that when combining the approach of extending the image and `volume`ing the entire directory, the volume will override
+all scripts shipped in the image.
 
 ## Clustering
 
