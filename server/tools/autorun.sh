@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 cd /opt/jboss/keycloak
 
 ENTRYPOINT_DIR=/docker-entrypoint.d
