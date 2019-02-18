@@ -166,12 +166,16 @@ directory.
 
 ## Running custom scripts on startup
 
-To run a custom `.cli` script on container startup extend the Keycloak image and add the `.cli` file to the
-`/opt/jboss/keycloak/tools/docker-entrypoint.d` directory (create it if necessary).
+To run custom scripts on container startup either extend the Keycloak image or use a volume, then add your script to
+the `/docker-entrypoint.d` directory.
 
-It is also possible to add executable scripts (`chmod +x`) to this directory.
+Two types of scripts are supported:
 
-Files are ran in alphabetical order.
+* WildFly `.cli` [scripts](https://docs.jboss.org/author/display/WFLY/Command+Line+Interface)
+
+* Any executable (`chmod +x`) script
+
+Scripts are ran in alphabetical order.
 
 ## Clustering
 
