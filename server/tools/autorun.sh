@@ -13,7 +13,7 @@ if [[ -d "$ENTRYPOINT_DIR" ]]; then
       echo "Executing: $f"
       "$f"
     else
-      echo "Ignoring file in docker-entrypoint.d directory (not *.cli or executable): $f"
+      echo "Ignoring file in $ENTRYPOINT_DIR (not *.cli or executable): $f"
     fi
   done
 fi
