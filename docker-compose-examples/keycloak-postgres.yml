@@ -6,7 +6,7 @@ volumes:
 
 services:
   postgres:
-      build: ./postgres
+      image: postgres
       volumes:
         - postgres_data:/var/lib/postgresql/data
       environment:
@@ -14,6 +14,7 @@ services:
         POSTGRES_USER: keycloak
         POSTGRES_PASSWORD: password
         POSTGRES_SCHEMA: keycloak
+        DB_SCHEMA: public
   keycloak:
       image: jboss/keycloak
       environment:
