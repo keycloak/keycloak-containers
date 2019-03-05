@@ -13,8 +13,6 @@ services:
         POSTGRES_DB: keycloak
         POSTGRES_USER: keycloak
         POSTGRES_PASSWORD: password
-        POSTGRES_SCHEMA: keycloak
-        DB_SCHEMA: public
   keycloak:
       image: jboss/keycloak
       environment:
@@ -22,7 +20,7 @@ services:
         DB_ADDR: postgres
         DB_DATABASE: keycloak
         DB_USER: keycloak
-        DB_SCHEMA: keycloak
+        DB_SCHEMA: public
         DB_PASSWORD: password
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: Pa55w0rd
