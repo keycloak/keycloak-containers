@@ -1,8 +1,10 @@
 FROM jboss/wildfly:10.1.0.Final
 
-ENV KEYCLOAK_VERSION 4.6.0.Final
+ENV KEYCLOAK_VERSION 5.0.0
 
 WORKDIR /opt/jboss/wildfly
+
+RUN yum update -y
 
 RUN curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/adapters/keycloak-oidc/keycloak-wildfly-adapter-dist-$KEYCLOAK_VERSION.tar.gz | tar zx
 RUN curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/adapters/saml/keycloak-saml-wildfly-adapter-dist-$KEYCLOAK_VERSION.tar.gz | tar zx
