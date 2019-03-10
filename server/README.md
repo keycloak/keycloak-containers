@@ -35,7 +35,11 @@ Then restarting the container:
 
     docker restart <CONTAINER>
 
+### Providing the username and password via files
 
+By appending `_FILE` to the two environment variables used above (`KEYCLOAK_USER_FILE` and `KEYCLOAK_PASSWORD_FILE`),
+the information can be provided via files instead of plain environment variable values.
+The configuration and secret support in Docker Swarm is a perfect match for this use case. 
 
 ## Importing a realm
 
@@ -73,7 +77,9 @@ Generic variable names can be used to configure any Database type, defaults may 
 - `DB_PORT`: Specify port of the database (optional, default is DB vendor default port)
 - `DB_DATABASE`: Specify name of the database to use (optional, default is `keycloak`).
 - `DB_USER`: Specify user to use to authenticate to the database (optional, default is `keycloak`).
+- `DB_USER_FILE`: Specify user to authenticate to the database via file input (alternative to `DB_USER`).
 - `DB_PASSWORD`: Specify user's password to use to authenticate to the database (optional, default is `password`).
+- `DB_PASSWORD_FILE`: Specify user's password to use to authenticate to the database via file input (alternative to `DB_PASSWORD`).
 
 ### MySQL Example
 
