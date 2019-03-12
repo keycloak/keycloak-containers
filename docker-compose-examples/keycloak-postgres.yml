@@ -20,6 +20,7 @@ services:
         DB_ADDR: postgres
         DB_DATABASE: keycloak
         DB_USER: keycloak
+        DB_SCHEMA: public
         DB_PASSWORD: password
         KEYCLOAK_USER: admin
         KEYCLOAK_PASSWORD: Pa55w0rd

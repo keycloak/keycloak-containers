@@ -72,6 +72,7 @@ Generic variable names can be used to configure any Database type, defaults may 
 - `DB_ADDR`: Specify hostname of the database (optional)
 - `DB_PORT`: Specify port of the database (optional, default is DB vendor default port)
 - `DB_DATABASE`: Specify name of the database to use (optional, default is `keycloak`).
+- `DB_SCHEMA`: Specify name of the schema to use for DB that support schemas (optional, default is public on Postgres).
 - `DB_USER`: Specify user to use to authenticate to the database (optional, default is `keycloak`).
 - `DB_PASSWORD`: Specify user's password to use to authenticate to the database (optional, default is `password`).
 
