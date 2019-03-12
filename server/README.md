@@ -158,6 +158,9 @@ To set the welcome theme, use the following environment value :
 
 * `KEYCLOAK_WELCOME_THEME`: Specify the theme to use for welcome page (must be non empty and must match an existing theme name)
 
+To set your custom theme as the default global theme, use the following environment value :
+* `KEYCLOAK_DEFAULT_THEME`: Specify the theme to use as the default global theme (must match an existing theme name, if empty will use keycloak)
+
 
 ## Adding a custom provider
 
