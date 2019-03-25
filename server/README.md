@@ -35,7 +35,11 @@ Then restarting the container:
 
     docker restart <CONTAINER>
 
+### Providing the username and password via files
 
+By appending `_FILE` to the two environment variables used above (`KEYCLOAK_USER_FILE` and `KEYCLOAK_PASSWORD_FILE`),
+the information can be provided via files instead of plain environment variable values.
+The configuration and secret support in Docker Swarm is a perfect match for this use case. 
 
 ## Importing a realm
 
@@ -72,8 +76,11 @@ Generic variable names can be used to configure any Database type, defaults may 
 - `DB_ADDR`: Specify hostname of the database (optional)
 - `DB_PORT`: Specify port of the database (optional, default is DB vendor default port)
 - `DB_DATABASE`: Specify name of the database to use (optional, default is `keycloak`).
+- `DB_SCHEMA`: Specify name of the schema to use for DB that support schemas (optional, default is public on Postgres).
 - `DB_USER`: Specify user to use to authenticate to the database (optional, default is `keycloak`).
+- `DB_USER_FILE`: Specify user to authenticate to the database via file input (alternative to `DB_USER`).
 - `DB_PASSWORD`: Specify user's password to use to authenticate to the database (optional, default is `password`).
+- `DB_PASSWORD_FILE`: Specify user's password to use to authenticate to the database via file input (alternative to `DB_PASSWORD`).
 
 ### MySQL Example
 
@@ -158,12 +165,45 @@ To set the welcome theme, use the following environment value :
 
 * `KEYCLOAK_WELCOME_THEME`: Specify the theme to use for welcome page (must be non empty and must match an existing theme name)
 
+To set your custom theme as the default global theme, use the following environment value :
+* `KEYCLOAK_DEFAULT_THEME`: Specify the theme to use as the default global theme (must match an existing theme name, if empty will use keycloak)
+
 
 ## Adding a custom provider
 
 To add a custom provider extend the Keycloak image and add the provider to the `/opt/jboss/keycloak/standalone/deployments/`
 directory.
 
+## Running custom scripts on startup
+
+**Warning**: Custom scripts have no guarantees. The directory layout within the image may change at any time.
+
+To run custom scripts on container startup place a file in the `/opt/jboss/startup-scripts` directory.
+
+Two types of scripts are supported:
+
+* WildFly `.cli` [scripts](https://docs.jboss.org/author/display/WFLY/Command+Line+Interface)
+
+* Any executable (`chmod +x`) script
+
+Scripts are ran in alphabetical order.
+
+### Adding custom script using Dockerfile
+
+A custom script can be added by creating your own `Dockerfile`:
+
+```
+FROM keycloak
+COPY custom-scripts/ /opt/jboss/startup-scripts/
+```
+
+### Adding custom script using volumes
+
+A single custom script can be added as a volume: `docker run -v /some/dir/my-script.cli:/opt/jboss/startup-scripts/my-script.cli`
+Or you can volume the entire directory to supply a directory of scripts.
+
+Note that when combining the approach of extending the image and `volume`ing the entire directory, the volume will override
+all scripts shipped in the image.
 
 ## Clustering
 

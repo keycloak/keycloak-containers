@@ -1,0 +1,54 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: proxy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: proxy
+      annotations:
+        repository: https://github.com/keycloak/keycloak-gatekeeper
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      volumes:
+      - name: certs
+        secret:
+          secretName: tls
+      containers:
+        - name: proxy
+          image: docker.io/jboss/keycloak/keycloak-gatekeeper:latest
+          imagePullPolicy: Always
+          args:
+            - --client-id=broker
+            - --discovery-url=https://sso.example.com/auth/realms/hod-test
+            - --enable-default-deny=false
+            - --enable-json-logging=true
+            - --enable-logging=true
+            - --enable-request-id=true
+            - --enable-security-filter=true
+            - --http-only-cookie=true
+            - --listen=127.0.0.1:3000
+            - --preserve-host=true
+            - --redirection-url=https://www.example.com
+            - --resources=uri=/admin/*|roles=admin
+            - --skip-client-id=true
+            - --tls-cert=/certs/tls.pem
+            - --tls-private-key=/certs/tls-key.pem
+            - --upstream-url=http://127.0.0.1:8080
+          env:
+            - name: PROXY_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: openid
+                  key: client.secret
+          securityContext:
+            readOnlyRootFilesystem: true
+          volumeMounts:
+          - name: certs
+            mountPath: /certs
+            readOnly: true
