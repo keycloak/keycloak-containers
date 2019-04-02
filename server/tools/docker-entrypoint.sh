@@ -62,7 +62,7 @@ fi
 ########################
 
 if [ -z "$BIND" ]; then
-    BIND=$(hostname -i)
+    BIND=$(hostname --all-ip-addresses)
 fi
 if [ -z "$BIND_OPTS" ]; then
     for BIND_IP in $BIND
