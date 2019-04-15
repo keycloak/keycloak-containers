@@ -128,6 +128,8 @@ case "$DB_VENDOR" in
         DB_NAME="MariaDB";;
     h2)
         DB_NAME="Embedded H2";;
+    mssql)
+	DB_NAME="MSSQL-Server";;
     *)
         echo "Unknown DB vendor $DB_VENDOR"
         exit 1
