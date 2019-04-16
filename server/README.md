@@ -153,7 +153,7 @@ Start a Keycloak instance and connect to the external SQL Server instance:
     DB_USER = User with Owner privileges
     DB_PASSWORD = Password of owner user
 
-    docker run --name keycloak -e DB_VENDOR=mssql -e DB_ADDR=onix -e DB_DATABASE=keycloak -e DB_USER=usrKeycloak -e DB_PASSWORD=keycloak -e KEYCLOAK_PASSWORD=admin -e KEYCLOAK_USER=admin netoralves/keycloak:5.0.0
+    docker run --name keycloak -e DB_VENDOR=mssql -e DB_ADDR=SQLServerHostname -e DB_DATABASE=DBName -e DB_USER=UserDBOwner -e DB_PASSWORD=DBPass -e KEYCLOAK_PASSWORD=admin -e KEYCLOAK_USER=admin netoralves/keycloak:5.0.0
     
 
 ### Specify JDBC parameters
