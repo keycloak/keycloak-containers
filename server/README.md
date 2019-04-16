@@ -149,11 +149,11 @@ If you used a different name for the MariaDB instance to `mariadb` you need to s
 
 Start a Keycloak instance and connect to the external SQL Server instance:
 
-DB_ADDR = URI of your SQL Server
-DB_USER = User with Owner privileges
-DB_PASSWORD = Password of owner user
+    DB_ADDR = URI of your SQL Server
+    DB_USER = User with Owner privileges
+    DB_PASSWORD = Password of owner user
 
-docker run --name keycloak -e DB_VENDOR=mssql -e DB_ADDR=onix -e DB_DATABASE=keycloak -e DB_USER=usrKeycloak -e DB_PASSWORD=keycloak -e KEYCLOAK_PASSWORD=admin -e KEYCLOAK_USER=admin netoralves/keycloak:5.0.0
+    docker run --name keycloak -e DB_VENDOR=mssql -e DB_ADDR=onix -e DB_DATABASE=keycloak -e DB_USER=usrKeycloak -e DB_PASSWORD=keycloak -e KEYCLOAK_PASSWORD=admin -e KEYCLOAK_USER=admin netoralves/keycloak:5.0.0
     
 
 ### Specify JDBC parameters
