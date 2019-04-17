@@ -48,6 +48,25 @@ To create an admin account and import a previously exported realm run:
     docker run -e KEYCLOAK_USER=<USERNAME> -e KEYCLOAK_PASSWORD=<PASSWORD> \
         -e KEYCLOAK_IMPORT=/tmp/example-realm.json -v /tmp/example-realm.json:/tmp/example-realm.json jboss/keycloak
 
+## Exporting a realm
+
+If you want to export a realm that you have created/updated, on an instance of Keycloak running within a docker container. You'll need to ensure the container running Keycloak has a volumn mapped. 
+For example you can start Keycloak via docker with: 
+
+	docker run -d -p 8180:8080 -e KEYCLOAK_USER=admin -e \
+	KEYCLOAK_PASSWORD=admin -v $(pwd):/tmp --name kc \
+	jboss/keycloak
+
+You can then get the export from this instance by running (notice we use -Djboss.socket.binding.port-offset=100  so that the expor runs on a different port than Keycloak its self):
+
+	docker exec -it kc keycloak/bin/standalone.sh \
+	-Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export \
+	-Dkeycloak.migration.provider=singleFile \
+	-Dkeycloak.migration.realmName=my_realm \
+	-Dkeycloak.migration.usersExportStrategy=REALM_FILE \
+	-Dkeycloak.migration.file=/tmp/my_realm.json
+
+There is more detail on the options you can user for export functionality on Keycloak's main documentation site at: [Export and Import](https://www.keycloak.org/docs/latest/server_admin/index.html#_export_import)
 
 
 ## Database
