@@ -76,6 +76,14 @@ if [ -z "$BIND_OPTS" ]; then
 fi
 SYS_PROPS+=" $BIND_OPTS"
 
+#########################################
+# Expose management console for metrics #
+#########################################
+
+if [ -n "$KEYCLOAK_STATISTICS" ] ; then 
+    SYS_PROPS+=" -Djboss.bind.address.management=0.0.0.0"
+fi
+
 #################
 # Configuration #
 #################
@@ -199,6 +207,7 @@ fi
 
 /opt/jboss/tools/x509.sh
 /opt/jboss/tools/jgroups.sh
+/opt/jboss/tools/statistics.sh
 /opt/jboss/tools/autorun.sh
 
 ##################
