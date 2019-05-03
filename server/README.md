@@ -335,6 +335,12 @@ It is possible to build Keycloak from a GitHub repository instead of downloading
 
 This will clone the repository then build Keycloak from source. If you don't include GIT_BRANCH it will use the `master` branch.
 
+You can also use another solution of repository like Gitlab using GIT_HOST option.
+
+    docker build --build-arg GIT_HOST=https://oauth2:[token]@gitlab.test.fr/gitlab GIT_REPO=keycloak/keycloak --build-arg GIT_BRANCH=master .
+
+A token must been create on your gitlab account to avoid the user/pass authentication.
+
 #### Download Keycloak from an alternative location
 
 It is possible to download the Keycloak distribution from an alternative location. This can for example be useful if you want to build a Docker image from Keycloak built locally. For example:
