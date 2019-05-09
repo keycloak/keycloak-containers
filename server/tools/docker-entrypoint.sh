@@ -99,6 +99,8 @@ if [ "$DB_VENDOR" == "" ]; then
         export DB_VENDOR="mysql"
     elif (getent hosts mariadb &>/dev/null); then
         export DB_VENDOR="mariadb"
+    elif (getent hosts sqlserver &>/dev/null); then
+        export DB_VENDOR="sqlserver"
     fi
 fi
 
@@ -110,6 +112,8 @@ if [ "$DB_VENDOR" == "" ]; then
         export DB_VENDOR="mysql"
     elif (printenv | grep '^MARIADB_ADDR=' &>/dev/null); then
         export DB_VENDOR="mariadb"
+    elif (printenv | grep '^SQLSERVERDB_ADDR=' &>/dev/null); then
+        export DB_VENDOR="sqlserver"
     fi
 fi
 
@@ -128,6 +132,8 @@ case "$DB_VENDOR" in
         DB_NAME="MariaDB";;
     h2)
         DB_NAME="Embedded H2";;
+    sqlserver)
+        DB_NAME="SQL Server";;
     *)
         echo "Unknown DB vendor $DB_VENDOR"
         exit 1
