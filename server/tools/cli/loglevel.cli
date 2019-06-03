@@ -7,3 +7,4 @@
 /subsystem=logging/periodic-rotating-file-handler=FILE:remove
 
 /subsystem=logging/console-handler=CONSOLE:undefine-attribute(name=level)
+/subsystem=logging/console-handler=CONSOLE:write-attribute(name="named-formatter", value="PATTERN")
