@@ -63,6 +63,10 @@ cd /opt/jboss/keycloak/modules/system/layers/base/org/mariadb/jdbc/main
 curl -L http://central.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/$JDBC_MARIADB_VERSION/mariadb-java-client-$JDBC_MARIADB_VERSION.jar > mariadb-jdbc.jar
 cp /opt/jboss/tools/databases/mariadb/module.xml .
 
+mkdir -p /opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main
+cd /opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main
+cp /opt/jboss/tools/databases/oracle/module.xml .
+
 ######################
 # Configure Keycloak #
 ######################

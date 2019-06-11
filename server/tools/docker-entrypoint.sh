@@ -99,6 +99,8 @@ if [ "$DB_VENDOR" == "" ]; then
         export DB_VENDOR="mysql"
     elif (getent hosts mariadb &>/dev/null); then
         export DB_VENDOR="mariadb"
+    elif (getent hosts oracle &>/dev/null); then
+        export DB_VENDOR="oracle"
     fi
 fi
 
@@ -110,6 +112,8 @@ if [ "$DB_VENDOR" == "" ]; then
         export DB_VENDOR="mysql"
     elif (printenv | grep '^MARIADB_ADDR=' &>/dev/null); then
         export DB_VENDOR="mariadb"
+    elif (printenv | grep '^ORACLE_ADDR=' &>/dev/null); then
+        export DB_VENDOR="oracle"
     fi
 fi
 
@@ -126,6 +130,8 @@ case "$DB_VENDOR" in
         DB_NAME="MySQL";;
     mariadb)
         DB_NAME="MariaDB";;
+    oracle)
+        DB_NAME="Oracle";;
     h2)
         DB_NAME="Embedded H2";;
     *)

@@ -52,7 +52,7 @@ To create an admin account and import a previously exported realm run:
 
 ## Database
 
-This image supports using H2, MySQL, PostgreSQL or MariaDB as the database.
+This image supports using H2, MySQL, PostgreSQL, MariaDB, or Oracle as the database.
 
 You can specify the DB vendor directly with the `DB_VENDOR` environment variable. Supported values are:
 
@@ -60,12 +60,13 @@ You can specify the DB vendor directly with the `DB_VENDOR` environment variable
 - `postgres` for the Postgres database,
 - `mysql` for the MySql database.
 - `mariadb` for the MariaDB database.
+- `oracle` for the Oracle database.
 
 If `DB_VENDOR` value is not specified the image will try to detect the DB vendor based on the following logic:
 
-- Is the default host name for the DB set using `getent hosts` (`postgres`, `mysql`, `mariadb`). This works if you are
+- Is the default host name for the DB set using `getent hosts` (`postgres`, `mysql`, `mariadb`, `oracle`). This works if you are
 using a user defined network and the default names as specified below.
-- Is there a DB specific `_ADDR` environment variable set (`POSTGRES_ADDR`, `MYSQL_ADDR`, `MARIADB_ADDR`). **Deprecated**
+- Is there a DB specific `_ADDR` environment variable set (`POSTGRES_ADDR`, `MYSQL_ADDR`, `MARIADB_ADDR`, `ORACLE_ADDR`). **Deprecated**
 
 If the DB can't be detected it will default to the embedded H2 database.
 
@@ -84,7 +85,7 @@ Generic variable names can be used to configure any Database type, defaults may 
 
 ### MySQL Example
 
-#### Create a user define network
+#### Create a user defined network
 
     docker network create keycloak-network
 
@@ -104,7 +105,7 @@ If you used a different name for the MySQL instance to `mysql` you need to speci
 
 ### PostgreSQL Example
 
-#### Create a user define network
+#### Create a user defined network
 
     docker network create keycloak-network
 
@@ -124,7 +125,7 @@ If you used a different name for the PostgreSQL instance to `postgres` you need 
 
 ### MariaDB Example
 
-#### Create a user define network
+#### Create a user defined network
 
     docker network create keycloak-network
 
@@ -142,6 +143,48 @@ Start a Keycloak instance and connect to the MariaDB instance:
 
 If you used a different name for the MariaDB instance to `mariadb` you need to specify the `DB_ADDR` environment variable.
 
+### Oracle Example
+
+Using Keycloak with an Oracle database requires a JDBC driver to be provided to the Docker image.
+
+#### Download Oracle JDBC driver
+
+1. Download the required [JDBC driver](https://www.oracle.com/technetwork/database/application-development/jdbc/downloads) for your version of Oracle.
+
+2. **Important:** rename the file to `ojdbc.jar`
+
+#### Create a user defined network
+
+    docker network create keycloak-network
+
+#### Start an Oracle instance
+
+If you already have an Oracle database running this step can be skipped, otherwise here we will start a new Docker container using the [carloscastillo/rgt-oracle-xe-11g](https://hub.docker.com/r/carloscastillo/rgt-oracle-xe-11g) image on Docker Hub:
+
+    docker run -d --name oracle --net keycloak-network -p 1521:1521 carloscastillo/rgt-oracle-xe-11g
+
+#### Start a Keycloak instance
+
+Start a Keycloak instance and connect to the Oracle instance:
+
+    docker run -d --name keycloak --net keycloak-network -p 8080:8080 -v /path/to/jdbc/driver:/opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main/driver jboss/keycloak
+
+One of the key pieces here is that we are mounting a volume from the location of the JDBC driver, so ensure that the path is correct. The mounted volume should contain the file named `ojdbc.jar`.
+
+Alternately, the JDBC file can be copied into the container using the `docker cp` command:
+
+    docker cp ojdbc.jar jboss/keycloak:/opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main/driver/ojdbc.jar
+
+If you used a name for the Oracle instance other than `oracle` you need to specify the `DB_ADDR` environment variable.
+
+**Default environment settings:**
+
+- `DB_ADDR`: `oracle`
+- `DB_PORT`: `1521`
+- `DB_DATABASE`: `XE`
+- `DB_USER`: `SYSTEM`
+- `DB_PASSWORD`: `oracle`
+
 ### Specify JDBC parameters
 
 When connecting Keycloak instance to the database, you can specify the JDBC parameters. Details on JDBC parameters can be
@@ -150,6 +193,7 @@ found here:
 * [PostgreSQL](https://jdbc.postgresql.org/documentation/head/connect.html)
 * [MySQL](https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-configuration-properties.html)
 * [MariaDB](https://mariadb.com/kb/en/library/about-mariadb-connector-j/#optional-url-parameters)
+* [Oracle](https://docs.oracle.com/en/database/oracle/oracle-database/18/jjdbc/data-sources-and-URLs.html)
 
 #### Example
 
