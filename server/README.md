@@ -232,6 +232,7 @@ two additional environment variables:
 - `JGROUPS_DISCOVERY_PROTOCOL` - name of the discovery protocol, e.g. DNS_PING
 - `JGROUPS_DISCOVERY_PROPERTIES` - an optional parameter with the discovery protocol properties in the following format:
 `PROP1=FOO,PROP2=BAR`
+- `JGROUPS_TRANSPORT_STACK` - an optional name of the transport stack to use `udp` or `tcp` are possible values. Default: `tcp` 
 
 The bootstrap script will detect the variables and adjust the `standalone-ha.xml` configuration based on them.
 
