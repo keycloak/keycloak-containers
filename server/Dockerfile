@@ -1,7 +1,7 @@
 FROM jboss/base-jdk:8
 
-ENV KEYCLOAK_VERSION 4.8.3.Final
-ENV JDBC_POSTGRES_VERSION 42.2.2
+ENV KEYCLOAK_VERSION 6.0.1
+ENV JDBC_POSTGRES_VERSION 42.2.5
 ENV JDBC_MYSQL_VERSION 5.1.46
 ENV JDBC_MARIADB_VERSION 2.2.3
 
@@ -16,7 +16,7 @@ ARG KEYCLOAK_DIST=https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/keycloa
 
 USER root
 
-RUN yum install -y epel-release git && yum install -y jq openssl which && yum clean all
+RUN yum update -y && yum install -y epel-release git && yum install -y jq openssl which && yum clean all
 
 ADD tools /opt/jboss/tools
 RUN /opt/jboss/tools/build-keycloak.sh
