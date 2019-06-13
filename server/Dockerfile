@@ -24,6 +24,7 @@ RUN /opt/jboss/tools/build-keycloak.sh
 USER 1000
 
 EXPOSE 8080
+EXPOSE 8443
 
 ENTRYPOINT [ "/opt/jboss/tools/docker-entrypoint.sh" ]
 
