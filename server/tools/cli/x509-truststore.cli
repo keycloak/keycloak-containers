@@ -12,4 +12,14 @@ else
 	/subsystem=elytron/server-ssl-context=kcSSLContext:write-attribute(name=trust-manager, value=kcTrustManager)
     /subsystem=elytron/server-ssl-context=kcSSLContext:write-attribute(name=want-client-auth, value=true)
 end-if
+
+if (outcome != success) of /subsystem=keycloak-server/spi=truststore:read-resource
+    /subsystem=keycloak-server/spi=truststore/:add
+end-if
+/subsystem=keycloak-server/spi=truststore/provider=file/:add(enabled=true,properties={ \
+    file => $keycloak_tls_truststore_file, \
+    password => $keycloak_tls_truststore_password, \
+    hostname-verification-policy => "WILDCARD", \
+disabled => "false"})
+
 stop-embedded-server
