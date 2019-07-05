@@ -192,7 +192,7 @@ if [ "$DB_VENDOR" != "h2" ]; then
 fi
 
 /opt/jboss/tools/x509.sh
-/opt/jboss/tools/jgroups.sh $JGROUPS_DISCOVERY_PROTOCOL $JGROUPS_DISCOVERY_PROPERTIES
+/opt/jboss/tools/jgroups.sh
 /opt/jboss/tools/autorun.sh
 
 ##################
