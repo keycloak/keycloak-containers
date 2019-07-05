@@ -271,12 +271,16 @@ all scripts shipped in the image.
 ## Clustering
 
 Replacing the default discovery protocols (`PING` for the UDP stack and `MPING` for the TCP one) can be achieved by defining
-two additional environment variables:
+some additional environment variables:
 
 - `JGROUPS_DISCOVERY_PROTOCOL` - name of the discovery protocol, e.g. DNS_PING
 - `JGROUPS_DISCOVERY_PROPERTIES` - an optional parameter with the discovery protocol properties in the following format:
 `PROP1=FOO,PROP2=BAR`
+- `JGROUPS_DISCOVERY_PROPERTIES_DIRECT` - an optional parameter with the discovery protocol properties in jboss CLI format:
+`{PROP1=>FOO,PROP2=>BAR}`
 - `JGROUPS_TRANSPORT_STACK` - an optional name of the transport stack to use `udp` or `tcp` are possible values. Default: `tcp` 
+
+**Warning**: It's an error to set both JGROUPS_DISCOVERY_PROPERTIES and JGROUPS_DISCOVERY_PROPERTIES_DIRECT. No more than one of them may be set.
 
 The bootstrap script will detect the variables and adjust the `standalone-ha.xml` configuration based on them.
 
