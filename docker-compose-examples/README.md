@@ -29,6 +29,17 @@ Run the example with the following command:
 Note - This example is not currently working as MySQL is not ready to receive connections when Keycloak is started.
 
 
+## Keycloak and MariaDB with JDBC_PING
+
+Similarly to other templates, the `keycloak-mariadb-jdbc-ping.yml` template creates a volume for MariaDB and boots up Keycloak connected to it. The most important change is the JGroups Discovery protocol that is used in this configuration, which is `JDBC_PING`. `JDBC_PING` reuses the same database instance as all Keycloak servers in the cluster.
+
+Run the example with the following command:
+
+    docker-compose -f keycloak-mariadb-jdbc-ping.yml up --scale keycloak=2
+
+Once the cluster is started, use `docker ps` and `docker inspect` commands to obtain one of the Keycloak server IPs. Then open http://<ip>:8080/auth and login as user 'admin' with password 'Pa55w0rd'.
+
+Note - Sometimes, it is necessary to adjust the `JDBC_PING` initialization SQL (see the [manual](http://jgroups.org/manual/#_jdbc_ping)). In such cases, make sure you specify proper `initialize_sql` string into `JGROUPS_DISCOVERY_PROPERTIES` property. For more information, please refer to [JGroups codebase](https://github.com/belaban/JGroups/blob/master/src/org/jgroups/protocols/JDBC_PING.java).
 
 ## Keycloak and Microsoft SQL Server
 
