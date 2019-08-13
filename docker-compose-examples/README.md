@@ -30,6 +30,20 @@ Note - This example is not currently working as MySQL is not ready to receive co
 
 
 
+## Keycloak and Microsoft SQL Server
+
+The `keycloak-mssql.yml` template creates a volume for Microsoft SQL Server and starts Keycloak connected to a Microsoft SQL Server instance. 
+
+Run the example with the following command:
+
+    docker-compose -f keycloak-mssql.yml up
+    
+Note - This example uses an additional container to create the keycloak database prior to loading the keycloak application.  In addition, the keycloak container can be rebuilt using
+    
+    docker-compose -f ./docker-compose-examples/keycloak-mssql.yml build
+
+
+
 ## Troubleshooting
 
 ### User with username exists
