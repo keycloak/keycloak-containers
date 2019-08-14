@@ -134,7 +134,7 @@ fi
 case "$DB_VENDOR" in
     postgres)
         DB_NAME="PostgreSQL"
-        if [ -z "$BD_PORT" ] ; then BD_PORT="5432" ; fi
+        if [ -z "$DB_PORT" ] ; then DB_PORT="5432" ; fi
         append_port_db_addr
         ;;
     mysql)
