@@ -311,7 +311,7 @@ all scripts shipped in the image.
 Replacing the default discovery protocols (`PING` for the UDP stack and `MPING` for the TCP one) can be achieved by defining
 some additional environment variables:
 
-- `JGROUPS_DISCOVERY_PROTOCOL` - name of the discovery protocol, e.g. DNS_PING
+- `JGROUPS_DISCOVERY_PROTOCOL` - name of the discovery protocol, e.g. dns.DNS_PING
 - `JGROUPS_DISCOVERY_PROPERTIES` - an optional parameter with the discovery protocol properties in the following format:
 `PROP1=FOO,PROP2=BAR`
 - `JGROUPS_DISCOVERY_PROPERTIES_DIRECT` - an optional parameter with the discovery protocol properties in jboss CLI format:
