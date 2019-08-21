@@ -66,7 +66,9 @@ function autogenerate_keystores() {
     echo "Creating Keycloak truststore.."
     # We use cat here, so that users could specify multiple CA Bundles using space or even wildcard:
     # X509_CA_BUNDLE=/var/run/secrets/kubernetes.io/serviceaccount/*.crt
-    cat "${X509_CA_BUNDLE}" > ${TEMPORARY_CERTIFICATE}
+    # Note, that there is no quotes here, that's intentional. Once can use spaces in the $X509_CA_BUNDLE like this:
+    # X509_CA_BUNDLE=/ca.crt /ca2.crt
+    cat ${X509_CA_BUNDLE} > ${TEMPORARY_CERTIFICATE}
     csplit -s -z -f crt- "${TEMPORARY_CERTIFICATE}" "${X509_CRT_DELIMITER}" '{*}'
     for CERT_FILE in crt-*; do
       keytool -import -noprompt -keystore "${JKS_TRUSTSTORE_PATH}" -file "${CERT_FILE}" \
