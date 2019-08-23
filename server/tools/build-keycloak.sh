@@ -50,7 +50,7 @@ fi
 
 mkdir -p /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main
 cd /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main
-if [ -x "$(command -v mvn)" ]
+if [ -x "$(command -v mvn)" ]; then
   mvn dependency:get -Dartifact=mysql:mysql-connector-java:$JDBC_MYSQL_VERSION:jar -Ddest=mysql-connector-java-$JDBC_MYSQL_VERSION.jar
 else
   curl -O https://repo1.maven.org/maven2/mysql/mysql-connector-java/$JDBC_MYSQL_VERSION/mysql-connector-java-$JDBC_MYSQL_VERSION.jar
@@ -59,7 +59,7 @@ cp /opt/jboss/tools/databases/mysql/module.xml .
 
 mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main
 cd /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main
-if [ -x "$(command -v mvn)" ]
+if [ -x "$(command -v mvn)" ]; then
   mvn dependency:get -Dartifact=org/postgresql:postgresql:$JDBC_POSTGRES_VERSION:jar -Ddest=postgres-jdbc.jar
 else
   curl -L https://repo1.maven.org/maven2/org/postgresql/postgresql/$JDBC_POSTGRES_VERSION/postgresql-$JDBC_POSTGRES_VERSION.jar > postgres-jdbc.jar
@@ -68,7 +68,7 @@ cp /opt/jboss/tools/databases/postgres/module.xml .
 
 mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/mariadb/jdbc/main
 cd /opt/jboss/keycloak/modules/system/layers/base/org/mariadb/jdbc/main
-if [ -x "$(command -v mvn)" ]
+if [ -x "$(command -v mvn)" ]; then
   mvn dependency:get -Dartifact=org/mariadb/jdbc:mariadb-java-client:$JDBC_MARIADB_VERSION:jar -Ddest=mariadb-jdbc.jar
 else
   curl -L https://repo1.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/$JDBC_MARIADB_VERSION/mariadb-java-client-$JDBC_MARIADB_VERSION.jar > mariadb-jdbc.jar
