@@ -16,7 +16,7 @@ To boot in standalone mode
 
 To be able to open Keycloak on localhost map port 8080 locally
 
-   docker run -p 8080:8080 jboss/keycloak
+    docker run -p 8080:8080 jboss/keycloak
 
 
 
