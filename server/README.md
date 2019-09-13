@@ -369,6 +369,19 @@ This can be easily achieved by extending the Keycloak image and adding just one 
 
 Of course, we highly encourage you to contribute your custom scripts back to the community image!
 
+### Replication and Fail-Over
+
+By default Keycloak does NOT replicate caches like sessions, authenticationSessions, offlineSessions, loginFailures and a few others (See Eviction and Expiration for more details), which are configured as distributed caches when using a clustered setup. Entries are not replicated to every single node, but instead one or more nodes is chosen as an owner of that data. If a node is not the owner of a specific cache entry it queries the cluster to obtain it. What this means for failover is that if all the nodes that own a piece of data go down, that data is lost forever. By default, Keycloak only specifies one owner for data. So if that one node goes down that data is lost. This usually means that users will be logged out and will have to login again. For more on this subject see [Keycloak Documentation](https://www.keycloak.org/docs/latest/server_installation/#_replication)
+
+#### Specify destributed-cache owners
+
+* `CACHE_OWNERS_COUNT`: Specify the number of distributed-cache owners (default is 1)
+
+AuthenticationSessions will not be replicated by setting CACHE_OWNERS_COUNT>1 as this is usually not required/intended (https://www.keycloak.org/docs/latest/server_installation/#cache)
+To enable replication of AuthenticationSessions as well use:
+
+ * `CACHE_OWNERS_AUTH_SESSIONS_COUNT`: Specify the number of replicas for AuthenticationSessions
+
 
 ## Misc
 
