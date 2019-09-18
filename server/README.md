@@ -383,6 +383,13 @@ To enable replication of AuthenticationSessions as well use:
  * `CACHE_OWNERS_AUTH_SESSIONS_COUNT`: Specify the number of replicas for AuthenticationSessions
 
 
+## Vault
+
+### Setup Kubernetes / OpenShift files plaintext vault
+
+Keycloak supports vault implementation for [Kubernetes secrets](https://kubernetes.io/docs/concepts/configuration/secret/). To use files plaintext vault in Docker container mount secret files to `$JBOSS_HOME/secrets` directory. This can be used to consume secrets from Kubernetes / OpenShift cluster. 
+
+
 ## Misc
 
 ### Specify hostname
