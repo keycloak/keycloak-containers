@@ -9,6 +9,9 @@ if [ "$GIT_REPO" != "" ]; then
         GIT_BRANCH="master"
     fi
 
+    # Install Git
+    microdnf install -y git
+
     # Install Maven
     cd /opt/jboss 
     curl -s https://apache.uib.no/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz | tar xz
@@ -88,5 +91,5 @@ rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
 # Set permissions #
 ###################
 
-chown -R jboss:0 /opt/jboss/keycloak
-chmod -R g+rw /opt/jboss/keycloak
+chgrp -R 0 /opt/jboss/keycloak
+chmod -R g=u /opt/jboss/keycloak
