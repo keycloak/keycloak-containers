@@ -1,4 +1,4 @@
-FROM registry.redhat.io/ubi8-minimal
+FROM registry.access.redhat.com/ubi8-minimal
 
 ENV KEYCLOAK_VERSION 6.0.1
 ENV JDBC_POSTGRES_VERSION 42.2.5

@@ -91,5 +91,6 @@ rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
 # Set permissions #
 ###################
 
-chgrp -R 0 /opt/jboss/keycloak
-chmod -R g=u /opt/jboss/keycloak
+echo "jboss:x:1000:1000:JBoss user:/opt/jboss:/sbin/nologin" >> /etc/passwd
+chown -R jboss:0 /opt/jboss
+chmod -R g+rw /opt/jboss
