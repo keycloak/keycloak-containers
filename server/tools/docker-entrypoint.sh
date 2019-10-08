@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # usage: file_env VAR [DEFAULT]
 #    ie: file_env 'XYZ_DB_PASSWORD' 'example'
@@ -99,7 +99,7 @@ fi
 #################
 
 # If the server configuration parameter is not present, append the HA profile.
-if echo "$@" | egrep -v -- '-c |-c=|--server-config |--server-config='; then
+if echo "$@" | grep -E -v -- '-c |-c=|--server-config |--server-config='; then
     SYS_PROPS+=" -c=standalone-ha.xml"
 fi
 
@@ -111,7 +111,7 @@ file_env 'DB_USER'
 file_env 'DB_PASSWORD'
 
 # Lower case DB_VENDOR
-DB_VENDOR=`echo $DB_VENDOR | tr A-Z a-z`
+DB_VENDOR=$(echo "$DB_VENDOR" | tr "[:upper:]" "[:lower:]")
 
 # Detect DB vendor from default host names
 if [ "$DB_VENDOR" == "" ]; then
@@ -187,20 +187,21 @@ case "$DB_VENDOR" in
 esac
 
 # Append '?' in the beggining of the string if JDBC_PARAMS value isn't empty
-export JDBC_PARAMS=$(echo ${JDBC_PARAMS} | sed '/^$/! s/^/?/')
+JDBC_PARAMS=$(echo "${JDBC_PARAMS}" | sed '/^$/! s/^/?/')
+export JDBC_PARAMS
 
 # Convert deprecated DB specific variables
 function set_legacy_vars() {
   local suffixes=(ADDR DATABASE USER PASSWORD PORT)
   for suffix in "${suffixes[@]}"; do
     local varname="$1_$suffix"
-    if [ ${!varname} ]; then
-      echo WARNING: $varname variable name is DEPRECATED replace with DB_$suffix
-      export DB_$suffix=${!varname}
+    if [ "${!varname}" ]; then
+      echo WARNING: "$varname" variable name is DEPRECATED replace with DB_"$suffix"
+      export DB_"$suffix=${!varname}"
     fi
   done
 }
-set_legacy_vars `echo $DB_VENDOR | tr a-z A-Z`
+set_legacy_vars "$(echo "$DB_VENDOR" | tr "[:upper:]" "[:lower:]")"
 
 # Configure DB
 
