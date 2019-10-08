@@ -50,14 +50,14 @@ To create an admin account and import a previously exported realm run:
 
 ## Exporting a realm
 
-If you want to export a realm that you have created/updated, on an instance of Keycloak running within a docker container. You'll need to ensure the container running Keycloak has a volumn mapped. 
+If you want to export a realm that you have created/updated, on an instance of Keycloak running within a docker container. You'll need to ensure the container running Keycloak has a volume mapped. 
 For example you can start Keycloak via docker with: 
 
 	docker run -d -p 8180:8080 -e KEYCLOAK_USER=admin -e \
 	KEYCLOAK_PASSWORD=admin -v $(pwd):/tmp --name kc \
 	jboss/keycloak
 
-You can then get the export from this instance by running (notice we use -Djboss.socket.binding.port-offset=100  so that the expor runs on a different port than Keycloak its self):
+You can then get the export from this instance by running (notice we use `-Djboss.socket.binding.port-offset=100` so that the export runs on a different port than Keycloak itself):
 
 	docker exec -it kc keycloak/bin/standalone.sh \
 	-Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export \
@@ -207,7 +207,7 @@ If you used a name for the Oracle instance other than `oracle` you need to speci
 - `DB_DATABASE`: `XE`
 - `DB_USER`: `SYSTEM`
 - `DB_PASSWORD`: `oracle`
-=======
+
 ### Microsoft SQL Server Example
 
 #### Create a user define network
