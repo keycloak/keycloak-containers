@@ -196,6 +196,13 @@ function set_legacy_vars() {
 }
 set_legacy_vars `echo $DB_VENDOR | tr a-z A-Z`
 
+
+# Configure MSSQL instance name
+
+if [ $DB_VENDOR == 'mssql' ] && [ -z "$DB_INSTANCE_NAME" ]; then
+   DB_INSTANCE_NAME='MSSQLSERVER'
+fi
+
 # Configure DB
 
 echo "========================================================================="
