@@ -7,3 +7,5 @@
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=background-validation-millis, value=60000)
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=flush-strategy, value=IdleConnections)
 /subsystem=datasources/jdbc-driver=sqlserver:add(driver-name=sqlserver,driver-module-name=com.microsoft.sqlserver.jdbc,driver-xa-datasource-class-name=com.microsoft.sqlserver.jdbc.SQLServerXADataSource)
+
+/subsystem=keycloak-server/spi=connectionsJpa/provider=default:write-attribute(name=properties.schema,value=${env.DB_SCHEMA:dbo})
