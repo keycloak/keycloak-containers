@@ -72,7 +72,7 @@ cp /opt/jboss/tools/databases/oracle/module.xml .
 
 mkdir -p /opt/jboss/keycloak/modules/system/layers/keycloak/com/microsoft/sqlserver/jdbc/main
 cd /opt/jboss/keycloak/modules/system/layers/keycloak/com/microsoft/sqlserver/jdbc/main
-curl -L http://central.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/$JDBC_MSSQL_VERSION/mssql-jdbc-$JDBC_MSSQL_VERSION.jar > mssql-jdbc.jar
+curl -L https://repo1.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/$JDBC_MSSQL_VERSION/mssql-jdbc-$JDBC_MSSQL_VERSION.jar > mssql-jdbc.jar
 cp /opt/jboss/tools/databases/mssql/module.xml .
 
 ######################
@@ -91,5 +91,6 @@ rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
 # Set permissions #
 ###################
 
-chgrp -R 0 /opt/jboss/keycloak
-chmod -R g=u /opt/jboss/keycloak
+echo "jboss:x:1000:1000:JBoss user:/opt/jboss:/sbin/nologin" >> /etc/passwd
+chown -R jboss:0 /opt/jboss
+chmod -R g+rw /opt/jboss
