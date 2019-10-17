@@ -392,7 +392,15 @@ Keycloak supports vault implementation for [Kubernetes secrets](https://kubernet
 
 ## Misc
 
+### Specify frontend base URL
+
+To set a fixed base URL for frontend requests use the following environment value (this is highly recommended in production):
+
+* `KEYCLOAK_FRONTEND_URL`: Specify base URL for Keycloak (optional, default is retrieved from request)
+
 ### Specify hostname
+
+This environment variable is deprecated, use `KEYCLOAK_FRONTEND_URL` instead. 
 
 To set a fixed hostname for Keycloak use the following environment value. This is highly recommended in production.
 
