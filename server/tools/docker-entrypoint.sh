@@ -26,6 +26,8 @@ file_env() {
     unset "$fileVar"
 }
 
+SYS_PROPS=""
+
 ##################
 # Add admin user #
 ##################
@@ -41,8 +43,12 @@ fi
 # Hostname #
 ############
 
+if [ "$KEYCLOAK_FRONTEND_URL" != "" ]; then
+    SYS_PROPS+="-Dkeycloak.frontendUrl=$KEYCLOAK_FRONTEND_URL"
+fi
+
 if [ "$KEYCLOAK_HOSTNAME" != "" ]; then
-    SYS_PROPS="-Dkeycloak.hostname.provider=fixed -Dkeycloak.hostname.fixed.hostname=$KEYCLOAK_HOSTNAME"
+    SYS_PROPS+="-Dkeycloak.hostname.provider=fixed -Dkeycloak.hostname.fixed.hostname=$KEYCLOAK_HOSTNAME"
 
     if [ "$KEYCLOAK_HTTP_PORT" != "" ]; then
         SYS_PROPS+=" -Dkeycloak.hostname.fixed.httpPort=$KEYCLOAK_HTTP_PORT"
