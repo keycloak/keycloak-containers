@@ -29,7 +29,7 @@ you need to use environment variables to pass in an initial username and passwor
 
 You can also create an account on an already running container by running:
 
-    docker exec <CONTAINER> keycloak/bin/add-user-keycloak.sh -u <USERNAME> -p <PASSWORD>
+    docker exec <CONTAINER> /opt/jboss/keycloak/bin/add-user-keycloak.sh -u <USERNAME> -p <PASSWORD>
 
 Then restarting the container:
 
