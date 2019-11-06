@@ -1,4 +1,4 @@
-FROM python:3-alpine
+FROM registry.access.redhat.com/ubi8/python-36 
 
 COPY extensions.py ./
 

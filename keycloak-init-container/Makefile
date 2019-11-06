@@ -1,5 +1,5 @@
 ORG=keycloak
-PROJECT=extensions_init_container
+PROJECT=keycloak-init-container
 REG=quay.io
 TAG=2.0.0
 ENGINE?=docker
