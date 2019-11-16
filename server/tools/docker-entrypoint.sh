@@ -9,18 +9,18 @@ file_env() {
     local var="$1"
     local fileVar="${var}_FILE"
     local def="${2:-}"
-    if [ "${!var:-}" ] && [ "${!fileVar:-}" ]; then
+    if [[ ${!var:-} && ${!fileVar:-} ]]; then
         echo >&2 "error: both $var and $fileVar are set (but are exclusive)"
         exit 1
     fi
     local val="$def"
-    if [ "${!var:-}" ]; then
+    if [[ ${!var:-} ]]; then
         val="${!var}"
-    elif [ "${!fileVar:-}" ]; then
+    elif [[ ${!fileVar:-} ]]; then
         val="$(< "${!fileVar}")"
     fi
 
-    if [ "$val" ]; then
+    if [[ -n $val ]]; then
         export "$var"="$val"
     fi
 
@@ -36,7 +36,7 @@ SYS_PROPS=""
 file_env 'KEYCLOAK_USER'
 file_env 'KEYCLOAK_PASSWORD'
 
-if [ -n "$KEYCLOAK_USER" ] && [ -n "$KEYCLOAK_PASSWORD" ]; then
+if [[ -n ${KEYCLOAK_USER:-} && -n ${KEYCLOAK_PASSWORD:-} ]]; then
     /opt/jboss/keycloak/bin/add-user-keycloak.sh --user "$KEYCLOAK_USER" --password "$KEYCLOAK_PASSWORD"
 fi
 
@@ -44,22 +44,22 @@ fi
 # Hostname #
 ############
 
-if [ "$KEYCLOAK_FRONTEND_URL" != "" ]; then
+if [[ -n ${KEYCLOAK_FRONTEND_URL:-} ]]; then
     SYS_PROPS+="-Dkeycloak.frontendUrl=$KEYCLOAK_FRONTEND_URL"
 fi
 
-if [ "$KEYCLOAK_HOSTNAME" != "" ]; then
+if [[ -n ${KEYCLOAK_HOSTNAME:-} ]]; then
     SYS_PROPS+="-Dkeycloak.hostname.provider=fixed -Dkeycloak.hostname.fixed.hostname=$KEYCLOAK_HOSTNAME"
 
-    if [ "$KEYCLOAK_HTTP_PORT" != "" ]; then
+    if [[ -n ${KEYCLOAK_HTTP_PORT:-} ]]; then
         SYS_PROPS+=" -Dkeycloak.hostname.fixed.httpPort=$KEYCLOAK_HTTP_PORT"
     fi
 
-    if [ "$KEYCLOAK_HTTPS_PORT" != "" ]; then
+    if [[ -n ${KEYCLOAK_HTTPS_PORT:-} ]]; then
         SYS_PROPS+=" -Dkeycloak.hostname.fixed.httpsPort=$KEYCLOAK_HTTPS_PORT"
     fi
 
-    if [ "$KEYCLOAK_ALWAYS_HTTPS" != "" ]; then
+    if [[ -n ${KEYCLOAK_ALWAYS_HTTPS:-} ]]; then
             SYS_PROPS+=" -Dkeycloak.hostname.fixed.alwaysHttps=$KEYCLOAK_ALWAYS_HTTPS"
     fi
 fi
@@ -68,7 +68,7 @@ fi
 # Realm import #
 ################
 
-if [ "$KEYCLOAK_IMPORT" ]; then
+if [[ -n ${KEYCLOAK_IMPORT:-} ]]; then
     SYS_PROPS+=" -Dkeycloak.import=$KEYCLOAK_IMPORT"
 fi
 
@@ -76,10 +76,10 @@ fi
 # JGroups bind options #
 ########################
 
-if [ -z "$BIND" ]; then
+if [[ -z ${BIND:-} ]]; then
     BIND=$(hostname --all-ip-addresses)
 fi
-if [ -z "$BIND_OPTS" ]; then
+if [[ -z ${BIND_OPTS:-} ]]; then
     for BIND_IP in $BIND
     do
         BIND_OPTS+=" -Djboss.bind.address=$BIND_IP -Djboss.bind.address.private=$BIND_IP "
@@ -91,7 +91,7 @@ SYS_PROPS+=" $BIND_OPTS"
 # Expose management console for metrics #
 #########################################
 
-if [ -n "$KEYCLOAK_STATISTICS" ] ; then 
+if [[ -n ${KEYCLOAK_STATISTICS:-} ]] ; then
     SYS_PROPS+=" -Djboss.bind.address.management=0.0.0.0"
 fi
 
@@ -110,12 +110,11 @@ fi
 
 file_env 'DB_USER'
 file_env 'DB_PASSWORD'
-
 # Lower case DB_VENDOR
 DB_VENDOR=$(echo "$DB_VENDOR" | tr "[:upper:]" "[:lower:]")
 
 # Detect DB vendor from default host names
-if [ "$DB_VENDOR" == "" ]; then
+if [[ -z ${DB_VENDOR:-} ]]; then
     if (getent hosts postgres &>/dev/null); then
         export DB_VENDOR="postgres"
     elif (getent hosts mysql &>/dev/null); then
@@ -130,7 +129,7 @@ if [ "$DB_VENDOR" == "" ]; then
 fi
 
 # Detect DB vendor from legacy `*_ADDR` environment variables
-if [ "$DB_VENDOR" == "" ]; then
+if [[ -z ${DB_VENDOR:-} ]]; then
     if (printenv | grep '^POSTGRES_ADDR=' &>/dev/null); then
         export DB_VENDOR="postgres"
     elif (printenv | grep '^MYSQL_ADDR=' &>/dev/null); then
@@ -145,7 +144,7 @@ if [ "$DB_VENDOR" == "" ]; then
 fi
 
 # Default to H2 if DB type not detected
-if [ "$DB_VENDOR" == "" ]; then
+if [[ -z ${DB_VENDOR:-} ]]; then
     export DB_VENDOR="h2"
 fi
 
@@ -164,12 +163,13 @@ function append_port_db_addr() {
   done
   DB_ADDR=$(echo $DB_ADDR | sed 's/.$//') # remove the last comma
 }
-
 # Set DB name
 case "$DB_VENDOR" in
     postgres)
         DB_NAME="PostgreSQL"
-        if [ -z "$DB_PORT" ] ; then DB_PORT="5432" ; fi
+        if [[ -z ${DB_PORT:-} ]] ; then
+          DB_PORT="5432"
+        fi
         append_port_db_addr
         ;;
     mysql)
@@ -188,7 +188,7 @@ case "$DB_VENDOR" in
 esac
 
 # Append '?' in the beggining of the string if JDBC_PARAMS value isn't empty
-JDBC_PARAMS=$(echo "${JDBC_PARAMS}" | sed '/^$/! s/^/?/')
+JDBC_PARAMS=$(echo "${JDBC_PARAMS:-}" | sed '/^$/! s/^/?/')
 export JDBC_PARAMS
 
 # Convert deprecated DB specific variables
@@ -196,7 +196,7 @@ function set_legacy_vars() {
   local suffixes=(ADDR DATABASE USER PASSWORD PORT)
   for suffix in "${suffixes[@]}"; do
     local varname="$1_$suffix"
-    if [ "${!varname}" ]; then
+    if [[ -n ${!varname:-} ]]; then
       echo WARNING: "$varname" variable name is DEPRECATED replace with DB_"$suffix"
       export DB_"$suffix=${!varname}"
     fi
