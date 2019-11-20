@@ -463,6 +463,13 @@ The special value `all` enables all statistics.
 
 Once enabled, you should see the metrics values changing on the `/metrics` endpoint for the management endpoint.
 
+### Setting additional keycloak profile options
+
+For setting additional keycloak profile options at startup of the docker container, you can set the JAVA_TOOL_OPTIONS environment variable.
+In case, you want to activate the scripts and upload scripts feature, you can use the following docker environment variable:
+
+    -e JAVA_TOOL_OPTIONS="-Dkeycloak.profile.feature.scripts=enabled -Dkeycloak.profile.feature.upload_scripts=enabled"
+
 ## Other details
 
 This image extends the [`jboss/base-jdk`](https://github.com/JBoss-Dockerfiles/base-jdk) image which adds the OpenJDK
