@@ -190,7 +190,7 @@
                         "containers": [
                             {
                                 "name": "${APPLICATION_NAME}",
-                                "image": "jboss/keycloak-openshift",
+                                "image": "jboss/keycloak",
                                 "livenessProbe": {
                                     "failureThreshold": 3,
                                     "httpGet": {
