@@ -21,7 +21,7 @@ function autogenerate_keystores() {
     local JKS_KEYSTORE_FILE="${KEYSTORE_TYPE}-keystore.jks"
     local PKCS12_KEYSTORE_FILE="${KEYSTORE_TYPE}-keystore.pk12"
 
-    if [ -d "${X509_KEYSTORE_DIR}" ]; then
+    if [ -f "${X509_KEYSTORE_DIR}/${X509_KEY}" ] && [ -f "${X509_KEYSTORE_DIR}/${X509_CRT}" ]; then
 
       echo "Creating ${KEYSTORES[$KEYSTORE_TYPE]} keystore via OpenShift's service serving x509 certificate secrets.."
 
