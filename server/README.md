@@ -59,7 +59,7 @@ For example you can start Keycloak via docker with:
 
 You can then get the export from this instance by running (notice we use `-Djboss.socket.binding.port-offset=100` so that the export runs on a different port than Keycloak itself):
 
-	docker exec -it kc keycloak/bin/standalone.sh \
+	docker exec -it kc /opt/jboss/keycloak/bin/standalone.sh \
 	-Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export \
 	-Dkeycloak.migration.provider=singleFile \
 	-Dkeycloak.migration.realmName=my_realm \
