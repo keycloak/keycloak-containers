@@ -94,3 +94,6 @@ rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
 echo "jboss:x:1000:1000:JBoss user:/opt/jboss:/sbin/nologin" >> /etc/passwd
 chown -R jboss:0 /opt/jboss
 chmod -R g+rw /opt/jboss
+
+rm -rf /opt/jboss/keycloak/standalone/tmp/auth
+rm -rf /opt/jboss/keycloak/domain/tmp/auth
