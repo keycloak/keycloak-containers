@@ -14,8 +14,11 @@ services:
         MYSQL_DATABASE: keycloak
         MYSQL_USER: keycloak
         MYSQL_PASSWORD: password
+      # Copy-pasted from https://github.com/docker-library/mariadb/issues/94
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "--silent"]
   keycloak:
-      image: jboss/keycloak
+      image: quay.io/keycloak/keycloak:latest
       environment:
         DB_VENDOR: mariadb
         DB_ADDR: mariadb

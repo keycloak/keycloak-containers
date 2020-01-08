@@ -189,7 +189,7 @@
                         "containers": [
                             {
                                 "name": "${APPLICATION_NAME}",
-                                "image": "jboss/keycloak",
+                                "image": "quay.io/keycloak/keycloak:latest",
                                 "livenessProbe": {
                                     "failureThreshold": 3,
                                     "httpGet": {

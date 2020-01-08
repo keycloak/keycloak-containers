@@ -15,7 +15,7 @@ services:
             - mssql
         command: /bin/bash -c 'until /opt/mssql-tools/bin/sqlcmd -S mssql -U sa -P "Password!23" -Q "create database Keycloak"; do sleep 5; done'
     keycloak:
-        image: jboss/keycloak
+        image: quay.io/keycloak/keycloak:latest
         depends_on:
             - mssql
             - mssqlscripts
