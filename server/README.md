@@ -8,7 +8,7 @@ Keycloak Server Docker image.
 
 To boot in standalone mode
 
-    docker run jboss/keycloak
+    docker run quay.io/keycloak/keycloak:latest
 
 
 
@@ -16,7 +16,7 @@ To boot in standalone mode
 
 To be able to open Keycloak on localhost map port 8080 locally
 
-    docker run -p 8080:8080 jboss/keycloak
+    docker run -p 8080:8080 quay.io/keycloak/keycloak:latest
 
 
 
@@ -46,7 +46,7 @@ The configuration and secret support in Docker Swarm is a perfect match for this
 To create an admin account and import a previously exported realm run:
 
     docker run -e KEYCLOAK_USER=<USERNAME> -e KEYCLOAK_PASSWORD=<PASSWORD> \
-        -e KEYCLOAK_IMPORT=/tmp/example-realm.json -v /tmp/example-realm.json:/tmp/example-realm.json jboss/keycloak
+        -e KEYCLOAK_IMPORT=/tmp/example-realm.json -v /tmp/example-realm.json:/tmp/example-realm.json quay.io/keycloak/keycloak:latest
 
 ## Exporting a realm
 
@@ -55,11 +55,11 @@ For example you can start Keycloak via docker with:
 
 	docker run -d -p 8180:8080 -e KEYCLOAK_USER=admin -e \
 	KEYCLOAK_PASSWORD=admin -v $(pwd):/tmp --name kc \
-	jboss/keycloak
+	quay.io/keycloak/keycloak:latest
 
 You can then get the export from this instance by running (notice we use `-Djboss.socket.binding.port-offset=100` so that the export runs on a different port than Keycloak itself):
 
-	docker exec -it kc /opt/jboss/keycloak/bin/standalone.sh \
+	docker exec -it kc /opt/quay.io/keycloak/keycloak:latest/bin/standalone.sh \
 	-Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export \
 	-Dkeycloak.migration.provider=singleFile \
 	-Dkeycloak.migration.realmName=my_realm \
@@ -105,12 +105,15 @@ otherwise it will append the default port 5432, again to the address without por
 - `DB_USER_FILE`: Specify user to authenticate to the database via file input (alternative to `DB_USER`).
 - `DB_PASSWORD`: Specify user's password to use to authenticate to the database (optional, default is ``).
 - `DB_PASSWORD_FILE`: Specify user's password to use to authenticate to the database via file input (alternative to `DB_PASSWORD`).
+- `BIND_OPTS`: Replaces default binding options, here's an example: `-Djboss.bind.address=10.0.0.1 -Djboss.bind.address.private=10.0.0.2`
 
 ### MySQL Example
 
 #### Create a user defined network
 
     docker network create keycloak-network
+    
+NOTE: When using `Podman` please make sure you create network with `root` permissions. This step is required prior to running any Keycloak container. Running Keycloak container without creating a network will result with an error.
 
 #### Start a MySQL instance
 
@@ -122,7 +125,7 @@ First start a MySQL instance using the MySQL docker image:
 
 Start a Keycloak instance and connect to the MySQL instance:
 
-    docker run --name keycloak --net keycloak-network jboss/keycloak
+    docker run --name keycloak --net keycloak-network quay.io/keycloak/keycloak:latest
 
 If you used a different name for the MySQL instance to `mysql` you need to specify the `DB_ADDR` environment variable.
 
@@ -131,6 +134,8 @@ If you used a different name for the MySQL instance to `mysql` you need to speci
 #### Create a user defined network
 
     docker network create keycloak-network
+    
+NOTE: When using `Podman` please make sure you create network with `root` permissions. This step is required prior to running any Keycloak container. Running Keycloak container without creating a network will result with an error.
 
 #### Start a PostgreSQL instance
 
@@ -142,7 +147,7 @@ First start a PostgreSQL instance using the PostgreSQL docker image:
 
 Start a Keycloak instance and connect to the PostgreSQL instance:
 
-    docker run --name keycloak --net keycloak-network jboss/keycloak -e DB_USER=keycloak -e DB_PASSWORD=password
+    docker run --name keycloak --net keycloak-network quay.io/keycloak/keycloak:latest -e DB_USER=keycloak -e DB_PASSWORD=password
 
 If you used a different name for the PostgreSQL instance to `postgres` you need to specify the `DB_ADDR` environment variable.
 
@@ -151,6 +156,8 @@ If you used a different name for the PostgreSQL instance to `postgres` you need 
 #### Create a user defined network
 
     docker network create keycloak-network
+
+NOTE: When using `Podman` please make sure you create network with `root` permissions. This step is required prior to running any Keycloak container. Running Keycloak container without creating a network will result with an error.
 
 #### Start a MariaDB instance
 
@@ -162,7 +169,7 @@ First start a MariaDB instance using the MariaDB docker image:
 
 Start a Keycloak instance and connect to the MariaDB instance:
 
-    docker run --name keycloak --net keycloak-network jboss/keycloak
+    docker run --name keycloak --net keycloak-network quay.io/keycloak/keycloak:latest
 
 If you used a different name for the MariaDB instance to `mariadb` you need to specify the `DB_ADDR` environment variable.
 
@@ -179,6 +186,8 @@ Using Keycloak with an Oracle database requires a JDBC driver to be provided to 
 #### Create a user defined network
 
     docker network create keycloak-network
+    
+NOTE: When using `Podman` please make sure you create network with `root` permissions. This step is required prior to running any Keycloak container. Running Keycloak container without creating a network will result with an error.
 
 #### Start an Oracle instance
 
@@ -190,7 +199,7 @@ If you already have an Oracle database running this step can be skipped, otherwi
 
 Start a Keycloak instance and connect to the Oracle instance:
 
-    docker run -d --name keycloak --net keycloak-network -p 8080:8080 -v /path/to/jdbc/driver:/opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main/driver jboss/keycloak
+    docker run -d --name keycloak --net keycloak-network -p 8080:8080 -v /path/to/jdbc/driver:/opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main/driver quay.io/keycloak/keycloak:latest
 
 One of the key pieces here is that we are mounting a volume from the location of the JDBC driver, so ensure that the path is correct. The mounted volume should contain the file named `ojdbc.jar`.
 
@@ -213,6 +222,8 @@ If you used a name for the Oracle instance other than `oracle` you need to speci
 #### Create a user define network
 
     docker network create keycloak-network
+    
+NOTE: When using `Podman` please make sure you create network with `root` permissions. This step is required prior to running any Keycloak container. Running Keycloak container without creating a network will result with an error.
 
 #### Start a Microsoft SQL Server instance
 
@@ -235,7 +246,7 @@ database is in place.
 
 Start a Keycloak instance and connect to the Microsoft SQL Server instance:
 
-    docker run --name keycloak --net keycloak-network -p 8080:8080 -e DB_VENDOR=mssql -e DB_USER=sa -e DB_PASSWORD=Password!23 -e DB_ADDR=mssql -e DB_DATABASE=Keycloak -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin jboss/keycloak
+    docker run --name keycloak --net keycloak-network -p 8080:8080 -e DB_VENDOR=mssql -e DB_USER=sa -e DB_PASSWORD=Password!23 -e DB_ADDR=mssql -e DB_DATABASE=Keycloak -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/keycloak/keycloak:latest
 
 If you used a different name for the Microsoft SQL Server instance to `mssql` you need to specify the `DB_ADDR` environment variable.
 
@@ -254,7 +265,7 @@ found here:
 
 #### Example
 
-    docker run --name keycloak -e DB_VENDOR=postgres -e JDBC_PARAMS='connectTimeout=30' jboss/keycloak
+    docker run --name keycloak -e DB_VENDOR=postgres -e JDBC_PARAMS='connectTimeout=30' quay.io/keycloak/keycloak:latest
 
 
 
@@ -327,7 +338,7 @@ The bootstrap script will detect the variables and adjust the `standalone-ha.xml
 The `PING` discovery protocol is used by default in `udp` stack (which is used by default in `standalone-ha.xml`).
 Since the Keycloak image runs in clustered mode by default, all you need to do is to run it:
 
-    docker run jboss/keycloak
+    docker run quay.io/keycloak/keycloak:latest
 
 If you two instances of it locally, you will notice that they form a cluster.
 
@@ -350,7 +361,7 @@ is invoking:
     docker run \
     -e JGROUPS_DISCOVERY_PROTOCOL=dns.DNS_PING -e \
     JGROUPS_DISCOVERY_PROPERTIES=dns_query=keycloak.myproject.svc.cluster.local \
-    jboss/keycloak
+    quay.io/keycloak/keycloak:latest
 
 In this example the `dns.DNS_PING` that queries `A` records from the DNS Server with the following query
 `keycloak.myproject.svc.cluster.local`.
@@ -432,7 +443,7 @@ Log level can also be changed at runtime, for example (assuming docker exec acce
 
 When running Keycloak behind a proxy, you will need to enable proxy address forwarding.
 
-    docker run -e PROXY_ADDRESS_FORWARDING=true jboss/keycloak
+    docker run -e PROXY_ADDRESS_FORWARDING=true quay.io/keycloak/keycloak:latest
 
 
 
