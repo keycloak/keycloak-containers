@@ -465,10 +465,7 @@ Once enabled, you should see the metrics values changing on the `/metrics` endpo
 
 ## Other details
 
-This image extends the [`jboss/base-jdk`](https://github.com/JBoss-Dockerfiles/base-jdk) image which adds the OpenJDK
-distribution on top of the [`jboss/base`](https://github.com/JBoss-Dockerfiles/base) image. Please refer to the README.md
-for selected images for more info.
-
+This image extends the [`registry.access.redhat.com/ubi8-minimal`](https://access.redhat.com/containers/?tab=overview#/registry.access.redhat.com/ubi8-minimal) base image and adds Keycloak and its dependencies on top of it.
 
 
 ## Building image with Keycloak from different sources
