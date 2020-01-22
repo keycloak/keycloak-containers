@@ -283,7 +283,7 @@ To run custom scripts on container startup place a file in the `/opt/jboss/start
 
 Two types of scripts are supported:
 
-* WildFly `.cli` [scripts](https://docs.jboss.org/author/display/WFLY/Command+Line+Interface)
+* WildFly `.cli` [scripts](https://docs.jboss.org/author/display/WFLY/Command+Line+Interface). In most of the cases, the scripts should operate in [offline mode](https://wildfly.org/news/tags/CLI/) (using `embed-server` instruction). It's also worth to mention, that by default, keycloak uses `standalone-ha.xml` configuration (unless other server configuration is specified).
 
 * Any executable (`chmod +x`) script
 
