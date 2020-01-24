@@ -398,6 +398,12 @@ To set a fixed base URL for frontend requests use the following environment valu
 
 * `KEYCLOAK_FRONTEND_URL`: Specify base URL for Keycloak (optional, default is retrieved from request)
 
+### Specify admin URL
+
+If you do not want to expose the admin endpoints and console on the public domain use the property `KEYCLOAK_ADMIN_URL` to set a fixed URL for the admin console, which is different to the `KEYCLOAK_FRONTEND_URL`. It is also required to block access to /auth/admin externally
+
+* `KEYCLOAK_ADMIN_URL`: Specify fixed URL for Keycloak Admin Console(optional)
+
 ### Specify hostname
 
 This environment variable is deprecated, use `KEYCLOAK_FRONTEND_URL` instead. 

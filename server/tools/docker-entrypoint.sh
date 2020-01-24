@@ -48,6 +48,10 @@ if [[ -n ${KEYCLOAK_FRONTEND_URL:-} ]]; then
     SYS_PROPS+="-Dkeycloak.frontendUrl=$KEYCLOAK_FRONTEND_URL"
 fi
 
+if [[ -n ${KEYCLOAK_ADMIN_URL:-} ]]; then
+    SYS_PROPS+="-Dkeycloak.adminUrl=$KEYCLOAK_ADMIN_URL"
+fi
+
 if [[ -n ${KEYCLOAK_HOSTNAME:-} ]]; then
     SYS_PROPS+="-Dkeycloak.hostname.provider=fixed -Dkeycloak.hostname.fixed.hostname=$KEYCLOAK_HOSTNAME"
 
