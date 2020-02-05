@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM registry.access.redhat.com/ubi8-minimal
 
 ENV NAME keycloak-gatekeeper
 ENV KEYCLOAK_VERSION 8.0.0
@@ -10,16 +10,20 @@ LABEL Name=keycloak-gatekeeper \
       Url=https://github.com/keycloak/keycloak-gatekeeper \
       Help=https://issues.jboss.org/projects/KEYCLOAK
 
-RUN adduser -D -u 1000 gatekeeper
+USER root
 
-RUN apk add --no-cache ca-certificates curl tar
+WORKDIR "/opt/gatekeeper"
 
-WORKDIR "/opt"
+RUN echo "gatekeeper:x:1000:gatekeeper" >> /etc/group
+RUN echo "gatekeeper:x:1000:1000:gatekeeper user:/opt/gatekeeper:/sbin/nologin" >> /etc/passwd
+RUN chown -R gatekeeper:gatekeeper /opt/gatekeeper && chmod -R g+rw /opt/gatekeeper
 
-RUN curl -fssL "https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/gatekeeper/$NAME-$GOOS-$GOARCH.tar.gz" | tar -xz && chmod +x /opt/$NAME
+RUN microdnf update -y && microdnf install -y ca-certificates tar gzip
 
-RUN apk del curl tar
+RUN curl -fssL "https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/gatekeeper/$NAME-$GOOS-$GOARCH.tar.gz" | tar -xz && chmod +x /opt/gatekeeper/$NAME
+
+RUN microdnf remove -y tar gzip && microdnf clean all
 
 USER 1000
 
-ENTRYPOINT [ "/opt/keycloak-gatekeeper" ]
+ENTRYPOINT [ "/opt/gatekeeper/keycloak-gatekeeper" ]
