@@ -398,21 +398,6 @@ To set a fixed base URL for frontend requests use the following environment valu
 
 * `KEYCLOAK_FRONTEND_URL`: Specify base URL for Keycloak (optional, default is retrieved from request)
 
-### Specify hostname
-
-This environment variable is deprecated, use `KEYCLOAK_FRONTEND_URL` instead. 
-
-To set a fixed hostname for Keycloak use the following environment value. This is highly recommended in production.
-
-* `KEYCLOAK_HOSTNAME`: Specify hostname for Keycloak (optional, default is retrieved from request, recommended in production)
-
-### Specify ports
-
-To set fixed ports for http and https for Keycloak use the following environment values.
-
-* `KEYCLOAK_HTTP_PORT`: Specify the http port for Keycloak (optional, default is retrieved from request)
-* `KEYCLOAK_HTTPS_PORT`: Specify the https port for Keycloak (optional, default is retrieved from request)
-* `KEYCLOAK_ALWAYS_HTTPS`: Force to https (optional, default is retrieved from request)
 ### Specify log level
 
 There are two environment variables available to control the log level for Keycloak:
