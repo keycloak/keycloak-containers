@@ -419,7 +419,11 @@ When running Keycloak behind a proxy, you will need to enable proxy address forw
 
     docker run -e PROXY_ADDRESS_FORWARDING=true jboss/keycloak
 
+### Enabling proxy mappings
 
+When outgoing HTTP requests required to go through a proxy, you will need to set the [proxy-mappings](https://www.keycloak.org/docs/latest/server_installation/#_proxymappings):
+
+    docker run -e KEYCLOAK_PROXY_MAPPINGS=".*\.(google|googleapis)\.com;http://www-proxy.acme.com:8080"
 
 ### Setting up TLS(SSL)
 

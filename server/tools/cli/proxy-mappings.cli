@@ -1,0 +1,6 @@
+embed-server --server-config=standalone.xml --std-out=echo
+echo ** Setting the proxy-mappings **
+/subsystem=keycloak-server/spi=connectionsHttpClient/provider=default:write-attribute(name=properties.proxy-mappings,value=${env.KEYCLOAK_PROXY_MAPPINGS})
+stop-embedded-server
+
+

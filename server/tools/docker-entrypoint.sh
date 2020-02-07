@@ -219,6 +219,18 @@ if [ "$DB_VENDOR" != "h2" ]; then
     /bin/sh /opt/jboss/tools/databases/change-database.sh $DB_VENDOR
 fi
 
+# configure the proxy-mappings
+if [[ -n ${KEYCLOAK_PROXY_MAPPINGS:-} ]]
+then
+    echo "========================================================================="
+    echo ""
+    echo "  Using $KEYCLOAK_PROXY_MAPPINGS proxy-mappings"
+    echo ""
+    echo "========================================================================="
+    echo ""
+    /bin/sh /opt/jboss/tools/change-proxy-mappings.sh
+fi
+
 /opt/jboss/tools/x509.sh
 /opt/jboss/tools/jgroups.sh
 /opt/jboss/tools/infinispan.sh
