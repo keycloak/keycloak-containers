@@ -87,6 +87,13 @@ rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
 bin/jboss-cli.sh --file=/opt/jboss/tools/cli/standalone-ha-configuration.cli
 rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
 
+###########
+# Garbage #
+###########
+
+rm -rf /opt/jboss/keycloak/standalone/tmp/auth
+rm -rf /opt/jboss/keycloak/domain/tmp/auth
+
 ###################
 # Set permissions #
 ###################
@@ -94,7 +101,15 @@ rm -rf /opt/jboss/keycloak/standalone/configuration/standalone_xml_history
 echo "jboss:x:1000:jboss" >> /etc/group
 echo "jboss:x:1000:1000:JBoss user:/opt/jboss:/sbin/nologin" >> /etc/passwd
 chown -R jboss:jboss /opt/jboss
-chmod -R g+rw /opt/jboss
-
-rm -rf /opt/jboss/keycloak/standalone/tmp/auth
-rm -rf /opt/jboss/keycloak/domain/tmp/auth
+chmod -R 744 /opt/jboss
+# Enable listings
+chmod -R +X /opt/jboss
+# Executable Keycloak bin
+chmod -R +x /opt/jboss/keycloak/bin/*.sh
+# Executable tools
+chmod -R +x /opt/jboss/tools/*.sh
+# Writable Keycloak/standalone
+chmod -R g+rw,o+rw /opt/jboss/keycloak/standalone
+# This file is often used by the CLI scripts - it requires full permissions
+touch /opt/jboss/keycloak/bin/.jbossclirc
+chmod -R 777 /opt/jboss/keycloak/bin/.jbossclirc
