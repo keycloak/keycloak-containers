@@ -6,4 +6,4 @@
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=background-validation, value=true)
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=background-validation-millis, value=60000)
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=flush-strategy, value=IdleConnections)
-/subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql, driver-module-name=com.mysql.jdbc, driver-xa-datasource-class-name=com.mysql.jdbc.jdbc2.optional.MysqlXADataSource)
+/subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql, driver-module-name=com.mysql.jdbc, driver-xa-datasource-class-name=com.mysql.cj.jdbc.MysqlXADataSource)
