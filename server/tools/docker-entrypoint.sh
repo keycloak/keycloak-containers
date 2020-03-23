@@ -49,7 +49,7 @@ if [[ -n ${KEYCLOAK_FRONTEND_URL:-} ]]; then
 fi
 
 if [[ -n ${KEYCLOAK_HOSTNAME:-} ]]; then
-    SYS_PROPS+="-Dkeycloak.hostname.provider=fixed -Dkeycloak.hostname.fixed.hostname=$KEYCLOAK_HOSTNAME"
+    SYS_PROPS+=" -Dkeycloak.hostname.provider=fixed -Dkeycloak.hostname.fixed.hostname=$KEYCLOAK_HOSTNAME"
 
     if [[ -n ${KEYCLOAK_HTTP_PORT:-} ]]; then
         SYS_PROPS+=" -Dkeycloak.hostname.fixed.httpPort=$KEYCLOAK_HTTP_PORT"
