@@ -19,7 +19,7 @@ This repository contains Docker images related to Keycloak.
 
 ## Reporting Security Vulnerabilities
 
-If you've found a security vulnerability, please look at the [instructions on how to properly report it](http://www.keycloak.org/security.html)
+If you've found a security vulnerability, please look at the [instructions on how to properly report it](http://www.keycloak.org/security.html).
 
 
 ## Reporting an issue
