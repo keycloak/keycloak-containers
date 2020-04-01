@@ -25,6 +25,8 @@ function autogenerate_keystores() {
 
       echo "Creating ${KEYSTORES[$KEYSTORE_TYPE]} keystore via OpenShift's service serving x509 certificate secrets.."
 
+      rm -f "${JKS_KEYSTORE_FILE}" "${PKCS12_KEYSTORE_FILE}"
+
       openssl pkcs12 -export \
       -name "${NAME}" \
       -inkey "${X509_KEYSTORE_DIR}/${X509_KEY}" \
@@ -64,6 +66,9 @@ function autogenerate_keystores() {
   if [ -n "${X509_CA_BUNDLE}" ]; then
     pushd /tmp >& /dev/null
     echo "Creating Keycloak truststore.."
+
+    rm -f "${JKS_TRUSTSTORE_PATH}"
+
     # We use cat here, so that users could specify multiple CA Bundles using space or even wildcard:
     # X509_CA_BUNDLE=/var/run/secrets/kubernetes.io/serviceaccount/*.crt
     # Note, that there is no quotes here, that's intentional. Once can use spaces in the $X509_CA_BUNDLE like this:
