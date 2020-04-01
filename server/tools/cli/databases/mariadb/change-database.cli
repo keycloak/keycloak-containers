@@ -6,4 +6,6 @@
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=background-validation, value=true)
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=background-validation-millis, value=60000)
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=flush-strategy, value=IdleConnections)
-/subsystem=datasources/jdbc-driver=mariadb:add(driver-name=mariadb, driver-module-name=org.mariadb.jdbc, driver-xa-datasource-class-name=org.mariadb.jdbc.MySQLDataSource)
+
+/subsystem=datasources/jdbc-driver=mariadb: remove()
+/subsystem=datasources/jdbc-driver=mariadb: add(driver-name=mariadb, driver-module-name=org.mariadb.jdbc, driver-xa-datasource-class-name=org.mariadb.jdbc.MySQLDataSource)
