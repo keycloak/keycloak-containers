@@ -219,6 +219,8 @@ if [ "$DB_VENDOR" != "h2" ]; then
     /bin/sh /opt/jboss/tools/databases/change-database.sh $DB_VENDOR
 fi
 
+sed -i '/^set keycloak/d' "${JBOSS_HOME}/bin/.jbossclirc"
+
 /opt/jboss/tools/x509.sh
 /opt/jboss/tools/jgroups.sh
 /opt/jboss/tools/infinispan.sh
