@@ -429,6 +429,8 @@ Keycloak image allows you to specify both a private key and a certificate for se
 * tls.key - a private key
 
 Those files need to be mounted in `/etc/x509/https` directory. The image will automatically convert them into a Java keystore and reconfigure Wildfly to use it.
+NOTE: When using volume mounts in containers the files will be mounted in the container as owned by root, as the default permission on the keyfile will most likely be 700 it will result in an empty keystore.
+You will either have to make the key world readable or extend the image to add the keys with the appropriate owner.
 
 It is also possible to provide an additional CA bundle and setup Mutual TLS this way. In that case, you need to mount an additional volume (or multiple volumes) to the image. These volumes should contain all necessary `crt` files. The final step is to configure the `X509_CA_BUNDLE` environment variable to contain a list of the locations of the various CA certificate bundle files specified before, separated by space (` `). In case of an OpenShift environment, that could be `/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt /var/run/secrets/kubernetes.io/serviceaccount/ca.crt`.
 
