@@ -33,7 +33,7 @@ if [ "$GIT_REPO" != "" ]; then
 
     tar xfz /opt/jboss/keycloak-source/distribution/server-dist/target/keycloak-*.tar.gz
     
-    mv /opt/jboss/keycloak-?.?.?* /opt/jboss/keycloak
+    mv /opt/jboss/keycloak-* /opt/jboss/keycloak
 
     # Remove temporary files
     rm -rf /opt/jboss/maven
@@ -44,7 +44,7 @@ else
 
     cd /opt/jboss/
     curl -L $KEYCLOAK_DIST | tar zx
-    mv /opt/jboss/keycloak-?.?.?* /opt/jboss/keycloak
+    mv /opt/jboss/keycloak-* /opt/jboss/keycloak
 fi
 
 #####################
