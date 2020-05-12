@@ -1,5 +1,7 @@
 FROM registry.access.redhat.com/ubi8-minimal
 
+##LABELS
+
 COPY extensions.sh ./
 
 ## We do not allow changing crypto policies in init container from the default one, thus can remove several huge packages with potential for respins
