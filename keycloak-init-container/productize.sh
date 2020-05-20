@@ -1,7 +1,7 @@
 #!/bin/bash -ex
 
 LABELS=$(cat <<-END
-LABEL com.redhat.component="redhat-sso-7-sso74-init-container-rhel8-container" \
+LABEL com.redhat.component="redhat-sso-7-sso74-tech-preview-init-container-rhel8-container" \
  description="Red Hat Single Sign-On 7.4 Init container image" summary="Red Hat Single Sign-On 7.4 Init container image" \
  version="7.4" \
  io.k8s.description="Init Container for Red Hat SSO" \
