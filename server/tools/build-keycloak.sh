@@ -32,13 +32,13 @@ if [ "$GIT_REPO" != "" ]; then
     cd /opt/jboss
 
     tar xfz /opt/jboss/keycloak-source/distribution/server-dist/target/keycloak-*.tar.gz
-    
-    mv /opt/jboss/keycloak-* /opt/jboss/keycloak
 
     # Remove temporary files
     rm -rf /opt/jboss/maven
     rm -rf /opt/jboss/keycloak-source
     rm -rf $HOME/.m2/repository
+    
+    mv /opt/jboss/keycloak-* /opt/jboss/keycloak
 else
     echo "Keycloak from [download]: $KEYCLOAK_DIST"
 
