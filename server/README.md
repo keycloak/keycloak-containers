@@ -475,3 +475,7 @@ For Keycloak built locally you need to first build the distribution then serve i
 
     cd $KEYCLOAK_CHECKOUT/distribution/server-dist/target
     python -m SimpleHTTPServer 8000
+
+## Docker start and stop
+
+This container doesn't support `docker start` and `docker stop` command. See [Keycloak DEV Discussion](https://groups.google.com/d/msg/keycloak-dev/I3qfqTtVmvw/j5RtiBb5AgAJ) for details.
