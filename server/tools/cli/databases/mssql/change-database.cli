@@ -1,5 +1,5 @@
 /subsystem=datasources/data-source=KeycloakDS: remove()
-/subsystem=datasources/data-source=KeycloakDS: add(jndi-name=java:jboss/datasources/KeycloakDS,enabled=true,use-java-context=true,use-ccm=true, connection-url="jdbc:sqlserver://${env.DB_ADDR:mssql}:${env.DB_PORT:1433};databaseName=${env.DB_DATABASE:keycloak};sendStringParametersAsUnicode=false;integratedSecurity=false;user=${env.DB_USER:keycloak};password=${env.DB_PASSWORD:password};${env.JDBC_PARAMS:}", driver-name=sqlserver)
+/subsystem=datasources/data-source=KeycloakDS: add(jndi-name=java:jboss/datasources/KeycloakDS,enabled=true,use-java-context=true,use-ccm=true, connection-url="jdbc:sqlserver://${env.DB_ADDR:mssql}:${env.DB_PORT:1433};databaseName=${env.DB_DATABASE:keycloak};sendStringParametersAsUnicode=false;user=${env.DB_USER:keycloak};password=${env.DB_PASSWORD:password};${env.JDBC_PARAMS:}", driver-name=sqlserver)
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=user-name, value=${env.DB_USER:keycloak})
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=password, value=${env.DB_PASSWORD:password})
 /subsystem=datasources/data-source=KeycloakDS: write-attribute(name=check-valid-connection-sql, value="SELECT 1")
