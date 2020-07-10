@@ -189,8 +189,13 @@ case "$DB_VENDOR" in
         exit 1
 esac
 
-# Append '?' in the beggining of the string if JDBC_PARAMS value isn't empty
-JDBC_PARAMS=$(echo "${JDBC_PARAMS:-}" | sed '/^$/! s/^/?/')
+if [ "$DB_VENDOR" != "mssql" ]; then
+    # Append '?' in the beginning of the string if JDBC_PARAMS value isn't empty
+    JDBC_PARAMS=$(echo "${JDBC_PARAMS:-}" | sed '/^$/! s/^/?/')
+else
+    JDBC_PARAMS=${JDBC_PARAMS:-}
+fi
+
 export JDBC_PARAMS
 
 # Convert deprecated DB specific variables
