@@ -41,6 +41,8 @@ function autogenerate_keystores() {
 
       if [ -f "${KEYSTORES_STORAGE}/${JKS_KEYSTORE_FILE}" ]; then
         echo "${KEYSTORES[$KEYSTORE_TYPE]} keystore successfully created at: ${KEYSTORES_STORAGE}/${JKS_KEYSTORE_FILE}"
+      else
+        echo "${KEYSTORES[$KEYSTORE_TYPE]} keystore not created at: ${KEYSTORES_STORAGE}/${JKS_KEYSTORE_FILE} (check permissions?)"
       fi
 
       echo "set keycloak_tls_keystore_password=${PASSWORD}" >> "$JBOSS_HOME/bin/.jbossclirc"
@@ -77,6 +79,8 @@ function autogenerate_keystores() {
 
     if [ -f "${JKS_TRUSTSTORE_PATH}" ]; then
       echo "Keycloak truststore successfully created at: ${JKS_TRUSTSTORE_PATH}"
+    else
+      echo "Keycloak truststore not created at: ${JKS_TRUSTSTORE_PATH}"
     fi
 
     # Import existing system CA certificates into the newly generated truststore
