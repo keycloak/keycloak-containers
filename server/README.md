@@ -306,6 +306,17 @@ Or you can volume the entire directory to supply a directory of scripts.
 Note that when combining the approach of extending the image and `volume`ing the entire directory, the volume will override
 all scripts shipped in the image.
 
+## Start a Keycloak instance with custom command-line options
+
+Additional server startup options (extension of JAVA_OPTS) can be configured using the `JAVA_OPTS_APPEND` environment variable. An use-case for this is to enable extra [profile features](https://www.keycloak.org/docs/latest/server_installation/#profiles).
+
+### Example
+
+Enable _upload_script_ profile:
+
+    docker run -e JAVA_OPTS_APPEND="-Dkeycloak.profile.feature.upload_script=enabled" jboss/keycloak
+
+
 ## Clustering
 
 Replacing the default discovery protocols (`PING` for the UDP stack and `MPING` for the TCP one) can be achieved by defining
