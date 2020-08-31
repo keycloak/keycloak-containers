@@ -1,7 +1,7 @@
 FROM registry.access.redhat.com/ubi8-minimal
 
 ENV NAME keycloak-gatekeeper
-ENV KEYCLOAK_VERSION 11.0.1
+ENV KEYCLOAK_VERSION 11.0.2
 ENV GOOS linux
 ENV GOARCH amd64
 
