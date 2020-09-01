@@ -22,10 +22,23 @@ To be able to open Keycloak on localhost map port 8080 locally
 
 ## Creating admin account
 
-By default there is no admin user created so you won't be able to login to the admin console. To create an admin account
-you need to use environment variables to pass in an initial username and password. This is done by running:
+To be able to login to the admin console you need to have an admin user.  
+To create an admin account with your login and password you need to use environment variables to pass in an 
+initial username and password. This is done by running:
 
     docker run -e KEYCLOAK_USER=<USERNAME> -e KEYCLOAK_PASSWORD=<PASSWORD> jboss/keycloak
+
+When you run the container without the `KEYCLOAK_USER` and `KEYCLOAK_PASSWORD` variables, the username and password 
+of the admin user are generated automatically. You can find the actual username / password of the admin account with:
+    
+    docker logs <CONTAINER> | grep 'Username and password of the Keycloak admin account' -A3
+
+You will see output similar to the following one:
+    
+    docker logs  <CONTAINER> | grep 'Username and password of the Keycloak admin account' -A3
+        Username and password of the Keycloak admin account:
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: 4FC1sqgf#hB1A/NuLn0
 
 You can also create an account on an already running container by running:
 
@@ -34,6 +47,8 @@ You can also create an account on an already running container by running:
 Then restarting the container:
 
     docker restart <CONTAINER>
+
+
 
 ### Providing the username and password via files
 

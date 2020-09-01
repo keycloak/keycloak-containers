@@ -28,6 +28,8 @@ file_env() {
 }
 
 SYS_PROPS=""
+DEFAULT_USER="admin"
+DEFAULT_PASSWORD=$(openssl rand -base64 20 | cut -c-20)
 
 ##################
 # Add admin user #
@@ -35,6 +37,9 @@ SYS_PROPS=""
 
 file_env 'KEYCLOAK_USER'
 file_env 'KEYCLOAK_PASSWORD'
+
+KEYCLOAK_USER=${KEYCLOAK_USER:-$DEFAULT_USER}
+KEYCLOAK_PASSWORD=${KEYCLOAK_PASSWORD:-$DEFAULT_PASSWORD}
 
 if [[ -n ${KEYCLOAK_USER:-} && -n ${KEYCLOAK_PASSWORD:-} ]]; then
     /opt/jboss/keycloak/bin/add-user-keycloak.sh --user "$KEYCLOAK_USER" --password "$KEYCLOAK_PASSWORD"
@@ -228,6 +233,19 @@ fi
 /opt/jboss/tools/statistics.sh
 /opt/jboss/tools/autorun.sh
 /opt/jboss/tools/vault.sh
+
+##################################
+# Print first login and password #
+##################################
+
+echo "========================================================================="
+echo ""
+echo "  Username and password of the Keycloak admin account:"
+echo "  KEYCLOAK_USER: ${KEYCLOAK_USER}"
+echo "  KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}"
+echo ""
+echo "========================================================================="
+echo ""
 
 ##################
 # Start Keycloak #
