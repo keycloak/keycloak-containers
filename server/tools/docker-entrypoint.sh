@@ -153,6 +153,16 @@ if [[ -z ${DB_VENDOR:-} ]]; then
     export DB_VENDOR="h2"
 fi
 
+# Handle VCAP_SERVICES databases
+if [[ ! -z ${DB_VCAP_NAME:-} ]]; then
+    vcap_credentials=$(echo $VCAP_SERVICES | grep -Po '(?<="name": "'${DB_VCAP_NAME}'").*}' | grep -Po '(?<="credentials": { )[^}]*')
+    export DB_ADDR=$(echo $vcap_credentials | grep -Po '(?<="host": ")[^"]+')
+    export DB_PORT=$(echo $vcap_credentials | grep -Po '(?<="port": )\d+')
+    export DB_DATABASE=$(echo $vcap_credentials | grep -Po '(?<="name": ")[^"]+')
+    export DB_USER=$(echo $vcap_credentials | grep -Po '(?<="username": ")[^"]+')
+    export DB_PASSWORD=$(echo $vcap_credentials | grep -Po '(?<="password": ")[^"]+')
+fi
+
 # if the DB_VENDOR is postgres then append port to the DB_ADDR
 function append_port_db_addr() {
   local db_host_regex='^[a-zA-Z0-9]([a-zA-Z0-9]|-|.)*:[0-9]{4,5}$'
