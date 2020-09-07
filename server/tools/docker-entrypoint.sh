@@ -223,16 +223,20 @@ echo ""
 echo "========================================================================="
 echo ""
 
-if [ "$DB_VENDOR" != "h2" ]; then
-    /bin/sh /opt/jboss/tools/databases/change-database.sh $DB_VENDOR
-fi
+configured_file="/opt/jboss/configured"
+if [ ! -e "$configured_file" ]; then
+    touch "$configured_file"
 
-/opt/jboss/tools/x509.sh
-/opt/jboss/tools/jgroups.sh
-/opt/jboss/tools/infinispan.sh
-/opt/jboss/tools/statistics.sh
-/opt/jboss/tools/autorun.sh
-/opt/jboss/tools/vault.sh
+    if [ "$DB_VENDOR" != "h2" ]; then
+        /bin/sh /opt/jboss/tools/databases/change-database.sh $DB_VENDOR
+    fi
+    /opt/jboss/tools/x509.sh
+    /opt/jboss/tools/jgroups.sh
+    /opt/jboss/tools/infinispan.sh
+    /opt/jboss/tools/statistics.sh
+    /opt/jboss/tools/autorun.sh
+    /opt/jboss/tools/vault.sh
+fi
 
 ##################
 # Start Keycloak #
