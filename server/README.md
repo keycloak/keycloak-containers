@@ -489,4 +489,5 @@ For Keycloak built locally you need to first build the distribution then serve i
 
 ## Docker start and stop
 
-This container doesn't support `docker start` and `docker stop` command. See [Keycloak DEV Discussion](https://groups.google.com/d/msg/keycloak-dev/I3qfqTtVmvw/j5RtiBb5AgAJ) for details.
+This image supports `docker start` and `docker stop` commands, but will not detect any changes in configuration.
+If you would like to reconfigure Keycloak, you must create a new container.
