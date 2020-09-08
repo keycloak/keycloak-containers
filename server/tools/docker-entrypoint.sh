@@ -64,12 +64,17 @@ if [[ -n ${KEYCLOAK_HOSTNAME:-} ]]; then
     fi
 fi
 
-################
-# Realm import #
-################
+##########################################################
+# Realm import and enabled/disabled feature upload_files #
+##########################################################
+# https://access.redhat.com/solutions/4639661
 
 if [[ -n ${KEYCLOAK_IMPORT:-} ]]; then
     SYS_PROPS+=" -Dkeycloak.import=$KEYCLOAK_IMPORT"
+fi
+
+if [[ -n ${KEYCLOAK_UPLOAD_FILES:-} ]]; then
+    SYS_PROPS+=" -Dkeycloak.profile.feature.upload_scripts=$KEYCLOAK_UPLOAD_FILES"
 fi
 
 ########################
