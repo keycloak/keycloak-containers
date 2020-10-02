@@ -15,8 +15,10 @@ function autogenerate_keystores() {
 
     local X509_KEYSTORE_DIR="/etc/x509/${KEYSTORE_TYPE}"
     local X509_CRT="tls.crt"
+    local X509_SUBCA="subca.crt"
     local X509_KEY="tls.key"
     local NAME="keycloak-${KEYSTORE_TYPE}-key"
+    local SUBCA="keycloak-${KEYSTORE_TYPE}-SUBCA"
     local PASSWORD=$(openssl rand -base64 32 2>/dev/null)
     local JKS_KEYSTORE_FILE="${KEYSTORE_TYPE}-keystore.jks"
     local PKCS12_KEYSTORE_FILE="${KEYSTORE_TYPE}-keystore.pk12"
@@ -38,6 +40,19 @@ function autogenerate_keystores() {
       -srcstoretype pkcs12 \
       -destkeystore "${KEYSTORES_STORAGE}/${JKS_KEYSTORE_FILE}" \
       -storepass "${PASSWORD}" -srcstorepass "${PASSWORD}" >& /dev/null
+      
+      echo "Check if need to update ${KEYSTORES[$KEYSTORE_TYPE]} keystore with subCA cert"
+
+    if [ -f "${X509_KEYSTORE_DIR}/${X509_SUBCA}" ]; then
+        echo "Update ${KEYSTORES[$KEYSTORE_TYPE]} keystore with ${X509_KEYSTORE_DIR}/${X509_SUBCA}"
+        keytool -import -noprompt \
+        -alias "${SUBCA}" \
+        -trustcacerts -file "${X509_KEYSTORE_DIR}/${X509_SUBCA}" \
+        -keystore "${KEYSTORES_STORAGE}/${JKS_KEYSTORE_FILE}" \
+        -storepass "${PASSWORD}" -srcstorepass "${PASSWORD}" >& /dev/null
+    else
+        echo "Not updating ${KEYSTORES[$KEYSTORE_TYPE]} keystore with subca cert"
+    fi
 
       if [ -f "${KEYSTORES_STORAGE}/${JKS_KEYSTORE_FILE}" ]; then
         echo "${KEYSTORES[$KEYSTORE_TYPE]} keystore successfully created at: ${KEYSTORES_STORAGE}/${JKS_KEYSTORE_FILE}"
