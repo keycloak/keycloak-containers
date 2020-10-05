@@ -465,6 +465,8 @@ Once enabled, you should see the metrics values changing on the `/metrics` endpo
 
 This image extends the [`registry.access.redhat.com/ubi8-minimal`](https://access.redhat.com/containers/?tab=overview#/registry.access.redhat.com/ubi8-minimal) base image and adds Keycloak and its dependencies on top of it.
 
+Keycloak Container image uses the `MANAGEMENT_TIMEOUT` and `DEPLOYMENT_TIMEOUT` environment variables to specify Wildfly
+deployment timeouts. If you encounter any problems with loading offline sessions, please increase them accordingly.
 
 ## Building image with Keycloak from different sources
 
