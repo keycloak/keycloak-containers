@@ -234,8 +234,8 @@ if [ ! -e "$configured_file" ]; then
     /opt/jboss/tools/jgroups.sh
     /opt/jboss/tools/infinispan.sh
     /opt/jboss/tools/statistics.sh
-    /opt/jboss/tools/autorun.sh
     /opt/jboss/tools/vault.sh
+    /opt/jboss/tools/autorun.sh
 fi
 
 ##################
