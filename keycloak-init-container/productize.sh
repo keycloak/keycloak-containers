@@ -14,6 +14,6 @@ END
 )
 
 sed -i \
-    -e 's/FROM registry.access.redhat.com\/ubi8-minimal/FROM ubi8-minimal:8-released/' \
+    -e 's/FROM registry.access.redhat.com/FROM registry.redhat.io/' \
     -e "s/##LABELS/$LABELS/g" \
     Dockerfile
