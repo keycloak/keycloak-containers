@@ -130,6 +130,9 @@ if [[ -z ${DB_VENDOR:-} ]]; then
         export DB_VENDOR="oracle"
     elif (getent hosts mssql &>/dev/null); then
         export DB_VENDOR="mssql"
+    elif (getent hosts h2 &>/dev/null); then
+        export DB_VENDOR="h2"
+        export DB_ADDR="h2"
     fi
 fi
 
@@ -145,6 +148,9 @@ if [[ -z ${DB_VENDOR:-} ]]; then
         export DB_VENDOR="oracle"
     elif (printenv | grep '^MSSQL_ADDR=' &>/dev/null); then
         export DB_VENDOR="mssql"
+    elif (printenv | grep '^H2_ADDR=' &>/dev/null); then
+        export DB_VENDOR="h2"
+        export DB_ADDR="h2"
     fi
 fi
 
@@ -161,10 +167,10 @@ function append_port_db_addr() {
   for i in "${addresses[@]}"; do
     if [[ $i =~ $db_host_regex ]]; then
         DB_ADDR+=$i;
-     else
+    else
         DB_ADDR+="${i}:${DB_PORT}";
-     fi
-        DB_ADDR+=","
+    fi
+    DB_ADDR+=","
   done
   DB_ADDR=$(echo $DB_ADDR | sed 's/.$//') # remove the last comma
 }
@@ -181,18 +187,22 @@ case "$DB_VENDOR" in
         DB_NAME="MySQL";;
     mariadb)
         DB_NAME="MariaDB";;
+    mssql)
+        DB_NAME="Microsoft SQL Server";;
     oracle)
         DB_NAME="Oracle";;
     h2)
-        DB_NAME="Embedded H2";;
-    mssql)
-        DB_NAME="Microsoft SQL Server";;
+        if [[ -z ${DB_ADDR:-} ]] ; then
+          DB_NAME="Embedded H2"
+        else
+          DB_NAME="H2"
+        fi;;
     *)
         echo "Unknown DB vendor $DB_VENDOR"
         exit 1
 esac
 
-if [ "$DB_VENDOR" != "mssql" ]; then
+if [ "$DB_VENDOR" != "mssql" ] && [ "$DB_VENDOR" != "h2" ]; then
     # Append '?' in the beginning of the string if JDBC_PARAMS value isn't empty
     JDBC_PARAMS=$(echo "${JDBC_PARAMS:-}" | sed '/^$/! s/^/?/')
 else
@@ -227,9 +237,10 @@ configured_file="/opt/jboss/configured"
 if [ ! -e "$configured_file" ]; then
     touch "$configured_file"
 
-    if [ "$DB_VENDOR" != "h2" ]; then
-        /bin/sh /opt/jboss/tools/databases/change-database.sh $DB_VENDOR
+    if [ "$DB_NAME" != "Embedded H2" ]; then
+      /bin/sh /opt/jboss/tools/databases/change-database.sh $DB_VENDOR
     fi
+	
     /opt/jboss/tools/x509.sh
     /opt/jboss/tools/jgroups.sh
     /opt/jboss/tools/infinispan.sh
