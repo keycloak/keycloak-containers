@@ -210,7 +210,7 @@ If you used a name for the Oracle instance other than `oracle` you need to speci
 
 ### Microsoft SQL Server Example
 
-#### Create a user define network
+#### Create a user defined network
 
     docker network create keycloak-network
 
