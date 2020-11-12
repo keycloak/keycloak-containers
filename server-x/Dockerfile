@@ -14,6 +14,7 @@ ADD tools /opt/jboss/tools
 FROM registry.access.redhat.com/ubi8-minimal
 
 COPY --from=build-env /opt/jboss /opt/jboss
+COPY probes /probes
 
 RUN microdnf update -y && \
     microdnf install -y java-11-openjdk-headless && microdnf clean all && rm -rf /var/cache/yum/* && \
