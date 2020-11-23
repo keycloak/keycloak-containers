@@ -461,6 +461,20 @@ The special value `all` enables all statistics.
 
 Once enabled, you should see the metrics values changing on the `/metrics` endpoint for the management endpoint.
 
+## Debugging
+
+To attach a Java debugger, set these environment variables:
+
+* `DEBUG=true`: Now the `DEBUG_PORT` will listen
+* `DEBUG_PORT='*:8787'`: The port that Keycloak listens to for connections from a debugger.
+   By default, [JDK 9+](https://bugs.openjdk.java.net/browse/JDK-8175050) only listens on localhost, so you'll want the `*:8787` syntax to make it listen for connections
+   from all hosts. Remember to shell-quote the `*` character though, especially under `zsh`.
+
+In addition to setting `DEBUG=true` and `DEBUG_PORT='*:8787'`, you'll
+want to publish the debug port as well, as in:
+
+    docker run -e DEBUG=true -e DEBUG_PORT='*:8787' -p 8080:8080 -p '8787:8787' jboss/keycloak
+
 ## Other details
 
 This image extends the [`registry.access.redhat.com/ubi8-minimal`](https://access.redhat.com/containers/?tab=overview#/registry.access.redhat.com/ubi8-minimal) base image and adds Keycloak and its dependencies on top of it.
