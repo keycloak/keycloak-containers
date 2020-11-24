@@ -16,7 +16,7 @@ function autogenerate_keystores() {
     local X509_KEYSTORE_DIR="/etc/x509/${KEYSTORE_TYPE}"
     local X509_CRT="tls.crt"
     local X509_KEY="tls.key"
-    local X509_KEY_PASS=$(< /etc/x509/tls.pass)
+    local X509_PASS="tls.pass"
     local NAME="keycloak-${KEYSTORE_TYPE}-key"
     local PASSWORD=$(openssl rand -base64 32 2>/dev/null)
     local JKS_KEYSTORE_FILE="${KEYSTORE_TYPE}-keystore.jks"
@@ -24,24 +24,24 @@ function autogenerate_keystores() {
 
     if [ -f "${X509_KEYSTORE_DIR}/${X509_KEY}" ] && [ -f "${X509_KEYSTORE_DIR}/${X509_CRT}" ]; then
 
-      echo "Creating ${KEYSTORES[$KEYSTORE_TYPE]} keystore via OpenShift's service serving x509 certificate secrets.."
-      if openssl pkey -in "${X509_KEYSTORE_DIR}/${X509_CRT}" -passin pass:the_password -noout; 
-      then
-          openssl pkcs12 -export \
-	     -name "${NAME}" \
-             -inkey "${X509_KEYSTORE_DIR}/${X509_KEY}" \
-             -in "${X509_KEYSTORE_DIR}/${X509_CRT}" \
-             -out "${KEYSTORES_STORAGE}/${PKCS12_KEYSTORE_FILE}" \
-             -password pass:"${PASSWORD}" >& /dev/null
-      else
-          openssl pkcs12 -export \
-	     -name "${NAME}" \
-             -inkey "${X509_KEYSTORE_DIR}/${X509_KEY}" \
-             -in "${X509_KEYSTORE_DIR}/${X509_CRT}" \
-             -out "${KEYSTORES_STORAGE}/${PKCS12_KEYSTORE_FILE}" \
-             -passin pass:"${X509_KEY_PASS}" \
-             -password pass:"${PASSWORD}" >& /dev/null
-      fi
+        echo "Creating ${KEYSTORES[$KEYSTORE_TYPE]} keystore via OpenShift's service serving x509 certificate secrets.."
+        if [ -f "${X509_KEYSTORE_DIR}/${X509_PASS}" ]; then
+            local X509_KEY_PASS=$(< "${X509_KEYSTORE_DIR}/${X509_PASS}")
+            openssl pkcs12 -export \
+               -name "${NAME}" \
+               -inkey "${X509_KEYSTORE_DIR}/${X509_KEY}" \
+               -passin pass:"${X509_KEY_PASS}" \
+               -in "${X509_KEYSTORE_DIR}/${X509_CRT}" \
+               -out "${KEYSTORES_STORAGE}/${PKCS12_KEYSTORE_FILE}" \
+               -password pass:"${PASSWORD}" >& /dev/null
+        else
+            openssl pkcs12 -export \
+                -name "${NAME}" \
+                 -inkey "${X509_KEYSTORE_DIR}/${X509_KEY}" \
+                 -in "${X509_KEYSTORE_DIR}/${X509_CRT}" \
+                 -out "${KEYSTORES_STORAGE}/${PKCS12_KEYSTORE_FILE}" \
+                 -password pass:"${PASSWORD}" >& /dev/null
+        fi
 
       keytool -importkeystore -noprompt \
       -srcalias "${NAME}" -destalias "${NAME}" \
