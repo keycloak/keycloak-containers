@@ -438,7 +438,7 @@ Keycloak image allows you to specify both a private key and a certificate for se
 
 * tls.crt - a certificate
 * tls.key - a private key
-* tls.pass - a password-file with one line containing the password for the private key (optional) __**if not provided, the script assumes the private key is not encrypted**__ 
+* X509_KEY_PASS - an Environent variable containing  the password for the private key (optional) __**if not provided, the script assumes the private key is not encrypted**__ 
 
 Those files need to be mounted in `/etc/x509/https` directory. The image will automatically convert them into a Java keystore and reconfigure Wildfly to use it.
 NOTE: When using volume mounts in containers the files will be mounted in the container as owned by root, as the default permission on the keyfile will most likely be 700 it will result in an empty keystore.
