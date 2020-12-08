@@ -62,6 +62,10 @@ if [[ -n ${KEYCLOAK_HOSTNAME:-} ]]; then
     if [[ -n ${KEYCLOAK_ALWAYS_HTTPS:-} ]]; then
             SYS_PROPS+=" -Dkeycloak.hostname.fixed.alwaysHttps=$KEYCLOAK_ALWAYS_HTTPS"
     fi
+	
+    if [[ -n ${KEYCLOAK_JBOSS_PORT_OFFSET:-} ]]; then
+            SYS_PROPS+=" -Djboss.socket.binding.port-offset=$KEYCLOAK_JBOSS_PORT_OFFSET"
+    fi
 fi
 
 ################
