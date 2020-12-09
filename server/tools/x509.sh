@@ -17,7 +17,7 @@ function autogenerate_keystores() {
     local X509_CRT="tls.crt"
     local X509_KEY="tls.key"
     # read X509_KEY_PASS environment variable if set or use default value: none
-    local X509_KEY_PASSWORD=${X509_KEY_PASS:="none"}
+    local X509_KEY_PASSWORD=${X509_KEY_PASS:=""}
     local NAME="keycloak-${KEYSTORE_TYPE}-key"
     local PASSWORD=$(openssl rand -base64 32 2>/dev/null)
     local JKS_KEYSTORE_FILE="${KEYSTORE_TYPE}-keystore.jks"
@@ -26,7 +26,7 @@ function autogenerate_keystores() {
     if [ -f "${X509_KEYSTORE_DIR}/${X509_KEY}" ] && [ -f "${X509_KEYSTORE_DIR}/${X509_CRT}" ]; then
 
         echo "Creating ${KEYSTORES[$KEYSTORE_TYPE]} keystore via OpenShift's service serving x509 certificate secrets.."
-        if [ ! "$X509_KEY_PASSWORD" = "none" ]; then
+        if [ ! -z "$X509_KEY_PASSWORD" ]; then
             echo "Decrypting ${X509_KEYSTORE_DIR}/${X509_KEY} since X509_KEY_PASS is provided.."
             openssl pkcs12 -export \
                -name "${NAME}" \
