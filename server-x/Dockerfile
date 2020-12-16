@@ -1,7 +1,7 @@
 FROM registry.access.redhat.com/ubi8-minimal AS build-env
 
 ARG KEYCLOAK_VERSION=11.0.0
-ARG KEYCLOAK_DIST=https://downloads.jboss.org/keycloak/$KEYCLOAK_VERSION/keycloak.x-$KEYCLOAK_VERSION.tar.gz
+ARG KEYCLOAK_DIST=https://github.com/keycloak/keycloak/releases/download/$KEYCLOAK_VERSION/keycloak.x-$KEYCLOAK_VERSION.tar.gz
 
 RUN microdnf install -y tar gzip && \
     mkdir /opt/jboss && \ 
