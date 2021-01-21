@@ -314,7 +314,7 @@ Additional server startup options (extension of JAVA_OPTS) can be configured usi
 
 Enable _upload_script_ profile:
 
-    docker run -e JAVA_OPTS_APPEND="-Dkeycloak.profile.feature.upload_script=enabled" jboss/keycloak
+    docker run -e JAVA_OPTS_APPEND="-Dkeycloak.profile.feature.upload_scripts=enabled" jboss/keycloak
 
 
 ## Clustering
