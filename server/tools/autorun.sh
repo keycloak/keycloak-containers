@@ -9,6 +9,8 @@ if [[ -d "$ENTRYPOINT_DIR" ]]; then
     if [[ "$f" == *.cli ]]; then
       echo "Executing cli script: $f"
       bin/jboss-cli.sh --file="$f"
+    elif [[ -d "$f" ]]; then
+      echo "Skipping execution of directory: $f"
     elif [[ -x "$f" ]]; then
       echo "Executing: $f"
       "$f"
