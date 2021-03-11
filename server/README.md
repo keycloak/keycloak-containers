@@ -355,8 +355,12 @@ The full example has been put into the `openshift-examples` directory. Just run 
 
 #### What happen under the hood?
 
-Both OpenShift templates use `dns.DNS_PING` under the hood. Here's an equivalent docker-based command that OpenShift
-is invoking:
+Both OpenShift templates use `dns.DNS_PING` under the hood and configure an [headless `Service` with selector](https://docs.okd.io/3.11/architecture/core_concepts/pods_and_services.html#headless-services).
+Headless service is required to let OpenShift set up an `EndPoint` with DNS configuration
+returning one `A` records by running Keycloak pod. This behavior is indeed required
+to enable correctly the `dns.DNS_PING` discovery protocol.
+
+Here's an equivalent docker-based command that OpenShift is invoking:
 
     docker run \
     -e JGROUPS_DISCOVERY_PROTOCOL=dns.DNS_PING -e \
