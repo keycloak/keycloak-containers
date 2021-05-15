@@ -15,7 +15,7 @@ download_extension() {
     fi
     echo 
     echo "Downloading extension from $EXTENSION_URL"
-    local CURL_COMMAND="$(curl --verbose --location  --remote-name --remote-header-name --write-out "%{http_code} %{filename_effective}"  --silent "$EXTENSION_URL" 2> /tmp/headers)"
+    local CURL_COMMAND="$(curl --verbose --location --insecure --remote-name --remote-header-name --write-out "%{http_code} %{filename_effective}"  --silent "$EXTENSION_URL" 2> /tmp/headers)"
   
     local STATUS_CODE=${CURL_COMMAND:0:3}
 
