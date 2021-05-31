@@ -41,7 +41,7 @@ download_extension() {
 # Parse the environment variable and download the extensions from the list
 IFS=,
 STATUS=0
-for EXT in ${KEYCLOAK_EXTENSION[@]} ; do
+for EXT in ${KEYCLOAK_EXTENSIONS[@]} ; do
     download_extension "$EXT"
 done
 if [ "$STATUS" -ne 0 ]; then
