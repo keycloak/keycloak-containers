@@ -142,7 +142,7 @@ First start a PostgreSQL instance using the PostgreSQL docker image:
 
 Start a Keycloak instance and connect to the PostgreSQL instance:
 
-    docker run --name keycloak --net keycloak-network jboss/keycloak -e DB_USER=keycloak -e DB_PASSWORD=password
+    docker run --name keycloak --net keycloak-network -e DB_USER=keycloak -e DB_ADDR=postgres -e DB_PASSWORD=password jboss/keycloak:latest
 
 If you used a different name for the PostgreSQL instance to `postgres` you need to specify the `DB_ADDR` environment variable.
 
