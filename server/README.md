@@ -94,7 +94,7 @@ If the DB can't be detected it will default to the embedded H2 database.
 
 Generic variable names can be used to configure any Database type, defaults may vary depending on the Database.
 
-- `DB_ADDR`: Specify hostname of the database (optional). For postgres only, you can provide a list of hostnames separated by
+- `DB_ADDR`: Specify hostname of the database. For postgres only, you can provide a list of hostnames separated by
 comma to failover alternative host. The hostname can be the host only or pair of host and port, as example host1,host2 or 
 host1:5421,host2:5436 or host1,host2:5000. And keycloak will append DB_PORT (if specify) to the hosts without port, 
 otherwise it will append the default port 5432, again to the address without port only.
