@@ -72,6 +72,13 @@ if [[ -n ${KEYCLOAK_IMPORT:-} ]]; then
     SYS_PROPS+=" -Dkeycloak.import=$KEYCLOAK_IMPORT"
 fi
 
+if [[ -n ${KEYCLOAK_IMPORT_FROM_DIRECTORY:-} ]]; then
+    SYS_PROPS+=" -Dkeycloak.migration.action=import"
+    SYS_PROPS+=" -Dkeycloak.migration.provider=dir"
+    SYS_PROPS+=" -Dkeycloak.migration.strategy=OVERWRITE_EXISTING"
+    SYS_PROPS+=" -Dkeycloak.migration.dir=$KEYCLOAK_IMPORT_DIRECTORY"
+fi
+
 ########################
 # JGroups bind options #
 ########################
