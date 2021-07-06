@@ -454,6 +454,7 @@ You can enable it with the KEYCLOAK_STATISTICS environment variables which take 
 * `db` for the `datasources` subsystem
 * `http` for the `undertow` subsystem
 * `jgroups` for the `jgroups` subsystem
+* `infinispan` for the `infinispan` subsystem (and all caches)
 
 for instance, `KEYCLOAK_STATISTICS=db,http` will enable statistics for the datasources and undertow subsystem.
 
