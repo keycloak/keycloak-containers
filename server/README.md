@@ -100,6 +100,7 @@ host1:5421,host2:5436 or host1,host2:5000. And keycloak will append DB_PORT (if 
 otherwise it will append the default port 5432, again to the address without port only.
 - `DB_PORT`: Specify port of the database (optional, default is DB vendor default port)
 - `DB_DATABASE`: Specify name of the database to use (optional, default is `keycloak`).
+- `DB_SERVICE_NAME`: Specific for Oracle as an alternative to `DB_DATABASE`. While `DB_DATABASE` sets the SID, `DB_SERVICE_NAME` sets the service name in the connection URL. If `DB_SERVICE_NAME` is used, the `DB_DATABASE` is ignored.
 - `DB_SCHEMA`: Specify name of the schema to use for DB that support schemas (optional, default is public on Postgres).
 - `DB_USER`: Specify user to use to authenticate to the database (optional, default is ``).
 - `DB_USER_FILE`: Specify user to authenticate to the database via file input (alternative to `DB_USER`).
@@ -199,6 +200,8 @@ Alternately, the JDBC file can be copied into the container using the `docker cp
     docker cp ojdbc.jar jboss/keycloak:/opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main/driver/ojdbc.jar
 
 If you used a name for the Oracle instance other than `oracle` you need to specify the `DB_ADDR` environment variable.
+
+If you use the service name in the connection URL, you have to set the variable `DB_SERVICE_NAME` instead of `DB_DATABASE`.
 
 **Default environment settings:**
 
