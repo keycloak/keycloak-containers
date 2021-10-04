@@ -40,6 +40,29 @@ if [[ -n ${KEYCLOAK_USER:-} && -n ${KEYCLOAK_PASSWORD:-} ]]; then
     /opt/jboss/keycloak/bin/add-user-keycloak.sh --user "$KEYCLOAK_USER" --password "$KEYCLOAK_PASSWORD"
 fi
 
+###################
+# Set web context #
+###################
+
+file_env 'KEYCLOAK_WEB_CONTEXT'
+if [[ -n ${KEYCLOAK_WEB_CONTEXT:-} ]]; then
+    # remove trailing and leading slash
+    KEYCLOAK_WEB_CONTEXT=${KEYCLOAK_WEB_CONTEXT#/}
+    KEYCLOAK_WEB_CONTEXT=${KEYCLOAK_WEB_CONTEXT%/}
+    echo "Run with web context ${KEYCLOAK_WEB_CONTEXT}"
+
+    # change web context into standalone configuration
+    sed -i -e 's@<web-context>auth</web-context>@<web-context>'"$KEYCLOAK_WEB_CONTEXT"'/auth</web-context>@g' $JBOSS_HOME/standalone/configuration/standalone.xml
+    sed -i -e 's@name="/"@name="/'"$KEYCLOAK_WEB_CONTEXT"'/"@g' $JBOSS_HOME/standalone/configuration/standalone.xml
+    
+    # change web context into standalone-ha configuration
+    sed -i -e 's@<web-context>auth</web-context>@<web-context>'"$KEYCLOAK_WEB_CONTEXT"'/auth</web-context>@g' $JBOSS_HOME/standalone/configuration/standalone-ha.xml
+    sed -i -e 's@name="/"@name="/'"$KEYCLOAK_WEB_CONTEXT"'/"@g' $JBOSS_HOME/standalone/configuration/standalone-ha.xml
+    
+    # change web context into welcome index
+    sed -i -e 's@/auth@/'"$KEYCLOAK_WEB_CONTEXT"'/auth@g' $JBOSS_HOME/welcome-content/index.html
+fi
+
 ############
 # Hostname #
 ############
