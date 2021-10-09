@@ -118,6 +118,9 @@ if [[ -n ${DB_VENDOR:-} ]]; then
   DB_VENDOR=$(echo "$DB_VENDOR" | tr "[:upper:]" "[:lower:]")
 fi
 
+file_env 'DB_ADDR'
+file_env 'DB_VENDOR'
+
 # Detect DB vendor from default host names
 if [[ -z ${DB_VENDOR:-} ]]; then
     if (getent hosts postgres &>/dev/null); then
