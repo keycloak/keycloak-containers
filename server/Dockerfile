@@ -30,3 +30,5 @@ EXPOSE 8443
 ENTRYPOINT [ "/opt/jboss/tools/docker-entrypoint.sh" ]
 
 CMD ["-b", "0.0.0.0"]
+
+HEALTHCHECK --interval=5s --timeout=5s --start-period=30s --retries=3 CMD curl --fail http://localhost:8080/auth/realms/master
