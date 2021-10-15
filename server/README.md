@@ -200,12 +200,31 @@ Alternately, the JDBC file can be copied into the container using the `docker cp
 
 If you used a name for the Oracle instance other than `oracle` you need to specify the `DB_ADDR` environment variable.
 
+#### Prepare Oracle Database
+Never ever use Oracle SYSTEM user!,But create a new table space and add a user with needed priveledges.
+
+Like:
+-- Create a new tablespace KEYCLOAK
+CREATE TABLESPACE KEYCLOAK DATAFILE SIZE 8M AUTOEXTEND ON NEXT 8M MAXSIZE 4G;
+
+-- Create a user KEYCLOAK with the new tablespace as default tablespace
+CREATE USER KEYCLOAK IDENTIFIED BY "Somethingv3ryd1fficult” DEFAULT TABLESPACE KEYCLOAK TEMPORARY TABLESPACE TEMP PROFILE NO_EXPIRE ACCOUNT UNLOCK;
+
+-- Set user QUOTA
+ALTER USER KEYCLOAK QUOTA UNLIMITED ON KEYCLOAK;
+
+-- Grants 
+grant create table to keycloak;
+grant create any index to keycloak;
+grant create any synonym to keycloak;
+grant select on SYS.DBA_RECYCLEBIN TO KEYCLOAK;
+
 **Default environment settings:**
 
 - `DB_ADDR`: `oracle`
 - `DB_PORT`: `1521`
 - `DB_DATABASE`: `XE`
-- `DB_USER`: `SYSTEM`
+- `DB_USER`: `KEYCLOAK`
 - `DB_PASSWORD`: `oracle`
 
 ### Microsoft SQL Server Example
