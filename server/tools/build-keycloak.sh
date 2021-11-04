@@ -6,7 +6,7 @@
 
 if [ "$GIT_REPO" != "" ]; then
     if [ "$GIT_BRANCH" == "" ]; then
-        GIT_BRANCH="master"
+        GIT_BRANCH="main"
     fi
 
     # Install Git
@@ -24,8 +24,8 @@ if [ "$GIT_REPO" != "" ]; then
     # Build
     cd /opt/jboss/keycloak-source
 
-    MASTER_HEAD=`git log -n1 --format="%H"`
-    echo "Keycloak from [build]: $GIT_REPO/$GIT_BRANCH/commit/$MASTER_HEAD"
+    MAIN_HEAD=`git log -n1 --format="%H"`
+    echo "Keycloak from [build]: $GIT_REPO/$GIT_BRANCH/commit/$MAIN_HEAD"
 
     $M2_HOME/bin/mvn -Pdistribution -pl distribution/server-dist -am -Dmaven.test.skip clean install
     

@@ -14,7 +14,7 @@ Here's a quick checklist for a good PR, more details below:
 2. A JIRA associated with the PR
 3. One feature/change per PR
 4. One commit per PR
-5. PR rebased on master (`git rebase`, not `git pull`) 
+5. PR rebased on main (`git rebase`, not `git pull`) 
 5. Commit message is prefixed by JIRA number
 6. No changes to code not directly related to your PR
 7. Includes functional/integration test
@@ -68,10 +68,10 @@ your PR.
 
 ### Submitting your PR
 
-When preparing your PR make sure you have a single commit and your branch is rebased on the master branch from the 
+When preparing your PR make sure you have a single commit and your branch is rebased on the main branch from the 
 project repository.
 
-This means use the `git rebase` command and not `git pull` when integrating changes from master to your branch. See
+This means use the `git rebase` command and not `git pull` when integrating changes from main to your branch. See
 [Git Documentation](https://git-scm.com/book/en/v2/Git-Branching-Rebasing) for more details.
 
 We require that you squash to a single commit. You can do this with the `git rebase -i HEAD~X` command where X
