@@ -1,0 +1,22 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+  keycloak-build-docker:
+    name: Build and test Keycloak Docker images
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Build the Keycloak.X image
+        run: |
+          cd server-x
+          docker build . -t keycloakx
+      -
+        name: Test the Keycloak.X image
+        run: |
+          docker run --rm --name keycloak -p 8080:8080 keycloakx start-dev &
+          timeout 300s bash -c 'until curl localhost:8080; do sleep 2; done'
