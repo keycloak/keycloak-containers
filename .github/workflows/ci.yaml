@@ -19,4 +19,4 @@ jobs:
         name: Test the Keycloak.X image
         run: |
           docker run --rm --name keycloak -p 8080:8080 keycloakx start-dev &
-          timeout 300s bash -c 'until curl localhost:8080; do sleep 2; done'
+          timeout 300s bash -c 'until ./server-x/probes/readiness.sh; do sleep 2; done'
