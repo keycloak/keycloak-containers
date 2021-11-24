@@ -14,8 +14,6 @@ RUN (cd /tmp/keycloak && \
     rm /tmp/keycloak/keycloak.x*.tar.gz) || true
 
 RUN mv /tmp/keycloak/keycloak.x* /opt/keycloak
-    
-COPY tools /opt/keycloak/tools
 
 FROM registry.access.redhat.com/ubi8-minimal
 
@@ -34,4 +32,4 @@ USER 1000
 EXPOSE 8080
 EXPOSE 8443
 
-ENTRYPOINT [ "/opt/keycloak/tools/docker-entrypoint.sh" ]
+ENTRYPOINT [ "/opt/keycloak/bin/kc.sh" ]
