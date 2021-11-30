@@ -364,11 +364,11 @@ Here's an equivalent docker-based command that OpenShift is invoking:
 
     docker run \
     -e JGROUPS_DISCOVERY_PROTOCOL=dns.DNS_PING -e \
-    JGROUPS_DISCOVERY_PROPERTIES=dns_query=keycloak.myproject.svc.cluster.local \
+    JGROUPS_DISCOVERY_PROPERTIES=dns_query=discovery-keycloak.myproject.svc.cluster.local \
     jboss/keycloak
 
 In this example the `dns.DNS_PING` that queries `A` records from the DNS Server with the following query
-`keycloak.myproject.svc.cluster.local`.
+`discovery-keycloak.myproject.svc.cluster.local`.
 
 ### Adding custom discovery protocols
 

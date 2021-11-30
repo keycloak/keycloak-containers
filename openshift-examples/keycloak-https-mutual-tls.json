@@ -68,7 +68,6 @@
             "kind": "Service",
             "apiVersion": "v1",
             "spec": {
-                "clusterIP": "None",
                 "ports": [
                     {
                         "port": 8080,
@@ -111,6 +110,31 @@
                 "annotations": {
                     "description": "The web server's https port.",
                     "service.alpha.openshift.io/serving-cert-secret-name": "keycloak-x509-https-secret"
+                }
+            }
+        },
+        {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "spec": {
+                "clusterIP": "None",
+                "ports": [
+                    {
+                        "port": 8081,
+                        "targetPort": 8081
+                    }
+                ],
+                "selector": {
+                    "deploymentConfig": "${APPLICATION_NAME}"
+                }
+            },
+            "metadata": {
+                "name": "discovery-${APPLICATION_NAME}",
+                "labels": {
+                    "application": "${APPLICATION_NAME}"
+                },
+                "annotations": {
+                    "description": "The service for the JGroups discovery protocol (port is useless)"
                 }
             }
         },
@@ -245,7 +269,7 @@
                                     },
                                     {
                                         "name": "JGROUPS_DISCOVERY_PROPERTIES",
-                                        "value": "dns_query=${APPLICATION_NAME}.${NAMESPACE}.svc.cluster.local"
+                                        "value": "dns_query=discovery-${APPLICATION_NAME}.${NAMESPACE}.svc.cluster.local"
                                     }
                                 ],
                                 "securityContext": {
