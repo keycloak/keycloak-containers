@@ -211,7 +211,6 @@
                                     }
                                 ],
                                 "readinessProbe": {
-                                    "failureThreshold": 3,
                                     "httpGet": {
                                         "path": "/auth/realms/master",
                                         "port": 8080,
