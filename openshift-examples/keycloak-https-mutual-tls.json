@@ -212,7 +212,6 @@
                                     }
                                 ],
                                 "readinessProbe": {
-                                    "failureThreshold": 3,
                                     "httpGet": {
                                         "path": "/",
                                         "port": 8080,
