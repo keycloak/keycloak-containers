@@ -424,6 +424,21 @@ Log level can also be changed at runtime, for example (assuming docker exec acce
     ./keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/root-logger=ROOT:change-root-log-level(level=DEBUG)'
     ./keycloak/bin/jboss-cli.sh --connect --command='/subsystem=logging/logger=org.keycloak:write-attribute(name=level,value=DEBUG)'
 
+### Debugging jgroups discovery
+
+if `JGROUPS_DISCOVERY_PROTOCOL` is set, the container will look for a
+discovery script in
+
+    /opt/jboss/tools/cli/jgroups/discovery/[protocol].cli
+
+If that file doesn't exist, a `default.cli` script will be run instead.
+
+Normally the output from these scripts is discarded.  However if you wish to
+debug these scripts you can send the output to stderr/stdout by setting the
+environment variable:
+
+    JGROUPS_DISCOVERY_CLI_LOGGING=true
+
 ### Enabling proxy address forwarding
 
 When running Keycloak behind a proxy, you will need to enable proxy address forwarding.

@@ -21,10 +21,17 @@ if [ -n "$JGROUPS_DISCOVERY_PROTOCOL" ]; then
     echo "set keycloak_jgroups_discovery_protocol=${JGROUPS_DISCOVERY_PROTOCOL}" >> "$JBOSS_HOME/bin/.jbossclirc"
     echo "set keycloak_jgroups_discovery_protocol_properties=${JGROUPS_DISCOVERY_PROPERTIES_PARSED}" >> "$JBOSS_HOME/bin/.jbossclirc"
     echo "set keycloak_jgroups_transport_stack=${JGROUPS_TRANSPORT_STACK:-tcp}" >> "$JBOSS_HOME/bin/.jbossclirc"
+
+    # For the remainder of the script, display the output of calls if
+    # JGROUPS_DISCOVERY_CLI_LOGGING is set to ON.  Otherwise send it to null.
+    if [ "${JGROUPS_DISCOVERY_CLI_LOGGING-}" != "true" ] ; then
+      exec &>/dev/null
+    fi
+
     # If there's a specific CLI file for given protocol - execute it. If not, we should be good with the default one.
     if [ -f "/opt/jboss/tools/cli/jgroups/discovery/$JGROUPS_DISCOVERY_PROTOCOL.cli" ]; then
-       $JBOSS_HOME/bin/jboss-cli.sh --file="/opt/jboss/tools/cli/jgroups/discovery/$JGROUPS_DISCOVERY_PROTOCOL.cli" >& /dev/null
+       $JBOSS_HOME/bin/jboss-cli.sh --file="/opt/jboss/tools/cli/jgroups/discovery/$JGROUPS_DISCOVERY_PROTOCOL.cli"
     else
-       $JBOSS_HOME/bin/jboss-cli.sh --file="/opt/jboss/tools/cli/jgroups/discovery/default.cli" >& /dev/null
+       $JBOSS_HOME/bin/jboss-cli.sh --file="/opt/jboss/tools/cli/jgroups/discovery/default.cli"
     fi
 fi
