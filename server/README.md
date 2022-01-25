@@ -486,9 +486,9 @@ This image extends the [`registry.access.redhat.com/ubi8-minimal`](https://acces
 
 It is possible to build Keycloak from a GitHub repository instead of downloading the official release. To do this set the `GITHUB_REPO` build argument to the GitHub repository name and optionally set the `GITHUB_BRANCH` build argument to the branch to build. For example:
 
-    docker build --build-arg GIT_REPO=keycloak/keycloak --build-arg GIT_BRANCH=master .
+    docker build --build-arg GIT_REPO=keycloak/keycloak --build-arg GIT_BRANCH=main .
 
-This will clone the repository then build Keycloak from source. If you don't include GIT_BRANCH it will use the `master` branch.
+This will clone the repository then build Keycloak from source. If you don't include GIT_BRANCH it will use the `main` branch.
 
 #### Download Keycloak from an alternative location
 
