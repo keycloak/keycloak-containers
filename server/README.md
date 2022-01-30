@@ -447,6 +447,17 @@ It is also possible to provide an additional CA bundle and setup Mutual TLS this
 
 NOTE: See `openshift-examples` directory for an out of the box setup for OpenShift.
 
+### Client certificate lookup
+
+When the Keycloak server listens to HTTP requests behind a load balancer or reverse proxy, the proxy server may extract the client certificate and establish a mutual SSL connection. A reverse proxy generally puts the authenticated client certificate in the HTTP header of the underlying request. The proxy forwards the request to the back end Keycloak server. In this case, Keycloak must look up the X.509 certificate chain from the HTTP headers rather than the attribute of the HTTP request.
+
+* `CERTIFICATE_LOOKUP_DEFAULT_PROVIDER`: Configure the default x509 certificate lookup provider
+* `CERTIFICATE_LOOKUP_HEADER_SSL_CLIENT_CERT`: Name of the HTTP header that contains the client certificate
+* `CERTIFICATE_LOOKUP_HEADER_SSL_CERT_CHAIN_PREFIX`: Prefix of HTTP headers that contains the certificate chain.
+* `CERTIFICATE_LOOKUP_CERTIFICATE_CHAIN_LENGTH`: Max number of intermediate certificates.
+
+Read the [Keycloak documentation](https://www.keycloak.org/docs/latest/server_admin/#client-certificate-lookup) for more information.
+
 ### Enable some metrics
 
 Keycloak image can collect some statistics for various subsystem which will then be available in the management console and the `/metrics` endpoint.

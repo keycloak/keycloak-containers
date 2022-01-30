@@ -1,0 +1,21 @@
+embed-server --server-config=$configuration_file --std-out=discard
+batch
+/subsystem=keycloak-server/spi=x509cert-lookup:write-attribute(name=default-provider,value="${env.CERTIFICATE_LOOKUP_DEFAULT_PROVIDER:${keycloak.x509cert.lookup.provider:default}}")
+
+/subsystem=keycloak-server/spi=x509cert-lookup/provider=apache/:add(enabled=$certificate_lookup_provider_apache_enabled)
+/subsystem=keycloak-server/spi=x509cert-lookup/provider=apache:write-attribute(name=properties.sslClientCert,value="${env.CERTIFICATE_LOOKUP_HEADER_SSL_CLIENT_CERT:SSL_CLIENT_CERT}")
+/subsystem=keycloak-server/spi=x509cert-lookup/provider=apache:write-attribute(name=properties.sslCertChainPrefix,value="${env.CERTIFICATE_LOOKUP_HEADER_SSL_CERT_CHAIN_PREFIX:CERT_CHAIN}")
+/subsystem=keycloak-server/spi=x509cert-lookup/provider=apache:write-attribute(name=properties.certificateChainLength,value="${env.CERTIFICATE_LOOKUP_CERTIFICATE_CHAIN_LENGTH:3}")
+
+/subsystem=keycloak-server/spi=x509cert-lookup/provider=nginx/:add(enabled=$certificate_lookup_provider_nginx_enabled)
+/subsystem=keycloak-server/spi=x509cert-lookup/provider=nginx:write-attribute(name=properties.sslClientCert,value="${env.CERTIFICATE_LOOKUP_HEADER_SSL_CLIENT_CERT:ssl-client-cert}")
+/subsystem=keycloak-server/spi=x509cert-lookup/provider=nginx:write-attribute(name=properties.sslCertChainPrefix,value="${env.CERTIFICATE_LOOKUP_HEADER_SSL_CERT_CHAIN_PREFIX:USELESS}")
+/subsystem=keycloak-server/spi=x509cert-lookup/provider=nginx:write-attribute(name=properties.certificateChainLength,value="${env.CERTIFICATE_LOOKUP_CERTIFICATE_CHAIN_LENGTH:3}")
+
+/subsystem=keycloak-server/spi=x509cert-lookup/provider=haproxy/:add(enabled=$certificate_lookup_provider_haproxy_enabled)
+/subsystem=keycloak-server/spi=x509cert-lookup/provider=haproxy:write-attribute(name=properties.sslClientCert,value="${env.CERTIFICATE_LOOKUP_HEADER_SSL_CLIENT_CERT:SSL_CLIENT_CERT}")
+/subsystem=keycloak-server/spi=x509cert-lookup/provider=haproxy:write-attribute(name=properties.sslCertChainPrefix,value="${env.CERTIFICATE_LOOKUP_HEADER_SSL_CERT_CHAIN_PREFIX:CERT_CHAIN}")
+/subsystem=keycloak-server/spi=x509cert-lookup/provider=haproxy:write-attribute(name=properties.certificateChainLength,value="${env.CERTIFICATE_LOOKUP_CERTIFICATE_CHAIN_LENGTH:3}")
+
+run-batch
+stop-embedded-server
