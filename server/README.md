@@ -1,6 +1,6 @@
-# Keycloak Docker image
+# Keycloak Legacy WildFly distribution container image
 
-Keycloak Server Docker image.
+Container image for the legacy Keycloak WildFly distribution.
 
 
 
@@ -8,7 +8,7 @@ Keycloak Server Docker image.
 
 To boot in standalone mode
 
-    docker run jboss/keycloak
+    docker run jboss/keycloak:legacy
 
 
 
@@ -16,7 +16,7 @@ To boot in standalone mode
 
 To be able to open Keycloak on localhost map port 8080 locally
 
-    docker run -p 8080:8080 jboss/keycloak
+    docker run -p 8080:8080 jboss/keycloak:legacy
 
 
 
@@ -25,7 +25,7 @@ To be able to open Keycloak on localhost map port 8080 locally
 By default there is no admin user created so you won't be able to login to the admin console. To create an admin account
 you need to use environment variables to pass in an initial username and password. This is done by running:
 
-    docker run -e KEYCLOAK_USER=<USERNAME> -e KEYCLOAK_PASSWORD=<PASSWORD> jboss/keycloak
+    docker run -e KEYCLOAK_USER=<USERNAME> -e KEYCLOAK_PASSWORD=<PASSWORD> jboss/keycloak:legacy
 
 You can also create an account on an already running container by running:
 
@@ -46,7 +46,7 @@ The configuration and secret support in Docker Swarm is a perfect match for this
 To create an admin account and import a previously exported realm run:
 
     docker run -e KEYCLOAK_USER=<USERNAME> -e KEYCLOAK_PASSWORD=<PASSWORD> \
-        -e KEYCLOAK_IMPORT=/tmp/example-realm.json -v /tmp/example-realm.json:/tmp/example-realm.json jboss/keycloak
+        -e KEYCLOAK_IMPORT=/tmp/example-realm.json -v /tmp/example-realm.json:/tmp/example-realm.json jboss/keycloak:legacy
 
 ## Exporting a realm
 
@@ -55,7 +55,7 @@ For example you can start Keycloak via docker with:
 
 	docker run -d -p 8180:8080 -e KEYCLOAK_USER=admin -e \
 	KEYCLOAK_PASSWORD=admin -v $(pwd):/tmp --name kc \
-	jboss/keycloak
+	jboss/keycloak:legacy
 
 You can then get the export from this instance by running (notice we use `-Djboss.socket.binding.port-offset=100` so that the export runs on a different port than Keycloak itself):
 
@@ -122,7 +122,7 @@ First start a MySQL instance using the MySQL docker image:
 
 Start a Keycloak instance and connect to the MySQL instance:
 
-    docker run --name keycloak --net keycloak-network jboss/keycloak
+    docker run --name keycloak --net keycloak-network jboss/keycloak:legacy
 
 If you used a different name for the MySQL instance to `mysql` you need to specify the `DB_ADDR` environment variable.
 
@@ -142,7 +142,7 @@ First start a PostgreSQL instance using the PostgreSQL docker image:
 
 Start a Keycloak instance and connect to the PostgreSQL instance:
 
-    docker run --name keycloak --net keycloak-network jboss/keycloak -e DB_USER=keycloak -e DB_PASSWORD=password
+    docker run --name keycloak --net keycloak-network jboss/keycloak:legacy -e DB_USER=keycloak -e DB_PASSWORD=password
 
 If you used a different name for the PostgreSQL instance to `postgres` you need to specify the `DB_ADDR` environment variable.
 
@@ -162,7 +162,7 @@ First start a MariaDB instance using the MariaDB docker image:
 
 Start a Keycloak instance and connect to the MariaDB instance:
 
-    docker run --name keycloak --net keycloak-network jboss/keycloak
+    docker run --name keycloak --net keycloak-network jboss/keycloak:legacy
 
 If you used a different name for the MariaDB instance to `mariadb` you need to specify the `DB_ADDR` environment variable.
 
@@ -190,7 +190,7 @@ If you already have an Oracle database running this step can be skipped, otherwi
 
 Start a Keycloak instance and connect to the Oracle instance:
 
-    docker run -d --name keycloak --net keycloak-network -p 8080:8080 -v /path/to/jdbc/driver:/opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main/driver jboss/keycloak
+    docker run -d --name keycloak --net keycloak-network -p 8080:8080 -v /path/to/jdbc/driver:/opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main/driver jboss/keycloak:legacy
 
 One of the key pieces here is that we are mounting a volume from the location of the JDBC driver, so ensure that the path is correct. The mounted volume should contain the file named `ojdbc.jar`.
 
@@ -235,7 +235,7 @@ database is in place.
 
 Start a Keycloak instance and connect to the Microsoft SQL Server instance:
 
-    docker run --name keycloak --net keycloak-network -p 8080:8080 -e DB_VENDOR=mssql -e DB_USER=sa -e DB_PASSWORD=Password!23 -e DB_ADDR=mssql -e DB_DATABASE=Keycloak -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin jboss/keycloak
+    docker run --name keycloak --net keycloak-network -p 8080:8080 -e DB_VENDOR=mssql -e DB_USER=sa -e DB_PASSWORD=Password!23 -e DB_ADDR=mssql -e DB_DATABASE=Keycloak -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin jboss/keycloak:legacy
 
 If you used a different name for the Microsoft SQL Server instance to `mssql` you need to specify the `DB_ADDR` environment variable.
 
@@ -254,7 +254,7 @@ found here:
 
 #### Example
 
-    docker run --name keycloak -e DB_VENDOR=postgres -e JDBC_PARAMS='connectTimeout=30' jboss/keycloak
+    docker run --name keycloak -e DB_VENDOR=postgres -e JDBC_PARAMS='connectTimeout=30' jboss/keycloak:legacy
 
 
 
@@ -314,7 +314,7 @@ Additional server startup options (extension of JAVA_OPTS) can be configured usi
 
 Enable _upload_script_ profile:
 
-    docker run -e JAVA_OPTS_APPEND="-Dkeycloak.profile.feature.upload_scripts=enabled" jboss/keycloak
+    docker run -e JAVA_OPTS_APPEND="-Dkeycloak.profile.feature.upload_scripts=enabled" jboss/keycloak:legacy
 
 
 ## Clustering
@@ -338,7 +338,7 @@ The bootstrap script will detect the variables and adjust the `standalone-ha.xml
 The `PING` discovery protocol is used by default in `udp` stack (which is used by default in `standalone-ha.xml`).
 Since the Keycloak image runs in clustered mode by default, all you need to do is to run it:
 
-    docker run jboss/keycloak
+    docker run jboss/keycloak:legacy
 
 If you two instances of it locally, you will notice that they form a cluster.
 
@@ -361,7 +361,7 @@ is invoking:
     docker run \
     -e JGROUPS_DISCOVERY_PROTOCOL=dns.DNS_PING -e \
     JGROUPS_DISCOVERY_PROPERTIES=dns_query=keycloak.myproject.svc.cluster.local \
-    jboss/keycloak
+    jboss/keycloak:legacy
 
 In this example the `dns.DNS_PING` that queries `A` records from the DNS Server with the following query
 `keycloak.myproject.svc.cluster.local`.
@@ -428,7 +428,7 @@ Log level can also be changed at runtime, for example (assuming docker exec acce
 
 When running Keycloak behind a proxy, you will need to enable proxy address forwarding.
 
-    docker run -e PROXY_ADDRESS_FORWARDING=true jboss/keycloak
+    docker run -e PROXY_ADDRESS_FORWARDING=true jboss/keycloak:legacy
 
 
 
@@ -473,7 +473,7 @@ To attach a Java debugger, set these environment variables:
 In addition to setting `DEBUG=true` and `DEBUG_PORT='*:8787'`, you'll
 want to publish the debug port as well, as in:
 
-    docker run -e DEBUG=true -e DEBUG_PORT='*:8787' -p 8080:8080 -p '8787:8787' jboss/keycloak
+    docker run -e DEBUG=true -e DEBUG_PORT='*:8787' -p 8080:8080 -p '8787:8787' jboss/keycloak:legacy
 
 ## Other details
 
