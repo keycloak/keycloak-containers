@@ -15,7 +15,7 @@ services:
         MYSQL_USER: keycloak
         MYSQL_PASSWORD: password
   keycloak:
-      image: quay.io/keycloak/keycloak:latest
+      image: quay.io/keycloak/keycloak:legacy
       environment:
         DB_VENDOR: MYSQL
         DB_ADDR: mysql

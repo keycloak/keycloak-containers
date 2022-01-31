@@ -18,7 +18,7 @@ services:
       healthcheck:
         test: ["CMD", "mysqladmin", "ping", "--silent"]
   keycloak:
-      image: quay.io/keycloak/keycloak:latest
+      image: quay.io/keycloak/keycloak:legacy
       environment:
         DB_VENDOR: mariadb
         DB_ADDR: mariadb

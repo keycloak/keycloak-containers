@@ -2,10 +2,9 @@
 
 Keycloak is an Open Source Identity and Access Management solution for modern Applications and Services.
 
-This repository contains Docker images related to Keycloak.
+This repository contains Docker images related to the legacy WildFly distribution of Keycloak.
 
 - [keycloak](https://hub.docker.com/r/jboss/keycloak) Keycloak server
-- [keycloak-adapter-wildfly](https://hub.docker.com/r/jboss/keycloak-adapter-wildfly) WildFly including Keycloak adapter
 
 
 ## Help and Documentation
@@ -30,9 +29,15 @@ Please remember to provide a good summary, description as well as steps to repro
 
 To run Keycloak, run:
 
-    docker run jboss/keycloak
+    docker run quay.io/keycloak/keycloak
+
+Or, to run the legacy WildFly distribution, run:
+
+    docker run quay.io/keycloak/keycloak:legacy
+
+For more details refer to the [container guide](https://www.keycloak.org/server/container).
     
-For more details refer to the [Keycloak server image documentation](server/README.md).
+Or, for the legacy WildFly distribution refer to the [Keycloak server image documentation](server/README.md).
 
 
 ## Contributing
