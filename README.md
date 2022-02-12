@@ -35,7 +35,7 @@ Or, to run the legacy WildFly distribution, run:
 
     docker run quay.io/keycloak/keycloak:legacy
 
-For more details refer to the [container guide](https://www.keycloak.org/server/container).
+For more details refer to the [container guide](https://www.keycloak.org/server/containers).
     
 Or, for the legacy WildFly distribution refer to the [Keycloak server image documentation](server/README.md).
 
