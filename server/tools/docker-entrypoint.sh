@@ -190,7 +190,16 @@ case "$DB_VENDOR" in
     mssql)
         DB_NAME="Microsoft SQL Server";;
     oracle)
-        DB_NAME="Oracle";;
+        DB_NAME="Oracle"
+        if [[ "$DB_DATABASE" == /* ]] ; then
+            ORA_DB_SEP="/"
+            # strip the leading slash from DB_DATABASE
+            export DB_DATABASE=${DB_DATABASE:1}
+        else
+            ORA_DB_SEP=":"
+        fi
+        export ORA_DB_SEP
+        ;;
     h2)
         if [[ -z ${DB_ADDR:-} ]] ; then
           DB_NAME="Embedded H2"
