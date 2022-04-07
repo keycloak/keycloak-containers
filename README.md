@@ -1,4 +1,4 @@
-# Keycloak legacy container image
+# Keycloak legacy container image 
 
 Keycloak is an Open Source Identity and Access Management solution for modern Applications and Services.
 
