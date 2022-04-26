@@ -1,9 +1,8 @@
-# Keycloak legacy container image
+# Legacy Keycloak container image
+This repository contains Docker images related to the legacy WildFly distribution of Keycloak.
 
-Keycloak is an Open Source Identity and Access Management solution for modern Applications and Services.
-
-This repository contains Docker images related to the legacy WildFly distribution of Keycloak. For the new Quarkus based distribution check out the new [container guide](https://www.keycloak.org/server/containers).
-
+**NOTE: This container image is deprecated and will reach EOL with [Keycloak 20](https://www.keycloak.org/2022/03/releases).
+Consider migrating to the [container image for the new Quarkus based Keycloak](https://github.com/keycloak/keycloak/tree/main/quarkus/container).**
 
 ## Help and Documentation
 
