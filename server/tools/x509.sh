@@ -74,7 +74,7 @@ function autogenerate_keystores() {
     csplit -s -z -f crt- "${TEMPORARY_CERTIFICATE}" "${X509_CRT_DELIMITER}" '{*}'
     for CERT_FILE in crt-*; do
       keytool -import -noprompt -keystore "${JKS_TRUSTSTORE_PATH}" -file "${CERT_FILE}" \
-      -storepass "${PASSWORD}" -alias "service-${CERT_FILE}" >& /dev/null
+      -storepass "${PASSWORD}" -alias "service-${CERT_FILE}" -storetype jks >& /dev/null
     done
 
     if [ -f "${JKS_TRUSTSTORE_PATH}" ]; then
