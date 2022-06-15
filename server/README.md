@@ -409,6 +409,25 @@ To set a fixed base URL for frontend requests use the following environment valu
 
 * `KEYCLOAK_FRONTEND_URL`: Specify base URL for Keycloak (optional, default is retrieved from request)
 
+
+### Specify admin base URL
+
+To this moment there is no env variable to set the adminUrl property
+
+To set a fixed admin url, property "adminUrl" from the legacy docs, you need to mount hostname.cli to  /opt/jboss/startup-scripts/ as described in this document. 
+
+The content of that script can be the following
+
+```
+embed-server --server-config=standalone-ha.xml --std-out=discard
+/subsystem=keycloak-server/spi=hostname/provider=default:write-attribute(name=properties.adminUrl, value=https://admin.keycloak/auth)
+stop-embedded-server
+```
+
+A list of sample scripts that can be used to customize standalone-ha.xml for a production environment can be found in the book "Keycloak - Identity and Access Management for Modern Applications" and consequently this github repository
+https://github.com/PacktPublishing/Keycloak-Identity-and-Access-Management-for-Modern-Applications/
+
+
 ### Specify log level
 
 There are two environment variables available to control the log level for Keycloak:
