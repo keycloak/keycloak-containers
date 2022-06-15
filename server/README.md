@@ -420,6 +420,8 @@ The content of that script can be the following
 
 ```
 embed-server --server-config=standalone-ha.xml --std-out=discard
+/subsystem=keycloak-server/spi=hostname/provider=default:write-attribute(name=properties.frontendUrl,value=https://frontend.keycloak/auth)
+/subsystem=keycloak-server/spi=hostname/provider=default:write-attribute(name=properties.forceBackendUrlToFrontendUrl,value=false)
 /subsystem=keycloak-server/spi=hostname/provider=default:write-attribute(name=properties.adminUrl, value=https://admin.keycloak/auth)
 stop-embedded-server
 ```
