@@ -1,0 +1,1 @@
+docker run --rm --name keycloak -p 8080:8080 -e DB_VENDOR=mssql -e DB_USER=keycloak -e DB_PASSWORD=P@ssword123 -e DB_ADDR=host.docker.internal -e DB_PORT=1433 -e DB_DATABASE=keycloak -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak start-dev

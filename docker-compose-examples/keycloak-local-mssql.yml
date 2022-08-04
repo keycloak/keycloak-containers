@@ -1,0 +1,17 @@
+version: "3.2"
+
+services:
+     keycloak:
+        image: quay.io/keycloak/keycloak
+        ports:
+            - "8080:8080"
+        command: ["start-dev"]
+        environment:
+            - KEYCLOAK_ADMIN=admin
+            - KEYCLOAK_ADMIN_PASSWORD=admin
+            - DB_VENDOR=mssql
+            - DB_USER=keycloak
+            - DB_PASSWORD=P@ssword123
+            - DB_ADDR=host.docker.internal
+            - DB_PORT=1433
+            - DB_DATABASE=Keycloak
