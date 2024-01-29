@@ -1,9 +1,0 @@
-compose:
-  inherit: true
-  pulp_repos: true
-  signing_intent: release
-platforms:
-  only:
-    - x86_64
-    - s390x
-    - ppc64le
